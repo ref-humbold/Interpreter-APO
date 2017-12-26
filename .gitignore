@@ -1,0 +1,13 @@
+# sample APO files
+*.apo
+
+# Java output
+bin
+junit_results
+junit_reports
+
+# IntelliJ project files
+*.iml
+.idea
+out
+gen
