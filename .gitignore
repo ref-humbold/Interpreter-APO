@@ -1,6 +1,8 @@
 # Java, Apache ANT, Apache Ivy
 bin
 lib
+APOlang
+apolang-*.jar
 
 # Javadoc
 docs
