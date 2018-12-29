@@ -5,29 +5,19 @@ import java.util.Arrays;
 import refhumbold.apolang.errors.LanguageException;
 import refhumbold.apolang.interpret.VariableSet;
 
-/**
- * Bazowa klasa do przechowywania pojedynczej instrukcji w liscie rozkazow.
- */
+/** Bazowa klasa do przechowywania pojedynczej instrukcji w liscie rozkazow */
 public abstract class Instruction
 {
-    /**
-     * Numer wiersza programu.
-     */
+    /** Numer wiersza programu */
     protected int lineNumber;
 
-    /**
-     * Nazwa operacji.
-     */
+    /** Nazwa operacji */
     protected InstructionName name;
 
-    /**
-     * Argumenty operacji.
-     */
+    /** Argumenty operacji */
     protected int[] args;
 
-    /**
-     * Wskaznik na nastepny element listy.
-     */
+    /** Nastepny element listy */
     protected Instruction next = null;
 
     public Instruction(int lineNumber, InstructionName name, int... args)
@@ -42,22 +32,22 @@ public abstract class Instruction
 
     public int getLineNumber()
     {
-        return this.lineNumber;
+        return lineNumber;
     }
 
     public InstructionName getName()
     {
-        return this.name;
+        return name;
     }
 
     public int getArgsNumber()
     {
-        return this.args.length;
+        return args.length;
     }
 
     public Instruction getNext()
     {
-        return this.next;
+        return next;
     }
 
     public void setNext(Instruction next)
@@ -67,7 +57,7 @@ public abstract class Instruction
 
     public int getArg(int index)
     {
-        return this.args[index];
+        return args[index];
     }
 
     @Override
@@ -75,9 +65,6 @@ public abstract class Instruction
     {
         if(this == obj)
             return true;
-
-        if(obj == null)
-            return false;
 
         if(!(obj instanceof Instruction))
             return false;

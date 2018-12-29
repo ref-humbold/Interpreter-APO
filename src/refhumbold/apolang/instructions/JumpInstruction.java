@@ -25,7 +25,7 @@ public class JumpInstruction
     @Override
     public Instruction getNext()
     {
-        return this.isJump ? this.link : super.next;
+        return isJump ? link : next;
     }
 
     /**
@@ -69,6 +69,17 @@ public class JumpInstruction
         int argValue0;
         int argValue1;
 
+        try
+        {
+            argValue0 = variables.getValue(args[0]);
+            argValue1 = variables.getValue(args[1]);
+        }
+        catch(SymbolException e)
+        {
+            e.setLineNumber(lineNumber);
+            throw e;
+        }
+
         switch(name)
         {
             case JUMP:
@@ -76,66 +87,18 @@ public class JumpInstruction
                 break;
 
             case JPEQ:
-                try
-                {
-                    argValue0 = variables.getValue(args[0]);
-                    argValue1 = variables.getValue(args[1]);
-                }
-                catch(SymbolException e)
-                {
-                    e.setLineNumber(lineNumber);
-
-                    throw e;
-                }
-
                 isJump = argValue0 == argValue1;
                 break;
 
             case JPNE:
-                try
-                {
-                    argValue0 = variables.getValue(args[0]);
-                    argValue1 = variables.getValue(args[1]);
-                }
-                catch(SymbolException e)
-                {
-                    e.setLineNumber(lineNumber);
-
-                    throw e;
-                }
-
                 isJump = argValue0 != argValue1;
                 break;
 
             case JPLT:
-                try
-                {
-                    argValue0 = variables.getValue(args[0]);
-                    argValue1 = variables.getValue(args[1]);
-                }
-                catch(SymbolException e)
-                {
-                    e.setLineNumber(lineNumber);
-
-                    throw e;
-                }
-
                 isJump = argValue0 < argValue1;
                 break;
 
             case JPGT:
-                try
-                {
-                    argValue0 = variables.getValue(args[0]);
-                    argValue1 = variables.getValue(args[1]);
-                }
-                catch(SymbolException e)
-                {
-                    e.setLineNumber(lineNumber);
-
-                    throw e;
-                }
-
                 isJump = argValue0 > argValue1;
                 break;
 

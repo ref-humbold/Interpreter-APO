@@ -13,7 +13,7 @@ public class IOInstruction
     public IOInstruction(int lineNumber, InstructionName name, int... args)
     {
         super(lineNumber, name, args);
-        this.connector = IOConnector.getInstance();
+        connector = IOConnector.getInstance();
     }
 
     @Override

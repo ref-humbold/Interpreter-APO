@@ -24,9 +24,9 @@ public class Controller
      */
     public Controller(int memorySize, Path path)
     {
-        this.oldParser = new OldParser(path);
-        this.variables = new VariableSet();
-        this.instructions = null;
+        oldParser = new OldParser(path);
+        variables = new VariableSet();
+        instructions = null;
 
         InstructionFactory.memory = new Memory(memorySize);
     }

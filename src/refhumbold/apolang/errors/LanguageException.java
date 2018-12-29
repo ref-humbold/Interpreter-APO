@@ -21,14 +21,7 @@ public class LanguageException
     public LanguageException(String message, Throwable t)
     {
         super(message, t);
-        this.lineNumber = -1;
-    }
-
-    @Override
-    public String toString()
-    {
-        return lineNumber >= 0 ? getClass().getSimpleName() + " at line " + lineNumber + ": "
-            + getMessage() : getClass().getSimpleName() + ": " + getMessage();
+        lineNumber = -1;
     }
 
     public void setLineNumber(int lineNumber)
@@ -37,5 +30,12 @@ public class LanguageException
             throw new IllegalArgumentException("Line number has to be non-negative.");
 
         this.lineNumber = lineNumber;
+    }
+
+    @Override
+    public String toString()
+    {
+        return lineNumber >= 0 ? getClass().getSimpleName() + " at line " + lineNumber + ": "
+            + getMessage() : getClass().getSimpleName() + ": " + getMessage();
     }
 }
