@@ -94,7 +94,7 @@
 
   <target name="execfile" depends="jar">
     <echo level="info" message="Building file: ${basedir}/${exec.file}" />
-    <echo file="${exec.file}"
+    <echo file="${dist.dir}/${exec.file}"
           message="#! /bin/sh${line.separator}${line.separator}java -jar $(dirname $0)/${jar.file} $@" />
     <chmod file="${exec.file}" perm="+x" />
   </target>
