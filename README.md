@@ -1,2 +1,2 @@
 # Interpreter-APO
-Interpreter of an APO language
+Interpreter of a fictional assembly-like APO language
