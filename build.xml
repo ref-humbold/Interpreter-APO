@@ -1,15 +1,17 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <project xmlns:ivy="antlib:org.apache.ivy.ant" name="Interpreter-APO" basedir="." default="all">
   <tstamp>
-    <format property="date.version" pattern="yyyy.M.d" locale="en,GB" />
+    <format property="date.version" pattern="yyMMdd" locale="en,GB" />
   </tstamp>
 
-  <property name="vendor" value="Rafał Kaleta" />
   <property name="major.version" value="0" />
-  <property name="minor.version" value="1" />
+  <property name="minor.version" value="2" />
   <property name="spec.version" value="${major.version}.${minor.version}" />
   <property name="jar.version" value="${major.version}.${minor.version}.{date.version}" />
+  <property name="vendor" value="Rafał Kaleta" />
 
+  <property name="main.package" value="apolang" />
+  <property name="toplevel.package" value="refhumbold.${main.package}" />
   <property name="src.dir" value="src" />
   <property name="test.dir" value="test" />
   <property name="build.dir" value="bin" />
@@ -18,14 +20,14 @@
   <property name="junit.result.dir" value="${junit.output.dir}/results" />
   <property name="junit.report.dir" value="${junit.output.dir}/reports" />
   <property name="javadoc.output.dir" value="docs" />
-  <property name="jar.file" value="apolang-${jar.version}.jar" />
+  <property name="jar.file" value="${main.package}-${jar.version}.jar" />
   <property name="exec.file" value="APOlang" />
 
   <property name="ivy.lib.dir" value="lib" />
   <property name="ivy.install.version" value="2.4.0" />
 
-  <property name="main.package" value="refhumbold.apolang" />
-  <property name="debug.level" value="source,lines,vars" />
+  <property name="source.level" value="8" />
+  <property name="target.level" value="8" />
 
   <path id="Interpreter-APO.classpath">
     <fileset dir="${ivy.lib.dir}" includes="*.jar" />
@@ -68,7 +70,7 @@
   </target>
 
   <target name="build" depends="init">
-    <javac debug="true" debuglevel="${debug.level}" destdir="${build.dir}"
+    <javac source="${source.level}" target="${target.level}" destdir="${build.dir}"
            includeantruntime="false">
       <src path="${src.dir}" />
       <src path="${test.dir}" />
@@ -85,7 +87,7 @@
         <attribute name="Specification-Title" value="APO Language Interpreter" />
         <attribute name="Specification-Version" value="${spec.version}" />
         <attribute name="Specification-Vendor" value="${vendor}" />
-        <attribute name="Implementation-Title" value="${main.package}" />
+        <attribute name="Implementation-Title" value="${toplevel.package}" />
         <attribute name="Implementation-Version" value="${jar.version}" />
         <attribute name="Implementation-Vendor" value="${vendor}" />
       </manifest>
@@ -118,7 +120,7 @@
   <target name="javadocs">
     <mkdir dir="${javadoc.output.dir}" />
     <javadoc sourcepath="${src.dir}" destdir="${javadoc.output.dir}" access="public">
-      <package name="${main.package}.*" />
+      <package name="${toplevel.package}.*" />
     </javadoc>
   </target>
 
