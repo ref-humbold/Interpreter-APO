@@ -7,7 +7,7 @@
   <property name="major.version" value="0" />
   <property name="minor.version" value="2" />
   <property name="spec.version" value="${major.version}.${minor.version}" />
-  <property name="jar.version" value="${major.version}.${minor.version}.{date.version}" />
+  <property name="jar.version" value="${major.version}.${minor.version}.${date.version}" />
   <property name="vendor" value="Rafał Kaleta" />
 
   <property name="main.package" value="apolang" />
@@ -114,7 +114,7 @@
     </junitreport>
   </target>
 
-  <target name="javadocs">
+  <target name="docs">
     <mkdir dir="${javadoc.output.dir}" />
     <javadoc sourcepath="${src.dir}" destdir="${javadoc.output.dir}" access="public">
       <package name="${toplevel.package}.*" />
@@ -123,7 +123,7 @@
 
   <target name="build" depends="jar, execfile" />
 
-  <target name="all" depends="build, test, javadocs" />
+  <target name="all" depends="build, test" />
 
   <target name="refresh" depends="clean, build" />
 
