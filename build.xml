@@ -11,7 +11,6 @@
   <property name="vendor" value="Rafał Kaleta" />
 
   <property name="main.package" value="apolang" />
-  <property name="toplevel.package" value="refhumbold.${main.package}" />
   <property name="src.dir" value="src" />
   <property name="test.dir" value="test" />
   <property name="build.dir" value="bin" />
@@ -24,7 +23,7 @@
   <property name="exec.file" value="APOlang" />
 
   <property name="ivy.lib.dir" value="lib" />
-  <property name="ivy.install.version" value="2.4.0" />
+  <property name="ivy.install.version" value="2.5.0-rc1" />
 
   <property name="source.level" value="8" />
   <property name="target.level" value="8" />
@@ -84,7 +83,7 @@
         <attribute name="Specification-Title" value="APO Language Interpreter" />
         <attribute name="Specification-Version" value="${spec.version}" />
         <attribute name="Specification-Vendor" value="${vendor}" />
-        <attribute name="Implementation-Title" value="${toplevel.package}" />
+        <attribute name="Implementation-Title" value="${main.package}" />
         <attribute name="Implementation-Version" value="${jar.version}" />
         <attribute name="Implementation-Vendor" value="${vendor}" />
       </manifest>
@@ -92,10 +91,10 @@
   </target>
 
   <target name="execfile" depends="jar">
-    <echo level="info" message="Building file: ${basedir}/${exec.file}" />
+    <echo level="info" message="Building file: ${dist.dir}/${exec.file}" />
     <echo file="${dist.dir}/${exec.file}"
           message="#! /bin/sh${line.separator}${line.separator}java -jar $(dirname $0)/${jar.file} $@" />
-    <chmod file="${exec.file}" perm="+x" />
+    <chmod file="${dist.dir}/${exec.file}" perm="+x" />
   </target>
 
   <target name="test">
@@ -117,7 +116,7 @@
   <target name="docs">
     <mkdir dir="${javadoc.output.dir}" />
     <javadoc sourcepath="${src.dir}" destdir="${javadoc.output.dir}" access="public">
-      <package name="${toplevel.package}.*" />
+      <package name="${main.package}.*" />
     </javadoc>
   </target>
 
