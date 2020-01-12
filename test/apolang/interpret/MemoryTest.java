@@ -1,9 +1,9 @@
 package apolang.interpret;
 
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import apolang.errors.MemoryException;
 
@@ -11,30 +11,29 @@ public class MemoryTest
 {
     private Memory testObject;
 
-    @Before
+    @BeforeEach
     public void setUp()
     {
         testObject = new Memory(1);
     }
 
-    @After
+    @AfterEach
     public void tearDown()
     {
         testObject = null;
     }
 
-    @Test(expected = MemoryException.class)
-    public void testStoreWordWhenInvalidAddress()
-            throws MemoryException
+    @Test
+    public void storeWord_WhenInvalidAddress_ThenMemoryException()
     {
         int value = 0x01ABCDEF;
         int address = 7;
 
-        testObject.storeWord(address, value);
+        Assertions.assertThrows(MemoryException.class, () -> testObject.storeWord(address, value));
     }
 
     @Test
-    public void testStoreWordThenLoadWord()
+    public void storeWordLoadWord()
     {
         int value = 0x01ABCDEF;
         int address = 0;
@@ -45,17 +44,17 @@ public class MemoryTest
             testObject.storeWord(address, value);
             result = testObject.loadWord(address);
 
-            Assert.assertEquals(value, result);
+            Assertions.assertEquals(value, result);
         }
         catch(MemoryException e)
         {
             e.printStackTrace();
-            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+            Assertions.fail("Unexpected exception " + e.getClass().getSimpleName());
         }
     }
 
     @Test
-    public void testStoreByteThenLoadByte()
+    public void storeByteLoadByte()
     {
         int value = 0x78;
         int address = 10;
@@ -66,17 +65,17 @@ public class MemoryTest
             testObject.storeByte(address, value);
             result = testObject.loadByte(address);
 
-            Assert.assertEquals(value, result);
+            Assertions.assertEquals(value, result);
         }
         catch(MemoryException e)
         {
             e.printStackTrace();
-            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+            Assertions.fail("Unexpected exception " + e.getClass().getSimpleName());
         }
     }
 
     @Test
-    public void testStoreByteThenLoadWordWhenCorrectAddress()
+    public void storeByteLoadWord_WhenCorrectAddress()
     {
         int[] values = new int[]{0x78, 0xED, 0x40, 0x9C};
         int address = 16;
@@ -94,15 +93,14 @@ public class MemoryTest
         catch(MemoryException e)
         {
             e.printStackTrace();
-            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+            Assertions.fail("Unexpected exception " + e.getClass().getSimpleName());
         }
 
-        Assert.assertEquals(expected, result);
+        Assertions.assertEquals(expected, result);
     }
 
-    @Test(expected = MemoryException.class)
-    public void testStoreByteThenLoadWordWhenInvalidAddress()
-            throws MemoryException
+    @Test
+    public void storeByteLoadWord_WhenInvalidAddress_ThenMemoryException()
     {
         int[] values = new int[]{0x78, 0xED, 0x40, 0x9C};
         int address = 23;
@@ -117,14 +115,14 @@ public class MemoryTest
         catch(MemoryException e)
         {
             e.printStackTrace();
-            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+            Assertions.fail("Unexpected exception " + e.getClass().getSimpleName());
         }
 
-        testObject.loadWord(address);
+        Assertions.assertThrows(MemoryException.class, () -> testObject.loadWord(address));
     }
 
     @Test
-    public void testStoreWordThenLoadByte()
+    public void storeWordLoadByte()
     {
         int[] values = new int[]{0x23, 0x45, 0xBD, 0xDE};
         int address = 32;
@@ -139,15 +137,15 @@ public class MemoryTest
             results[2] = testObject.loadByte(address + 2);
             results[3] = testObject.loadByte(address + 3);
 
-            Assert.assertEquals(values[0], results[0]);
-            Assert.assertEquals(values[1], results[1]);
-            Assert.assertEquals(values[2], results[2]);
-            Assert.assertEquals(values[3], results[3]);
+            Assertions.assertEquals(values[0], results[0]);
+            Assertions.assertEquals(values[1], results[1]);
+            Assertions.assertEquals(values[2], results[2]);
+            Assertions.assertEquals(values[3], results[3]);
         }
         catch(MemoryException e)
         {
             e.printStackTrace();
-            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+            Assertions.fail("Unexpected exception " + e.getClass().getSimpleName());
         }
     }
 }

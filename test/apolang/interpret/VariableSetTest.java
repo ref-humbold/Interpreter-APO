@@ -1,9 +1,9 @@
 package apolang.interpret;
 
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import apolang.errors.SymbolException;
 
@@ -11,20 +11,20 @@ public class VariableSetTest
 {
     private VariableSet testObject;
 
-    @Before
+    @BeforeEach
     public void setUp()
     {
         testObject = new VariableSet();
     }
 
-    @After
+    @AfterEach
     public void tearDown()
     {
         testObject = null;
     }
 
     @Test
-    public void testGetSetValueWhenNoArguments()
+    public void getSetValue_WhenNoArguments()
     {
         String name = "var";
         int result = 1;
@@ -38,23 +38,22 @@ public class VariableSetTest
         catch(SymbolException e)
         {
             e.printStackTrace();
-            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+            Assertions.fail("Unexpected exception " + e.getClass().getSimpleName());
         }
 
-        Assert.assertEquals(0, result);
-    }
-
-    @Test(expected = SymbolException.class)
-    public void testGetValueWhenVariableNotSet()
-            throws SymbolException
-    {
-        String name = "var";
-
-        testObject.getValue(name);
+        Assertions.assertEquals(0, result);
     }
 
     @Test
-    public void testGetSetValueWhenArgument()
+    public void getValue_WhenVariableNotSet()
+    {
+        String name = "var";
+
+        Assertions.assertThrows(SymbolException.class, () -> testObject.getValue(name));
+    }
+
+    @Test
+    public void getSetValue_WhenArgument()
     {
         String name = "var";
         int value = 10;
@@ -69,29 +68,36 @@ public class VariableSetTest
         catch(SymbolException e)
         {
             e.printStackTrace();
-            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+            Assertions.fail("Unexpected exception " + e.getClass().getSimpleName());
         }
 
-        Assert.assertEquals(value, result);
+        Assertions.assertEquals(value, result);
     }
 
     @Test
-    public void testContains()
+    public void contains_WhenValueSet_ThenTrue()
     {
-        String name1 = "var1";
-        String name2 = "var2";
+        String name = "var1";
 
-        testObject.setValue(name1);
+        testObject.setValue(name);
 
-        boolean result1 = testObject.contains(name1);
-        boolean result2 = testObject.contains(name2);
+        boolean result = testObject.contains(name);
 
-        Assert.assertTrue(result1);
-        Assert.assertFalse(result2);
+        Assertions.assertTrue(result);
     }
 
     @Test
-    public void testGetSetValueByNumber()
+    public void contains_WhenValueNotSet_ThenFalse()
+    {
+        String name = "var1";
+        boolean result = testObject.contains(name);
+
+        Assertions.assertFalse(result);
+    }
+
+    @Test
+    public void getSetValue_WhenByNumber()
+
     {
         String name = "var";
         int value = 10;
@@ -111,20 +117,19 @@ public class VariableSetTest
         catch(SymbolException e)
         {
             e.printStackTrace();
-            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+            Assertions.fail("Unexpected exception " + e.getClass().getSimpleName());
         }
 
-        Assert.assertEquals(value, result1);
-        Assert.assertEquals(value, result2);
+        Assertions.assertEquals(value, result1);
+        Assertions.assertEquals(value, result2);
     }
 
-    @Test(expected = SymbolException.class)
-    public void testGetSetValueByNumberWhenVariableNotSet()
-            throws SymbolException
+    @Test
+    public void getSetValue_WhenByNumberAndVariableNotSet()
     {
         int value = 10;
         int number = 1;
 
-        testObject.setValue(number, value);
+        Assertions.assertThrows(SymbolException.class, () -> testObject.setValue(number, value));
     }
 }
