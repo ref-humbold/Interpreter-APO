@@ -66,7 +66,7 @@ public class LabelSetTest
         String name = "label1";
         boolean result = testObject.contains(name);
 
-        Assertions.assertTrue(result);
+        Assertions.assertFalse(result);
     }
 
     @Test
