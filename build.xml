@@ -25,7 +25,7 @@
   <property name="ivy.lib.dir" value="lib" />
   <property name="ivy.install.version" value="2.5.0" />
 
-  <path id="Interpreter-APO.classpath">
+  <path id="project.classpath">
     <fileset dir="${ivy.lib.dir}" includes="*.jar" />
     <pathelement location="${build.dir}" />
   </path>
@@ -67,7 +67,7 @@
       <src path="${src.dir}" />
       <src path="${test.dir}" />
       <compilerarg line="-Xlint" />
-      <classpath refid="Interpreter-APO.classpath" />
+      <classpath refid="project.classpath" />
     </javac>
   </target>
 
@@ -95,18 +95,19 @@
 
   <target name="test">
     <mkdir dir="${junit.result.dir}" />
-    <junitlauncher printsummary="true">
+    <junitlauncher printsummary="true" failureproperty="junit.failure">
       <testclasses outputdir="${junit.result.dir}">
         <fileset dir="${build.dir}" includes="**/*Test.class" />
         <listener type="legacy-xml" sendSysErr="true" sendSysOut="true" />
       </testclasses>
-      <classpath refid="Interpreter-APO.classpath" />
+      <classpath refid="project.classpath" />
     </junitlauncher>
     <mkdir dir="${junit.report.dir}" />
     <junitreport todir="${junit.report.dir}">
       <fileset dir="${junit.result.dir}" includes="TEST-*.xml" />
       <report format="frames" todir="${junit.report.dir}" />
     </junitreport>
+    <fail if="junit.failure" message="JUnit test(s) failed" />
   </target>
 
   <target name="docs">
