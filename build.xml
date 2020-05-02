@@ -25,7 +25,7 @@
   <property name="ivy.lib.dir" value="lib" />
   <property name="ivy.install.version" value="2.5.0" />
 
-  <path id="Interpreter-APO.classpath">
+  <path id="project.classpath">
     <fileset dir="${ivy.lib.dir}" includes="*.jar" />
     <pathelement location="${build.dir}" />
   </path>
@@ -54,7 +54,7 @@
     <delete dir="${javadoc.output.dir}" />
   </target>
 
-  <target name="init" depends="resolve">
+  <target name="init">
     <mkdir dir="${build.dir}" />
     <copy includeemptydirs="false" todir="${build.dir}">
       <fileset dir="${src.dir}" excludes="**/*.java" />
@@ -67,7 +67,7 @@
       <src path="${src.dir}" />
       <src path="${test.dir}" />
       <compilerarg line="-Xlint" />
-      <classpath refid="Interpreter-APO.classpath" />
+      <classpath refid="project.classpath" />
     </javac>
   </target>
 
@@ -89,24 +89,25 @@
   <target name="execfile" depends="jar">
     <echo level="info" message="Building file: ${dist.dir}/${exec.file}" />
     <echo file="${dist.dir}/${exec.file}"
-          message="#! /bin/sh${line.separator}${line.separator}java -jar $(dirname $0)/${jar.file} $@" />
+          message="#! /bin/sh${line.separator}${line.separator}java -jar $(dirname &quot;$0&quot;)/${jar.file} $@" />
     <chmod file="${dist.dir}/${exec.file}" perm="+x" />
   </target>
 
   <target name="test">
     <mkdir dir="${junit.result.dir}" />
-    <junit fork="yes" printsummary="withOutAndErr">
-      <formatter type="xml" />
-      <batchtest todir="${junit.result.dir}">
-        <fileset dir="${test.dir}" includes="**/*Test.java" />
-      </batchtest>
-      <classpath refid="Interpreter-APO.classpath" />
-    </junit>
+    <junitlauncher printsummary="true" failureproperty="junit.failure">
+      <testclasses outputdir="${junit.result.dir}">
+        <fileset dir="${build.dir}" includes="**/*Test.class" />
+        <listener type="legacy-xml" sendSysErr="true" sendSysOut="true" />
+      </testclasses>
+      <classpath refid="project.classpath" />
+    </junitlauncher>
     <mkdir dir="${junit.report.dir}" />
     <junitreport todir="${junit.report.dir}">
       <fileset dir="${junit.result.dir}" includes="TEST-*.xml" />
       <report format="frames" todir="${junit.report.dir}" />
     </junitreport>
+    <fail if="junit.failure" message="JUnit test(s) failed" />
   </target>
 
   <target name="docs">
@@ -116,11 +117,17 @@
     </javadoc>
   </target>
 
-  <target name="build" depends="jar, execfile" />
+  <target name="build" depends="execfile" />
 
-  <target name="all" depends="build, test" />
+  <target name="rebuild" depends="resolve, build" />
+
+  <target name="main" depends="build, test" />
+
+  <target name="all" depends="resolve, main" />
 
   <target name="refresh" depends="clean, build" />
+
+  <target name="refresh-main" depends="clean, main" />
 
   <target name="refresh-all" depends="clean, all" />
 </project>

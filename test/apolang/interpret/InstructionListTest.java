@@ -1,10 +1,10 @@
 package apolang.interpret;
 
 import java.util.Iterator;
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import apolang.errors.LanguageException;
 import apolang.errors.SymbolException;
@@ -15,30 +15,32 @@ import apolang.instructions.JumpInstruction;
 
 public class InstructionListTest
 {
-    private static final String[] vars = new String[]{"zero", "one", "two", "tree", "res"};
+    private static final String[] VARS = new String[]{"zero", "one", "two", "tree", "res"};
+    private final VariableSet variableSet;
     private InstructionList testObject;
-    private VariableSet variableSet;
 
-    @Before
+    public InstructionListTest()
+    {
+        variableSet = new VariableSet();
 
+        for(int i = 0; i < VARS.length; ++i)
+            variableSet.setValue(VARS[i], i);
+    }
+
+    @BeforeEach
     public void setUp()
     {
         testObject = new InstructionList();
-        variableSet = new VariableSet();
-
-        for(int i = 0; i < vars.length; ++i)
-            variableSet.setValue(vars[i], i);
     }
 
-    @After
+    @AfterEach
     public void tearDown()
     {
         testObject = null;
-        variableSet = null;
     }
 
     @Test
-    public void testAddWhenEmpty()
+    public void add_WhenEmpty()
     {
         int count = 1;
         InstructionName name = InstructionName.ADD;
@@ -53,20 +55,20 @@ public class InstructionListTest
         catch(SymbolException e)
         {
             e.printStackTrace();
-            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+            Assertions.fail("Unexpected exception " + e.getClass().getSimpleName());
         }
 
         testObject.add(instruction);
 
         Iterator<Instruction> it = testObject.iterator();
 
-        Assert.assertTrue(it.hasNext());
-        Assert.assertEquals(instruction, it.next());
-        Assert.assertFalse(it.hasNext());
+        Assertions.assertTrue(it.hasNext());
+        Assertions.assertEquals(instruction, it.next());
+        Assertions.assertFalse(it.hasNext());
     }
 
     @Test
-    public void testAddWhenNotEmpty()
+    public void add_WhenNotEmpty()
     {
         int count1 = 1;
         InstructionName name1 = InstructionName.ADD;
@@ -86,7 +88,7 @@ public class InstructionListTest
         catch(SymbolException e)
         {
             e.printStackTrace();
-            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+            Assertions.fail("Unexpected exception " + e.getClass().getSimpleName());
         }
 
         testObject.add(instruction1);
@@ -94,29 +96,29 @@ public class InstructionListTest
 
         Iterator<Instruction> it = testObject.iterator();
 
-        Assert.assertTrue(it.hasNext());
-        Assert.assertEquals(instruction1, it.next());
-        Assert.assertTrue(it.hasNext());
-        Assert.assertEquals(instruction2, it.next());
-        Assert.assertFalse(it.hasNext());
-    }
-
-    @Test(expected = IllegalArgumentException.class)
-    public void testAddWhenInstructionNull()
-    {
-        testObject.add(null);
+        Assertions.assertTrue(it.hasNext());
+        Assertions.assertEquals(instruction1, it.next());
+        Assertions.assertTrue(it.hasNext());
+        Assertions.assertEquals(instruction2, it.next());
+        Assertions.assertFalse(it.hasNext());
     }
 
     @Test
-    public void testIteratorWhenEmptyList()
+    public void add_WhenInstructionNull()
+    {
+        Assertions.assertThrows(IllegalArgumentException.class, () -> testObject.add(null));
+    }
+
+    @Test
+    public void iterator_WhenEmptyList()
     {
         Iterator<Instruction> iterator = testObject.iterator();
 
-        Assert.assertFalse(iterator.hasNext());
+        Assertions.assertFalse(iterator.hasNext());
     }
 
     @Test
-    public void testIteratorWhenNonEmptyList()
+    public void iterator_WhenNonEmptyList()
     {
         int count = 1;
         InstructionName name = InstructionName.ADD;
@@ -130,23 +132,23 @@ public class InstructionListTest
         catch(SymbolException e)
         {
             e.printStackTrace();
-            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+            Assertions.fail("Unexpected exception " + e.getClass().getSimpleName());
         }
 
         testObject.add(instruction);
 
         Iterator<Instruction> iterator = testObject.iterator();
 
-        Assert.assertTrue(iterator.hasNext());
+        Assertions.assertTrue(iterator.hasNext());
 
         Instruction result = iterator.next();
 
-        Assert.assertEquals(instruction, result);
-        Assert.assertFalse(iterator.hasNext());
+        Assertions.assertEquals(instruction, result);
+        Assertions.assertFalse(iterator.hasNext());
     }
 
     @Test
-    public void testIteratorNextWhenJump()
+    public void iteratorNext_WhenJump()
     {
         int count1 = 1;
         InstructionName name1 = InstructionName.JPNE;
@@ -169,7 +171,7 @@ public class InstructionListTest
         catch(SymbolException e)
         {
             e.printStackTrace();
-            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+            Assertions.fail("Unexpected exception " + e.getClass().getSimpleName());
         }
 
         instruction1.setLink(instruction3);
@@ -180,12 +182,12 @@ public class InstructionListTest
 
         Iterator<Instruction> iterator = testObject.iterator();
 
-        Assert.assertTrue(iterator.hasNext());
+        Assertions.assertTrue(iterator.hasNext());
 
         Instruction result1 = iterator.next();
 
-        Assert.assertEquals(instruction1, result1);
-        Assert.assertTrue(iterator.hasNext());
+        Assertions.assertEquals(instruction1, result1);
+        Assertions.assertTrue(iterator.hasNext());
 
         try
         {
@@ -194,17 +196,17 @@ public class InstructionListTest
         catch(LanguageException e)
         {
             e.printStackTrace();
-            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+            Assertions.fail("Unexpected exception " + e.getClass().getSimpleName());
         }
 
         Instruction result3 = iterator.next();
 
-        Assert.assertEquals(instruction3, result3);
-        Assert.assertFalse(iterator.hasNext());
+        Assertions.assertEquals(instruction3, result3);
+        Assertions.assertFalse(iterator.hasNext());
     }
 
     @Test
-    public void testIteratorNextWhenNoJump()
+    public void iteratorNext_WhenNoJump()
     {
         int count1 = 1;
         InstructionName name1 = InstructionName.JPEQ;
@@ -227,7 +229,7 @@ public class InstructionListTest
         catch(SymbolException e)
         {
             e.printStackTrace();
-            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+            Assertions.fail("Unexpected exception " + e.getClass().getSimpleName());
         }
 
         instruction1.setLink(instruction3);
@@ -238,12 +240,12 @@ public class InstructionListTest
 
         Iterator<Instruction> iterator = testObject.iterator();
 
-        Assert.assertTrue(iterator.hasNext());
+        Assertions.assertTrue(iterator.hasNext());
 
         Instruction result1 = iterator.next();
 
-        Assert.assertEquals(instruction1, result1);
-        Assert.assertTrue(iterator.hasNext());
+        Assertions.assertEquals(instruction1, result1);
+        Assertions.assertTrue(iterator.hasNext());
 
         try
         {
@@ -252,17 +254,17 @@ public class InstructionListTest
         catch(LanguageException e)
         {
             e.printStackTrace();
-            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+            Assertions.fail("Unexpected exception " + e.getClass().getSimpleName());
         }
 
         Instruction result2 = iterator.next();
 
-        Assert.assertEquals(instruction2, result2);
-        Assert.assertTrue(iterator.hasNext());
+        Assertions.assertEquals(instruction2, result2);
+        Assertions.assertTrue(iterator.hasNext());
 
         Instruction result3 = iterator.next();
 
-        Assert.assertEquals(instruction3, result3);
-        Assert.assertFalse(iterator.hasNext());
+        Assertions.assertEquals(instruction3, result3);
+        Assertions.assertFalse(iterator.hasNext());
     }
 }

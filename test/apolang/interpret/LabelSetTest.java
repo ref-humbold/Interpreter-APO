@@ -1,9 +1,9 @@
 package apolang.interpret;
 
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import apolang.errors.LabelException;
 import apolang.instructions.Instruction;
@@ -13,20 +13,20 @@ public class LabelSetTest
 {
     private LabelSet testObject;
 
-    @Before
+    @BeforeEach
     public void setUp()
     {
         testObject = new LabelSet();
     }
 
-    @After
+    @AfterEach
     public void tearDown()
     {
         testObject = null;
     }
 
     @Test
-    public void testGetSetValue()
+    public void getSetValue()
     {
         String name = "label";
         Instruction value = new NOPInstruction(1);
@@ -41,30 +41,36 @@ public class LabelSetTest
         catch(LabelException e)
         {
             e.printStackTrace();
-            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+            Assertions.fail("Unexpected exception " + e.getClass().getSimpleName());
         }
 
-        Assert.assertEquals(value, result);
+        Assertions.assertEquals(value, result);
     }
 
     @Test
-    public void testContains()
+    public void contains_WhenValueSet()
     {
-        String name1 = "label1";
-        String name2 = "label2";
+        String name = "label1";
         Instruction value = new NOPInstruction(1);
 
-        testObject.setInstruction(name1, value);
+        testObject.setInstruction(name, value);
 
-        boolean result1 = testObject.contains(name1);
-        boolean result2 = testObject.contains(name2);
+        boolean result = testObject.contains(name);
 
-        Assert.assertTrue(result1);
-        Assert.assertFalse(result2);
+        Assertions.assertTrue(result);
     }
 
     @Test
-    public void testGetSetValueByNumber()
+    public void contains_WhenValueNotSet()
+    {
+        String name = "label1";
+        boolean result = testObject.contains(name);
+
+        Assertions.assertFalse(result);
+    }
+
+    @Test
+    public void getSetValue_WhenByNumber()
     {
         String name = "label";
         Instruction value1 = new NOPInstruction(1);
@@ -85,20 +91,20 @@ public class LabelSetTest
         catch(LabelException e)
         {
             e.printStackTrace();
-            Assert.fail("Unexpected exception " + e.getClass().getSimpleName());
+            Assertions.fail("Unexpected exception " + e.getClass().getSimpleName());
         }
 
-        Assert.assertEquals(value2, result1);
-        Assert.assertEquals(value2, result2);
+        Assertions.assertEquals(value2, result1);
+        Assertions.assertEquals(value2, result2);
     }
 
-    @Test(expected = LabelException.class)
-    public void testGetSetValueByNumberWhenVariableNotSet()
-            throws LabelException
+    @Test
+    public void getSetValue_WhenByNumberAndVariableNotSet()
     {
         Instruction value = new NOPInstruction(1);
         int number = 1;
 
-        testObject.setInstruction(number, value);
+        Assertions.assertThrows(LabelException.class,
+                                () -> testObject.setInstruction(number, value));
     }
 }
