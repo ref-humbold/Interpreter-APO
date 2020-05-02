@@ -15,25 +15,28 @@ import apolang.instructions.JumpInstruction;
 
 public class InstructionListTest
 {
-    private static final String[] vars = new String[]{"zero", "one", "two", "tree", "res"};
+    private static final String[] VARS = new String[]{"zero", "one", "two", "tree", "res"};
+    private final VariableSet variableSet;
     private InstructionList testObject;
-    private VariableSet variableSet;
+
+    public InstructionListTest()
+    {
+        variableSet = new VariableSet();
+
+        for(int i = 0; i < VARS.length; ++i)
+            variableSet.setValue(VARS[i], i);
+    }
 
     @BeforeEach
     public void setUp()
     {
         testObject = new InstructionList();
-        variableSet = new VariableSet();
-
-        for(int i = 0; i < vars.length; ++i)
-            variableSet.setValue(vars[i], i);
     }
 
     @AfterEach
     public void tearDown()
     {
         testObject = null;
-        variableSet = null;
     }
 
     @Test
