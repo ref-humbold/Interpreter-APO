@@ -22,17 +22,15 @@ public class ArithmeticInstruction
         switch(name)
         {
             case ADD:
-
                 try
                 {
-                    argValue1 = variables.getValue(args[1]);
-                    argValue2 = variables.getValue(args[2]);
-                    variables.setValue(args[0], argValue1 + argValue2);
+                    argValue1 = variables.getValue(arguments[1]);
+                    argValue2 = variables.getValue(arguments[2]);
+                    variables.setValue(arguments[0], argValue1 + argValue2);
                 }
                 catch(SymbolException e)
                 {
                     e.setLineNumber(lineNumber);
-
                     throw e;
                 }
 
@@ -41,13 +39,12 @@ public class ArithmeticInstruction
             case ADDI:
                 try
                 {
-                    argValue1 = variables.getValue(args[1]);
-                    variables.setValue(args[0], argValue1 + args[2]);
+                    argValue1 = variables.getValue(arguments[1]);
+                    variables.setValue(arguments[0], argValue1 + arguments[2]);
                 }
                 catch(SymbolException e)
                 {
                     e.setLineNumber(lineNumber);
-
                     throw e;
                 }
 
@@ -56,9 +53,9 @@ public class ArithmeticInstruction
             case SUB:
                 try
                 {
-                    argValue1 = variables.getValue(args[1]);
-                    argValue2 = variables.getValue(args[2]);
-                    variables.setValue(args[0], argValue1 - argValue2);
+                    argValue1 = variables.getValue(arguments[1]);
+                    argValue2 = variables.getValue(arguments[2]);
+                    variables.setValue(arguments[0], argValue1 - argValue2);
                 }
                 catch(SymbolException e)
                 {
@@ -72,8 +69,8 @@ public class ArithmeticInstruction
             case SUBI:
                 try
                 {
-                    argValue1 = variables.getValue(args[1]);
-                    variables.setValue(args[0], argValue1 - args[2]);
+                    argValue1 = variables.getValue(arguments[1]);
+                    variables.setValue(arguments[0], argValue1 - arguments[2]);
                 }
                 catch(SymbolException e)
                 {
@@ -87,9 +84,9 @@ public class ArithmeticInstruction
             case MUL:
                 try
                 {
-                    argValue1 = variables.getValue(args[1]);
-                    argValue2 = variables.getValue(args[2]);
-                    variables.setValue(args[0], argValue1 * argValue2);
+                    argValue1 = variables.getValue(arguments[1]);
+                    argValue2 = variables.getValue(arguments[2]);
+                    variables.setValue(arguments[0], argValue1 * argValue2);
                 }
                 catch(SymbolException e)
                 {
@@ -103,8 +100,8 @@ public class ArithmeticInstruction
             case MULI:
                 try
                 {
-                    argValue1 = variables.getValue(args[1]);
-                    variables.setValue(args[0], argValue1 * args[2]);
+                    argValue1 = variables.getValue(arguments[1]);
+                    variables.setValue(arguments[0], argValue1 * arguments[2]);
                 }
                 catch(SymbolException e)
                 {
@@ -119,8 +116,8 @@ public class ArithmeticInstruction
 
                 try
                 {
-                    argValue1 = variables.getValue(args[1]);
-                    argValue2 = variables.getValue(args[2]);
+                    argValue1 = variables.getValue(arguments[1]);
+                    argValue2 = variables.getValue(arguments[2]);
                 }
                 catch(SymbolException e)
                 {
@@ -137,7 +134,7 @@ public class ArithmeticInstruction
 
                 try
                 {
-                    variables.setValue(args[0], argValue1 / argValue2);
+                    variables.setValue(arguments[0], argValue1 / argValue2);
                 }
                 catch(SymbolException e)
                 {
@@ -149,14 +146,14 @@ public class ArithmeticInstruction
             case DIVI:
                 try
                 {
-                    argValue1 = variables.getValue(args[1]);
+                    argValue1 = variables.getValue(arguments[1]);
                 }
                 catch(SymbolException e)
                 {
                     throw new SymbolException(e.getMessage(), lineNumber);
                 }
 
-                if(args[2] == 0)
+                if(arguments[2] == 0)
                 {
                     if(argValue1 == 0)
                         throw new ArithmeticException(ArithmeticException.NOT_A_NUMBER, lineNumber);
@@ -166,7 +163,7 @@ public class ArithmeticInstruction
 
                 try
                 {
-                    variables.setValue(args[0], argValue1 / args[2]);
+                    variables.setValue(arguments[0], argValue1 / arguments[2]);
                 }
                 catch(SymbolException e)
                 {

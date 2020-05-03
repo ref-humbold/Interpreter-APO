@@ -1,6 +1,7 @@
 package apolang.instructions;
 
 import java.util.Arrays;
+import java.util.Objects;
 
 import apolang.errors.LanguageException;
 import apolang.interpret.VariableSet;
@@ -8,26 +9,16 @@ import apolang.interpret.VariableSet;
 /** Bazowa klasa do przechowywania pojedynczej instrukcji w liscie rozkazow */
 public abstract class Instruction
 {
-    /** Numer wiersza programu */
     protected int lineNumber;
-
-    /** Nazwa operacji */
     protected InstructionName name;
-
-    /** Argumenty operacji */
-    protected int[] args;
-
-    /** Nastepny element listy */
+    protected int[] arguments;
     protected Instruction next = null;
 
-    public Instruction(int lineNumber, InstructionName name, int... args)
+    public Instruction(int lineNumber, InstructionName name, int... arguments)
     {
-        if(name == null)
-            throw new IllegalArgumentException("Instruction name is null.");
-
         this.lineNumber = lineNumber;
         this.name = name;
-        this.args = args;
+        this.arguments = arguments;
     }
 
     public int getLineNumber()
@@ -40,9 +31,9 @@ public abstract class Instruction
         return name;
     }
 
-    public int getArgsNumber()
+    public int getArgumentsCount()
     {
-        return args.length;
+        return arguments.length;
     }
 
     public Instruction getNext()
@@ -55,9 +46,9 @@ public abstract class Instruction
         this.next = next;
     }
 
-    public int getArg(int index)
+    public int getArgument(int index)
     {
-        return args[index];
+        return arguments[index];
     }
 
     @Override
@@ -71,20 +62,14 @@ public abstract class Instruction
 
         Instruction other = (Instruction)obj;
 
-        return lineNumber == other.lineNumber && name.equals(other.name) && Arrays.equals(args,
-                                                                                          other.args);
+        return lineNumber == other.lineNumber && name.equals(other.name) && Arrays.equals(arguments,
+                                                                                          other.arguments);
     }
 
     @Override
     public int hashCode()
     {
-        int prime = 37;
-        int result = 1;
-
-        result = prime * result + Arrays.hashCode(args);
-        result = prime * result + (name == null ? 0 : name.hashCode());
-
-        return result;
+        return Objects.hash(name, arguments);
     }
 
     public abstract void execute(VariableSet variables)

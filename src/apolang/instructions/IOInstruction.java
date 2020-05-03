@@ -8,7 +8,7 @@ import apolang.interpret.VariableSet;
 public class IOInstruction
         extends Instruction
 {
-    private IOConnector connector;
+    private final IOConnector connector;
 
     public IOInstruction(int lineNumber, InstructionName name, int... args)
     {
@@ -31,7 +31,7 @@ public class IOInstruction
             case PTINT:
                 try
                 {
-                    argValue = variables.getValue(args[0]);
+                    argValue = variables.getValue(arguments[0]);
                 }
                 catch(SymbolException e)
                 {
@@ -46,7 +46,7 @@ public class IOInstruction
             case PTCHR:
                 try
                 {
-                    argValue = variables.getValue(args[0]);
+                    argValue = variables.getValue(arguments[0]);
                 }
                 catch(SymbolException e)
                 {
@@ -63,7 +63,7 @@ public class IOInstruction
 
                 try
                 {
-                    variables.setValue(args[0], argValue);
+                    variables.setValue(arguments[0], argValue);
                 }
                 catch(SymbolException e)
                 {
@@ -79,7 +79,7 @@ public class IOInstruction
 
                 try
                 {
-                    variables.setValue(args[0], argValue);
+                    variables.setValue(arguments[0], argValue);
                 }
                 catch(SymbolException e)
                 {

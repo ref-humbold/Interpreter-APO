@@ -25,11 +25,11 @@ import apolang.instructions.JumpInstruction;
  */
 public class OldParser
 {
+    public final VariableSet variables = new VariableSet();
     private Path filepath;
     private List<String> labels = new ArrayList<>();
     private Map<String, Instruction> labeledInstructions = new HashMap<>();
     private String[] split;
-    private VariableSet variables = new VariableSet();
 
     /**
      * Uruchamia parser i tworzy tymczasowe listy etykiet oraz zmiennych.
@@ -43,11 +43,10 @@ public class OldParser
     /**
      * Wykonuje parsowanie programu. Kolejno wczytuje linie z pliku programu, analizuje ich
      * zawartosc i tworzy elementy listy instrukcji.
-     * @param v lista zmiennych
      * @return lista instrukcji programu
      * @see Instruction
      */
-    InstructionList parse(VariableSet v)
+    InstructionList parse()
             throws IOException, LanguageException
     {
         InstructionList instructionList = new InstructionList();
@@ -56,7 +55,8 @@ public class OldParser
         Instruction elem;
         String label = "";
         int[] args;
-        int count = 0, index = 0;
+        int count = 0;
+        int index = 0;
         boolean isLabel;
 
         variables.setValue("zero", 0);
@@ -120,8 +120,8 @@ public class OldParser
         {
             if(instruction instanceof JumpInstruction)
             {
-                int lenJ = instruction.getArgsNumber();
-                String etc = labels.get(instruction.getArg(lenJ - 1));
+                int lenJ = instruction.getArgumentsCount();
+                String etc = labels.get(instruction.getArgument(lenJ - 1));
 
                 if(labeledInstructions.containsKey(etc))
                     ((JumpInstruction)instruction).setLink(labeledInstructions.get(etc));
@@ -130,8 +130,6 @@ public class OldParser
                                              instruction.getLineNumber());
             }
         }
-
-        v = variables;
 
         return instructionList;
     }
@@ -174,7 +172,7 @@ public class OldParser
             throws LanguageException
     {
         String op = split[index];
-        int[] q = new int[0];
+        int[] q;
 
         if(op.startsWith("#"))
             return null;
@@ -503,7 +501,7 @@ public class OldParser
         if(!isLowerCase(split[index]))
             throw new SymbolException(SymbolException.INVALID_CHARACTERS, count);
 
-        if(checkZero && split[index].equals("zero"))
+        if(checkZero && "zero".equals(split[index]))
             throw new SymbolException(SymbolException.CHANGE_ZERO, count);
 
         variables.setValue(split[index]);
@@ -514,7 +512,7 @@ public class OldParser
     private int doArgImm(int index, int count)
             throws LanguageException
     {
-        int ret = 0;
+        int ret;
 
         if(split[index].startsWith("#"))
             throw new SymbolException(SymbolException.TOO_FEW_ARGUMENTS, count);
@@ -522,7 +520,7 @@ public class OldParser
         if(split[index].startsWith("0x"))
             try
             {
-                ret = Integer.parseInt(split[index].substring(2, split[index].length()), 16);
+                ret = Integer.parseInt(split[index].substring(2), 16);
             }
             catch(NumberFormatException e)
             {
@@ -550,7 +548,7 @@ public class OldParser
         if(!isLowerCase(split[index]))
             throw new LabelException(LabelException.INVALID_CHARACTERS, count);
 
-        if(labels.indexOf(split[index]) < 0)
+        if(!labels.contains(split[index]))
             labels.add(split[index]);
 
         return labels.indexOf(split[index]);

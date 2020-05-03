@@ -8,7 +8,7 @@ import apolang.interpret.VariableSet;
 public class MemoryInstruction
         extends Instruction
 {
-    private Memory memory;
+    private final Memory memory;
 
     public MemoryInstruction(Memory memory, int lineNumber, InstructionName name, int... args)
     {
@@ -29,9 +29,9 @@ public class MemoryInstruction
             case LDW:
                 try
                 {
-                    argValue1 = variables.getValue(args[1]);
+                    argValue1 = variables.getValue(arguments[1]);
                     result = memory.loadWord(argValue1);
-                    variables.setValue(args[0], result);
+                    variables.setValue(arguments[0], result);
                 }
                 catch(SymbolException | MemoryException e)
                 {
@@ -45,9 +45,9 @@ public class MemoryInstruction
             case LDB:
                 try
                 {
-                    argValue1 = variables.getValue(args[1]);
+                    argValue1 = variables.getValue(arguments[1]);
                     result = memory.loadByte(argValue1);
-                    variables.setValue(args[0], result);
+                    variables.setValue(arguments[0], result);
                 }
                 catch(SymbolException | MemoryException e)
                 {
@@ -61,8 +61,8 @@ public class MemoryInstruction
             case STW:
                 try
                 {
-                    argValue0 = variables.getValue(args[0]);
-                    argValue1 = variables.getValue(args[1]);
+                    argValue0 = variables.getValue(arguments[0]);
+                    argValue1 = variables.getValue(arguments[1]);
                     memory.storeWord(argValue1, argValue0);
                 }
                 catch(SymbolException | MemoryException e)
@@ -77,8 +77,8 @@ public class MemoryInstruction
             case STB:
                 try
                 {
-                    argValue0 = variables.getValue(args[0]);
-                    argValue1 = variables.getValue(args[1]);
+                    argValue0 = variables.getValue(arguments[0]);
+                    argValue1 = variables.getValue(arguments[1]);
                     memory.storeByte(argValue1, argValue0);
                 }
                 catch(SymbolException | MemoryException e)

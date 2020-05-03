@@ -24,7 +24,7 @@ public class LogicalInstruction
             case SHLT:
                 try
                 {
-                    argValue1 = variables.getValue(args[1]);
+                    argValue1 = variables.getValue(arguments[1]);
                 }
                 catch(SymbolException e)
                 {
@@ -33,12 +33,12 @@ public class LogicalInstruction
                     throw e;
                 }
 
-                if(args[2] < 0)
+                if(arguments[2] < 0)
                     throw new ArithmeticException(ArithmeticException.NEGATIVE_SHIFT, lineNumber);
 
                 try
                 {
-                    variables.setValue(args[0], argValue1 << args[2]);
+                    variables.setValue(arguments[0], argValue1 << arguments[2]);
                 }
                 catch(SymbolException e)
                 {
@@ -52,7 +52,7 @@ public class LogicalInstruction
             case SHRT:
                 try
                 {
-                    argValue1 = variables.getValue(args[1]);
+                    argValue1 = variables.getValue(arguments[1]);
                 }
                 catch(SymbolException e)
                 {
@@ -61,12 +61,12 @@ public class LogicalInstruction
                     throw e;
                 }
 
-                if(args[2] < 0)
+                if(arguments[2] < 0)
                     throw new ArithmeticException(ArithmeticException.NEGATIVE_SHIFT, lineNumber);
 
                 try
                 {
-                    variables.setValue(args[0], argValue1 >>> args[2]);
+                    variables.setValue(arguments[0], argValue1 >>> arguments[2]);
                 }
                 catch(SymbolException e)
                 {
@@ -80,7 +80,7 @@ public class LogicalInstruction
             case SHRS:
                 try
                 {
-                    argValue1 = variables.getValue(args[1]);
+                    argValue1 = variables.getValue(arguments[1]);
                 }
                 catch(SymbolException e)
                 {
@@ -89,12 +89,12 @@ public class LogicalInstruction
                     throw e;
                 }
 
-                if(args[2] < 0)
+                if(arguments[2] < 0)
                     throw new ArithmeticException(ArithmeticException.NEGATIVE_SHIFT, lineNumber);
 
                 try
                 {
-                    variables.setValue(args[0], argValue1 >> args[2]);
+                    variables.setValue(arguments[0], argValue1 >> arguments[2]);
                 }
                 catch(SymbolException e)
                 {
@@ -108,9 +108,9 @@ public class LogicalInstruction
             case AND:
                 try
                 {
-                    argValue1 = variables.getValue(args[1]);
-                    argValue2 = variables.getValue(args[2]);
-                    variables.setValue(args[0], argValue1 & argValue2);
+                    argValue1 = variables.getValue(arguments[1]);
+                    argValue2 = variables.getValue(arguments[2]);
+                    variables.setValue(arguments[0], argValue1 & argValue2);
                 }
                 catch(SymbolException e)
                 {
@@ -124,8 +124,8 @@ public class LogicalInstruction
             case ANDI:
                 try
                 {
-                    argValue1 = variables.getValue(args[1]);
-                    variables.setValue(args[0], argValue1 & args[2]);
+                    argValue1 = variables.getValue(arguments[1]);
+                    variables.setValue(arguments[0], argValue1 & arguments[2]);
                 }
                 catch(SymbolException e)
                 {
@@ -139,9 +139,9 @@ public class LogicalInstruction
             case OR:
                 try
                 {
-                    argValue1 = variables.getValue(args[1]);
-                    argValue2 = variables.getValue(args[2]);
-                    variables.setValue(args[0], argValue1 | argValue2);
+                    argValue1 = variables.getValue(arguments[1]);
+                    argValue2 = variables.getValue(arguments[2]);
+                    variables.setValue(arguments[0], argValue1 | argValue2);
                 }
                 catch(SymbolException e)
                 {
@@ -155,8 +155,8 @@ public class LogicalInstruction
             case ORI:
                 try
                 {
-                    argValue1 = variables.getValue(args[1]);
-                    variables.setValue(args[0], argValue1 | args[2]);
+                    argValue1 = variables.getValue(arguments[1]);
+                    variables.setValue(arguments[0], argValue1 | arguments[2]);
                 }
                 catch(SymbolException e)
                 {
@@ -170,9 +170,9 @@ public class LogicalInstruction
             case XOR:
                 try
                 {
-                    argValue1 = variables.getValue(args[1]);
-                    argValue2 = variables.getValue(args[2]);
-                    variables.setValue(args[0], argValue1 ^ argValue2);
+                    argValue1 = variables.getValue(arguments[1]);
+                    argValue2 = variables.getValue(arguments[2]);
+                    variables.setValue(arguments[0], argValue1 ^ argValue2);
                 }
                 catch(SymbolException e)
                 {
@@ -186,8 +186,8 @@ public class LogicalInstruction
             case XORI:
                 try
                 {
-                    argValue1 = variables.getValue(args[1]);
-                    variables.setValue(args[0], argValue1 ^ args[2]);
+                    argValue1 = variables.getValue(arguments[1]);
+                    variables.setValue(arguments[0], argValue1 ^ arguments[2]);
                 }
                 catch(SymbolException e)
                 {
@@ -201,9 +201,9 @@ public class LogicalInstruction
             case NAND:
                 try
                 {
-                    argValue1 = variables.getValue(args[1]);
-                    argValue2 = variables.getValue(args[2]);
-                    variables.setValue(args[0], ~(argValue1 & argValue2));
+                    argValue1 = variables.getValue(arguments[1]);
+                    argValue2 = variables.getValue(arguments[2]);
+                    variables.setValue(arguments[0], ~(argValue1 & argValue2));
                 }
                 catch(SymbolException e)
                 {
@@ -217,9 +217,9 @@ public class LogicalInstruction
             case NOR:
                 try
                 {
-                    argValue1 = variables.getValue(args[1]);
-                    argValue2 = variables.getValue(args[2]);
-                    variables.setValue(args[0], ~(argValue1 | argValue2));
+                    argValue1 = variables.getValue(arguments[1]);
+                    argValue2 = variables.getValue(arguments[2]);
+                    variables.setValue(arguments[0], ~(argValue1 | argValue2));
                 }
                 catch(SymbolException e)
                 {

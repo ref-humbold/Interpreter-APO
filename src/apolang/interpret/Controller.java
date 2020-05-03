@@ -12,9 +12,8 @@ import apolang.instructions.InstructionFactory;
  */
 public class Controller
 {
-    //TODO replace OldParser with Parser
+    // TODO replace OldParser with Parser
     private OldParser oldParser;
-    private VariableSet variables;
     private InstructionList instructions;
 
     /**
@@ -25,7 +24,6 @@ public class Controller
     public Controller(int memorySize, Path path)
     {
         oldParser = new OldParser(path);
-        variables = new VariableSet();
         instructions = null;
 
         InstructionFactory.memory = new Memory(memorySize);
@@ -39,7 +37,7 @@ public class Controller
             throws Exception
     {
         System.out.print("parsing>> ");
-        instructions = oldParser.parse(variables);
+        instructions = oldParser.parse();
         System.out.println("done");
     }
 
@@ -54,7 +52,7 @@ public class Controller
             throws LanguageException
     {
         for(Instruction instr : instructions)
-            instr.execute(variables);
+            instr.execute(oldParser.variables);
     }
 }
 

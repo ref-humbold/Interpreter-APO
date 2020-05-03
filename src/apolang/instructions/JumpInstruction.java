@@ -1,5 +1,7 @@
 package apolang.instructions;
 
+import java.util.Objects;
+
 import apolang.errors.SymbolException;
 import apolang.interpret.VariableSet;
 
@@ -51,7 +53,7 @@ public class JumpInstruction
 
         JumpInstruction other = (JumpInstruction)obj;
 
-        return super.equals(other) && (link == null ? other.link == null : link.equals(other.link));
+        return super.equals(other) && Objects.equals(link, other.link);
     }
 
     @Override
@@ -71,8 +73,8 @@ public class JumpInstruction
 
         try
         {
-            argValue0 = variables.getValue(args[0]);
-            argValue1 = variables.getValue(args[1]);
+            argValue0 = variables.getValue(arguments[0]);
+            argValue1 = variables.getValue(arguments[1]);
         }
         catch(SymbolException e)
         {
