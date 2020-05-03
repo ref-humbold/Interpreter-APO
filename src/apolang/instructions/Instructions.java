@@ -2,7 +2,7 @@ package apolang.instructions;
 
 import apolang.errors.SymbolException;
 
-public class Instructions
+public final class Instructions
 {
     /**
      * Zamienia nazwe instrukcji podana jako {@link String} na {@link InstructionName}.
@@ -77,7 +77,7 @@ public class Instructions
      * @param name nazwa instrukcji
      * @return liczba argumentow instrukcji
      */
-    public int getArgsNumber(InstructionName name)
+    public static int getArgsNumber(InstructionName name)
             throws SymbolException
     {
         switch(name)

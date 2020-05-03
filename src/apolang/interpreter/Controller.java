@@ -1,12 +1,15 @@
 package apolang.interpreter;
 
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.List;
 
 import apolang.errors.LanguageException;
 import apolang.instructions.Instruction;
 import apolang.instructions.InstructionFactory;
 import apolang.instructions.InstructionList;
-import apolang.interpreter.environment.VariableEnvironment;
 import apolang.interpreter.external.IOConnector;
 import apolang.interpreter.external.Memory;
 import apolang.interpreter.parser.OldParser;
@@ -17,10 +20,11 @@ import apolang.interpreter.parser.OldParser;
  */
 public class Controller
 {
+    private final List<String> lines;
     // TODO replace OldParser with Parser
     private OldParser oldParser;
-    private VariableEnvironment variableEnvironment;
-    private InstructionList instructions;
+    private Environment environment;
+    private InstructionList instructionList;
 
     /**
      * Rozpoczyna prace interpretera i inicjalizuje jego skladniki.
@@ -28,10 +32,10 @@ public class Controller
      * @param path sciezka dostepu do pliku programu
      */
     public Controller(int memorySize, Path path)
+            throws IOException
     {
+        lines = Files.readAllLines(path, StandardCharsets.UTF_8);
         oldParser = new OldParser(path);
-        instructions = null;
-
         InstructionFactory.memory = new Memory(memorySize);
     }
 
@@ -43,7 +47,7 @@ public class Controller
             throws Exception
     {
         System.out.print("parsing>> ");
-        instructions = oldParser.parse();
+        instructionList = oldParser.parse();
         System.out.println("done");
     }
 
@@ -54,10 +58,10 @@ public class Controller
      * @see Memory
      * @see IOConnector
      */
-    public void make()
+    public void run()
             throws LanguageException
     {
-        for(Instruction instr : instructions)
+        for(Instruction instr : instructionList)
             instr.execute(oldParser.variables);
     }
 }

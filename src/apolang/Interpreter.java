@@ -1,5 +1,6 @@
 package apolang;
 
+import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
@@ -11,7 +12,7 @@ import apolang.interpreter.Controller;
  * @author Rafal Kaleta
  * @version 1.2
  */
-public class Interpreter
+public final class Interpreter
 {
     /**
      * Pobiera plik i uruchamia jego interpretacje w {@link Controller}.
@@ -19,6 +20,7 @@ public class Interpreter
      * oraz (opcjonalnie) rozmiar pamieci do alokacji
      */
     public static void main(String[] args)
+            throws IOException
     {
         int memorySize = 1;
         String address = args[0];
@@ -57,7 +59,7 @@ public class Interpreter
 
         try
         {
-            controller.make();
+            controller.run();
         }
         catch(Exception e)
         {
