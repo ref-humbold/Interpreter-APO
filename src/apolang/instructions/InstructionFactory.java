@@ -1,7 +1,7 @@
 package apolang.instructions;
 
 import apolang.errors.SymbolException;
-import apolang.interpret.Memory;
+import apolang.interpreter.external.Memory;
 
 public class InstructionFactory
 {

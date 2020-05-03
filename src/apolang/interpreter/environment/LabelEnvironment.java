@@ -1,4 +1,4 @@
-package apolang.interpret;
+package apolang.interpreter.environment;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -9,13 +9,13 @@ import apolang.instructions.Instruction;
 /**
  * Klasa przechowujaca liste etykiet wraz z odpowiadajacymi im instrukcjami.
  */
-public class LabelSet
+public class LabelEnvironment
 {
     private int variableCount = 0;
     private Map<String, Integer> labelNumbers = new HashMap<>();
     private Map<Integer, Instruction> labelInstructions = new HashMap<>();
 
-    public LabelSet()
+    public LabelEnvironment()
     {
     }
 

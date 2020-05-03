@@ -1,4 +1,4 @@
-package apolang.interpret;
+package apolang.instructions;
 
 import java.util.Iterator;
 import org.junit.jupiter.api.AfterEach;
@@ -8,23 +8,20 @@ import org.junit.jupiter.api.Test;
 
 import apolang.errors.LanguageException;
 import apolang.errors.SymbolException;
-import apolang.instructions.Instruction;
-import apolang.instructions.InstructionFactory;
-import apolang.instructions.InstructionName;
-import apolang.instructions.JumpInstruction;
+import apolang.interpreter.environment.VariableEnvironment;
 
 public class InstructionListTest
 {
     private static final String[] VARS = new String[]{"zero", "one", "two", "tree", "res"};
-    private final VariableSet variableSet;
+    private final VariableEnvironment variableEnvironment;
     private InstructionList testObject;
 
     public InstructionListTest()
     {
-        variableSet = new VariableSet();
+        variableEnvironment = new VariableEnvironment();
 
         for(int i = 0; i < VARS.length; ++i)
-            variableSet.setValue(VARS[i], i);
+            variableEnvironment.setValue(VARS[i], i);
     }
 
     @BeforeEach
@@ -191,7 +188,7 @@ public class InstructionListTest
 
         try
         {
-            result1.execute(variableSet);
+            result1.execute(variableEnvironment);
         }
         catch(LanguageException e)
         {
@@ -249,7 +246,7 @@ public class InstructionListTest
 
         try
         {
-            result1.execute(variableSet);
+            result1.execute(variableEnvironment);
         }
         catch(LanguageException e)
         {

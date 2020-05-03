@@ -2,7 +2,7 @@ package apolang.instructions;
 
 import apolang.errors.ArithmeticException;
 import apolang.errors.SymbolException;
-import apolang.interpret.VariableSet;
+import apolang.interpreter.environment.VariableEnvironment;
 
 public class LogicalInstruction
         extends Instruction
@@ -13,7 +13,7 @@ public class LogicalInstruction
     }
 
     @Override
-    public void execute(VariableSet variables)
+    public void execute(VariableEnvironment variables)
             throws ArithmeticException, SymbolException
     {
         int argValue1;

@@ -3,7 +3,7 @@ package apolang;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-import apolang.interpret.Controller;
+import apolang.interpreter.Controller;
 
 /**
  * Glowna klasa, ktora pozwala na uruchomienie interpretera przez uzytkownika. Odpowiada ona za

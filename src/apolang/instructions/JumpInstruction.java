@@ -3,7 +3,7 @@ package apolang.instructions;
 import java.util.Objects;
 
 import apolang.errors.SymbolException;
-import apolang.interpret.VariableSet;
+import apolang.interpreter.environment.VariableEnvironment;
 
 /**
  * Klasa przechowujaca pojedyncza instrukcje skoku w liscie rozkazow.
@@ -65,7 +65,7 @@ public class JumpInstruction
     }
 
     @Override
-    public void execute(VariableSet variables)
+    public void execute(VariableEnvironment variables)
             throws SymbolException
     {
         int argValue0;

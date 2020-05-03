@@ -1,4 +1,4 @@
-package apolang.interpret;
+package apolang.interpreter.environment;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
@@ -7,14 +7,14 @@ import org.junit.jupiter.api.Test;
 
 import apolang.errors.SymbolException;
 
-public class VariableSetTest
+public class VariableEnvironmentTest
 {
-    private VariableSet testObject;
+    private VariableEnvironment testObject;
 
     @BeforeEach
     public void setUp()
     {
-        testObject = new VariableSet();
+        testObject = new VariableEnvironment();
     }
 
     @AfterEach

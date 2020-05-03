@@ -1,6 +1,6 @@
 package apolang.instructions;
 
-import apolang.interpret.VariableSet;
+import apolang.interpreter.environment.VariableEnvironment;
 
 public class NOPInstruction
         extends Instruction
@@ -11,7 +11,7 @@ public class NOPInstruction
     }
 
     @Override
-    public void execute(VariableSet variables)
+    public void execute(VariableEnvironment variables)
     {
     }
 }

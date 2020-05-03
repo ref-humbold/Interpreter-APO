@@ -1,4 +1,4 @@
-package apolang.interpret;
+package apolang.interpreter.parser;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -11,11 +11,8 @@ import apolang.errors.ArithmeticException;
 import apolang.errors.LabelException;
 import apolang.errors.LanguageException;
 import apolang.errors.SymbolException;
-import apolang.instructions.Instruction;
-import apolang.instructions.InstructionFactory;
-import apolang.instructions.InstructionName;
-import apolang.instructions.Instructions;
-import apolang.instructions.JumpInstruction;
+import apolang.instructions.*;
+import apolang.interpreter.environment.VariableEnvironment;
 
 /**
  * Klasa wykonujaca parsowanie programu. Wczytuje kolejne linie programu, przetwarza je i tworzy
@@ -25,7 +22,7 @@ import apolang.instructions.JumpInstruction;
  */
 public class OldParser
 {
-    public final VariableSet variables = new VariableSet();
+    public final VariableEnvironment variables = new VariableEnvironment();
     private Path filepath;
     private List<String> labels = new ArrayList<>();
     private Map<String, Instruction> labeledInstructions = new HashMap<>();
@@ -46,7 +43,7 @@ public class OldParser
      * @return lista instrukcji programu
      * @see Instruction
      */
-    InstructionList parse()
+    public InstructionList parse()
             throws IOException, LanguageException
     {
         InstructionList instructionList = new InstructionList();

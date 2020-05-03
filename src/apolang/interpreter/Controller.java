@@ -1,10 +1,15 @@
-package apolang.interpret;
+package apolang.interpreter;
 
 import java.nio.file.Path;
 
 import apolang.errors.LanguageException;
 import apolang.instructions.Instruction;
 import apolang.instructions.InstructionFactory;
+import apolang.instructions.InstructionList;
+import apolang.interpreter.environment.VariableEnvironment;
+import apolang.interpreter.external.IOConnector;
+import apolang.interpreter.external.Memory;
+import apolang.interpreter.parser.OldParser;
 
 /**
  * Klasa kontrolujaca przebieg pracy interpretera. Odpowiada za rozpoczecie parsowania oraz poprawne
@@ -14,6 +19,7 @@ public class Controller
 {
     // TODO replace OldParser with Parser
     private OldParser oldParser;
+    private VariableEnvironment variableEnvironment;
     private InstructionList instructions;
 
     /**

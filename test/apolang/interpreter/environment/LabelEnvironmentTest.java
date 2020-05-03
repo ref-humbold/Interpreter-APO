@@ -1,4 +1,4 @@
-package apolang.interpret;
+package apolang.interpreter.environment;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
@@ -9,14 +9,14 @@ import apolang.errors.LabelException;
 import apolang.instructions.Instruction;
 import apolang.instructions.NOPInstruction;
 
-public class LabelSetTest
+public class LabelEnvironmentTest
 {
-    private LabelSet testObject;
+    private LabelEnvironment testObject;
 
     @BeforeEach
     public void setUp()
     {
-        testObject = new LabelSet();
+        testObject = new LabelEnvironment();
     }
 
     @AfterEach

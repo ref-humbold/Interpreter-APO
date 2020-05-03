@@ -2,8 +2,8 @@ package apolang.instructions;
 
 import apolang.errors.LanguageException;
 import apolang.errors.SymbolException;
-import apolang.interpret.IOConnector;
-import apolang.interpret.VariableSet;
+import apolang.interpreter.environment.VariableEnvironment;
+import apolang.interpreter.external.IOConnector;
 
 public class IOInstruction
         extends Instruction
@@ -17,7 +17,7 @@ public class IOInstruction
     }
 
     @Override
-    public void execute(VariableSet variables)
+    public void execute(VariableEnvironment variables)
             throws LanguageException
     {
         int argValue;

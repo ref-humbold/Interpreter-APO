@@ -2,8 +2,8 @@ package apolang.instructions;
 
 import apolang.errors.MemoryException;
 import apolang.errors.SymbolException;
-import apolang.interpret.Memory;
-import apolang.interpret.VariableSet;
+import apolang.interpreter.environment.VariableEnvironment;
+import apolang.interpreter.external.Memory;
 
 public class MemoryInstruction
         extends Instruction
@@ -17,7 +17,7 @@ public class MemoryInstruction
     }
 
     @Override
-    public void execute(VariableSet variables)
+    public void execute(VariableEnvironment variables)
             throws MemoryException, SymbolException
     {
         int argValue0;

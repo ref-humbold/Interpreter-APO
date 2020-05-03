@@ -4,7 +4,7 @@ import java.util.Arrays;
 import java.util.Objects;
 
 import apolang.errors.LanguageException;
-import apolang.interpret.VariableSet;
+import apolang.interpreter.environment.VariableEnvironment;
 
 /** Bazowa klasa do przechowywania pojedynczej instrukcji w liscie rozkazow */
 public abstract class Instruction
@@ -72,6 +72,6 @@ public abstract class Instruction
         return Objects.hash(name, arguments);
     }
 
-    public abstract void execute(VariableSet variables)
+    public abstract void execute(VariableEnvironment variables)
             throws LanguageException;
 }

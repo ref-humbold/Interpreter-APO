@@ -1,4 +1,4 @@
-package apolang.interpret;
+package apolang.interpreter.environment;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -8,14 +8,14 @@ import apolang.errors.SymbolException;
 /**
  * Klasa przechowujaca liste zmiennych wraz z ich wartosciami.
  */
-public class VariableSet
+public class VariableEnvironment
 {
     private static final Integer DEFAULT_VALUE = 0;
     private int variableCount = 0;
     private Map<String, Integer> variableNumbers = new HashMap<>();
     private Map<Integer, Integer> variableValues = new HashMap<>();
 
-    public VariableSet()
+    public VariableEnvironment()
     {
     }
 

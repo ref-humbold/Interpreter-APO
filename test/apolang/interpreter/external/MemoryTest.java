@@ -1,4 +1,4 @@
-package apolang.interpret;
+package apolang.interpreter.external;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;

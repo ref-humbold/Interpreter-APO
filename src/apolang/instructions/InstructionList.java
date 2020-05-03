@@ -1,9 +1,9 @@
-package apolang.interpret;
+package apolang.instructions;
 
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
-import apolang.instructions.Instruction;
+import apolang.interpreter.parser.OldParser;
 
 /**
  * Klasa przechowujaca liste instrukcji programu. Lista zostaje utworzona podczas parsowania.
@@ -17,12 +17,6 @@ public class InstructionList
 
     public InstructionList()
     {
-    }
-
-    public InstructionList(Iterable<Instruction> instructions)
-    {
-        for(Instruction instruction : instructions)
-            add(instruction);
     }
 
     @Override
