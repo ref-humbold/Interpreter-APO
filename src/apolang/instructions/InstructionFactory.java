@@ -1,14 +1,12 @@
 package apolang.instructions;
 
-import apolang.errors.SymbolException;
 import apolang.interpreter.external.Memory;
 
-public class InstructionFactory
+public final class InstructionFactory
 {
     public static Memory memory;
 
     public static Instruction create(int lineNumber, InstructionName name, int... args)
-            throws SymbolException
     {
         switch(name)
         {
@@ -59,6 +57,6 @@ public class InstructionFactory
                 return new NOPInstruction(lineNumber);
         }
 
-        throw new SymbolException(SymbolException.NO_SUCH_INSTRUCTION, lineNumber);
+        return null;
     }
 }

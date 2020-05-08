@@ -11,7 +11,11 @@ import apolang.errors.ArithmeticException;
 import apolang.errors.LabelException;
 import apolang.errors.LanguageException;
 import apolang.errors.SymbolException;
-import apolang.instructions.*;
+import apolang.instructions.Instruction;
+import apolang.instructions.InstructionFactory;
+import apolang.instructions.InstructionList;
+import apolang.instructions.InstructionName;
+import apolang.instructions.JumpInstruction;
 import apolang.interpreter.environment.VariableEnvironment;
 
 /**
@@ -80,7 +84,7 @@ public class OldParser
 
                 if(index >= split.length)
                 {
-                    elem = InstructionFactory.create(count, Instructions.convertToName("NOP"));
+                    elem = InstructionFactory.create(count, InstructionName.fromName("NOP"));
                     instructionList.add(elem);
                     labeledInstructions.put(label, elem);
                     line = reader.readLine();
@@ -92,7 +96,7 @@ public class OldParser
 
             try
             {
-                name = Instructions.convertToName(split[index]);
+                name = InstructionName.fromName(split[index]);
             }
             catch(SymbolException e)
             {

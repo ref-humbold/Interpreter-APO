@@ -7,7 +7,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import apolang.errors.LanguageException;
-import apolang.errors.SymbolException;
 import apolang.interpreter.environment.VariableEnvironment;
 
 public class InstructionListTest
@@ -43,17 +42,7 @@ public class InstructionListTest
         InstructionName name = InstructionName.ADD;
         int[] args = new int[]{4, 1, 2};
 
-        Instruction instruction = null;
-
-        try
-        {
-            instruction = InstructionFactory.create(count, name, args);
-        }
-        catch(SymbolException e)
-        {
-            e.printStackTrace();
-            Assertions.fail("Unexpected exception " + e.getClass().getSimpleName());
-        }
+        Instruction instruction = InstructionFactory.create(count, name, args);
 
         testObject.add(instruction);
 
@@ -74,19 +63,8 @@ public class InstructionListTest
         InstructionName name2 = InstructionName.MUL;
         int[] args2 = new int[]{4, 1, 2};
 
-        Instruction instruction1 = null;
-        Instruction instruction2 = null;
-
-        try
-        {
-            instruction1 = InstructionFactory.create(count1, name1, args1);
-            instruction2 = InstructionFactory.create(count2, name2, args2);
-        }
-        catch(SymbolException e)
-        {
-            e.printStackTrace();
-            Assertions.fail("Unexpected exception " + e.getClass().getSimpleName());
-        }
+        Instruction instruction1 = InstructionFactory.create(count1, name1, args1);
+        Instruction instruction2 = InstructionFactory.create(count2, name2, args2);
 
         testObject.add(instruction1);
         testObject.add(instruction2);
@@ -120,17 +98,7 @@ public class InstructionListTest
         int count = 1;
         InstructionName name = InstructionName.ADD;
         int[] args = new int[]{4, 1, 2};
-        Instruction instruction = null;
-
-        try
-        {
-            instruction = InstructionFactory.create(count, name, args);
-        }
-        catch(SymbolException e)
-        {
-            e.printStackTrace();
-            Assertions.fail("Unexpected exception " + e.getClass().getSimpleName());
-        }
+        Instruction instruction = InstructionFactory.create(count, name, args);
 
         testObject.add(instruction);
 
@@ -154,22 +122,11 @@ public class InstructionListTest
         int count2 = 2;
         InstructionName name2 = InstructionName.ADD;
         int[] args2 = new int[]{4, 1, 3};
-        Instruction instruction2 = null;
+        Instruction instruction2 = InstructionFactory.create(count2, name2, args2);
         int count3 = 2;
         InstructionName name3 = InstructionName.MUL;
         int[] args3 = new int[]{4, 1, 3};
-        Instruction instruction3 = null;
-
-        try
-        {
-            instruction2 = InstructionFactory.create(count2, name2, args2);
-            instruction3 = InstructionFactory.create(count3, name3, args3);
-        }
-        catch(SymbolException e)
-        {
-            e.printStackTrace();
-            Assertions.fail("Unexpected exception " + e.getClass().getSimpleName());
-        }
+        Instruction instruction3 = InstructionFactory.create(count3, name3, args3);
 
         instruction1.setLink(instruction3);
 
@@ -212,22 +169,11 @@ public class InstructionListTest
         int count2 = 2;
         InstructionName name2 = InstructionName.ADD;
         int[] args2 = new int[]{4, 1, 3};
-        Instruction instruction2 = null;
+        Instruction instruction2 = InstructionFactory.create(count2, name2, args2);
         int count3 = 2;
         InstructionName name3 = InstructionName.MUL;
         int[] args3 = new int[]{4, 1, 3};
-        Instruction instruction3 = null;
-
-        try
-        {
-            instruction2 = InstructionFactory.create(count2, name2, args2);
-            instruction3 = InstructionFactory.create(count3, name3, args3);
-        }
-        catch(SymbolException e)
-        {
-            e.printStackTrace();
-            Assertions.fail("Unexpected exception " + e.getClass().getSimpleName());
-        }
+        Instruction instruction3 = InstructionFactory.create(count3, name3, args3);
 
         instruction1.setLink(instruction3);
 
