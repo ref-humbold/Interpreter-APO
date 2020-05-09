@@ -7,22 +7,22 @@ import apolang.errors.SymbolException;
 public enum InstructionName
 {
     ADD,
-    ADDI,
+    ADDC,
     SUB,
-    SUBI,
+    SUBC,
     MUL,
-    MULI,
+    MULC,
     DIV,
-    DIVI,
+    DIVC,
     SHLT,
     SHRT,
     SHRS,
     AND,
-    ANDI,
+    ANDC,
     OR,
-    ORI,
+    ORC,
     XOR,
-    XORI,
+    XORC,
     NAND,
     NOR,
     JUMP,
@@ -76,22 +76,22 @@ public enum InstructionName
             case JPLT:
             case JPGT:
             case ADD:
-            case ADDI:
+            case ADDC:
             case SUB:
-            case SUBI:
+            case SUBC:
             case MUL:
-            case MULI:
+            case MULC:
             case DIV:
-            case DIVI:
+            case DIVC:
             case SHLT:
             case SHRT:
             case SHRS:
             case AND:
-            case ANDI:
+            case ANDC:
             case OR:
-            case ORI:
+            case ORC:
             case XOR:
-            case XORI:
+            case XORC:
             case NAND:
             case NOR:
                 return 3;
@@ -111,22 +111,22 @@ public enum InstructionName
         switch(this)
         {
             case ADD:
-            case ADDI:
+            case ADDC:
             case SUB:
-            case SUBI:
+            case SUBC:
             case MUL:
-            case MULI:
+            case MULC:
             case DIV:
-            case DIVI:
+            case DIVC:
             case SHLT:
             case SHRT:
             case SHRS:
             case AND:
-            case ANDI:
+            case ANDC:
             case OR:
-            case ORI:
+            case ORC:
             case XOR:
-            case XORI:
+            case XORC:
             case NAND:
             case NOR:
             case RDINT:
@@ -144,13 +144,13 @@ public enum InstructionName
     {
         switch(this)
         {
-            case ADDI:
-            case SUBI:
-            case MULI:
-            case DIVI:
-            case ANDI:
-            case ORI:
-            case XORI:
+            case ADDC:
+            case SUBC:
+            case MULC:
+            case DIVC:
+            case ANDC:
+            case ORC:
+            case XORC:
             case SHLT:
             case SHRT:
             case SHRS:
@@ -166,22 +166,22 @@ public enum InstructionName
         switch(this)
         {
             case ADD:
-            case ADDI:
+            case ADDC:
             case SUB:
-            case SUBI:
+            case SUBC:
             case MUL:
-            case MULI:
+            case MULC:
             case DIV:
-            case DIVI:
+            case DIVC:
             case SHLT:
             case SHRT:
             case SHRS:
             case AND:
-            case ANDI:
+            case ANDC:
             case OR:
-            case ORI:
+            case ORC:
             case XOR:
-            case XORI:
+            case XORC:
             case NAND:
             case NOR:
             case RDINT:

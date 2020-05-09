@@ -11,24 +11,24 @@ public final class InstructionFactory
         switch(name)
         {
             case ADD:
-            case ADDI:
+            case ADDC:
             case SUB:
-            case SUBI:
+            case SUBC:
             case MUL:
-            case MULI:
+            case MULC:
             case DIV:
-            case DIVI:
+            case DIVC:
                 return new ArithmeticInstruction(lineNumber, name, args);
 
             case SHLT:
             case SHRT:
             case SHRS:
             case AND:
-            case ANDI:
+            case ANDC:
             case OR:
-            case ORI:
+            case ORC:
             case XOR:
-            case XORI:
+            case XORC:
             case NAND:
             case NOR:
                 return new LogicalInstruction(lineNumber, name, args);

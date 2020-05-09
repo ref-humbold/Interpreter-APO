@@ -121,7 +121,7 @@ public class LogicalInstruction
 
                 break;
 
-            case ANDI:
+            case ANDC:
                 try
                 {
                     argValue1 = variables.getValue(arguments[1]);
@@ -152,7 +152,7 @@ public class LogicalInstruction
 
                 break;
 
-            case ORI:
+            case ORC:
                 try
                 {
                     argValue1 = variables.getValue(arguments[1]);
@@ -183,7 +183,7 @@ public class LogicalInstruction
 
                 break;
 
-            case XORI:
+            case XORC:
                 try
                 {
                     argValue1 = variables.getValue(arguments[1]);

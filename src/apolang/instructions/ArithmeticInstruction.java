@@ -36,7 +36,7 @@ public class ArithmeticInstruction
 
                 break;
 
-            case ADDI:
+            case ADDC:
                 try
                 {
                     argValue1 = variables.getValue(arguments[1]);
@@ -66,7 +66,7 @@ public class ArithmeticInstruction
 
                 break;
 
-            case SUBI:
+            case SUBC:
                 try
                 {
                     argValue1 = variables.getValue(arguments[1]);
@@ -97,7 +97,7 @@ public class ArithmeticInstruction
 
                 break;
 
-            case MULI:
+            case MULC:
                 try
                 {
                     argValue1 = variables.getValue(arguments[1]);
@@ -143,7 +143,7 @@ public class ArithmeticInstruction
 
                 break;
 
-            case DIVI:
+            case DIVC:
                 try
                 {
                     argValue1 = variables.getValue(arguments[1]);
