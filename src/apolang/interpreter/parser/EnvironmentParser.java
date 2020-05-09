@@ -61,4 +61,9 @@ public class EnvironmentParser
             throw e;
         }
     }
+
+    @Override
+    protected void afterParsing(Environment result)
+    {
+    }
 }

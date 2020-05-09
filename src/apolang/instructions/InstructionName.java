@@ -1,5 +1,7 @@
 package apolang.instructions;
 
+import java.util.Set;
+
 import apolang.errors.SymbolException;
 
 public enum InstructionName
@@ -56,10 +58,7 @@ public enum InstructionName
     {
         switch(this)
         {
-            case PTLN:
-            case NOP:
-                return 0;
-
+            case JUMP:
             case LDW:
             case LDB:
             case PTINT:
@@ -72,7 +71,6 @@ public enum InstructionName
             case STB:
                 return 2;
 
-            case JUMP:
             case JPEQ:
             case JPNE:
             case JPLT:
@@ -97,9 +95,15 @@ public enum InstructionName
             case NAND:
             case NOR:
                 return 3;
-        }
 
-        return 0;
+            default:
+                return 0;
+        }
+    }
+
+    public boolean isJump()
+    {
+        return this == JUMP || this == JPEQ || this == JPNE || this == JPLT || this == JPGT;
     }
 
     public boolean hasValueSet()
@@ -131,20 +135,65 @@ public enum InstructionName
             case LDB:
                 return true;
 
-            case JUMP:
-            case JPEQ:
-            case JPNE:
-            case JPLT:
-            case JPGT:
-            case STW:
-            case STB:
-            case PTLN:
-            case PTINT:
-            case PTCHR:
-            case NOP:
+            default:
                 return false;
         }
+    }
 
-        return false;
+    public boolean hasImmediate()
+    {
+        switch(this)
+        {
+            case ADDI:
+            case SUBI:
+            case MULI:
+            case DIVI:
+            case ANDI:
+            case ORI:
+            case XORI:
+            case SHLT:
+            case SHRT:
+            case SHRS:
+                return true;
+
+            default:
+                return false;
+        }
+    }
+
+    public Set<Integer> zeroVariablePosition()
+    {
+        switch(this)
+        {
+            case ADD:
+            case ADDI:
+            case SUB:
+            case SUBI:
+            case MUL:
+            case MULI:
+            case DIV:
+            case DIVI:
+            case SHLT:
+            case SHRT:
+            case SHRS:
+            case AND:
+            case ANDI:
+            case OR:
+            case ORI:
+            case XOR:
+            case XORI:
+            case NAND:
+            case NOR:
+            case RDINT:
+            case RDCHR:
+                return Set.of(1);
+
+            case LDW:
+            case LDB:
+                return Set.of(1, 2);
+
+            default:
+                return Set.of();
+        }
     }
 }

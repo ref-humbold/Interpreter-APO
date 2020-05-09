@@ -3,8 +3,7 @@ package apolang.interpreter.parser;
 import java.util.Arrays;
 import java.util.List;
 
-import apolang.errors.LabelException;
-import apolang.errors.SymbolException;
+import apolang.errors.LanguageException;
 
 public abstract class AbstractParser<T>
 {
@@ -16,7 +15,7 @@ public abstract class AbstractParser<T>
     }
 
     public final T parse()
-            throws LabelException, SymbolException
+            throws LanguageException
     {
         T result = create();
 
@@ -33,13 +32,17 @@ public abstract class AbstractParser<T>
                 parseLine(Arrays.asList(line.split("\\s+")), i + 1, result);
         }
 
+        afterParsing(result);
+
         return result;
     }
 
     protected abstract T create();
 
     protected abstract void parseLine(List<String> splitLine, int lineNumber, T result)
-            throws LabelException, SymbolException;
+            throws LanguageException;
+
+    protected abstract void afterParsing(T result);
 
     protected final String extractLabel(List<String> splitLine)
     {
