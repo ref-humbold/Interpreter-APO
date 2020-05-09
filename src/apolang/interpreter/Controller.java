@@ -7,9 +7,9 @@ import java.nio.file.Path;
 import java.util.List;
 
 import apolang.errors.LanguageException;
-import apolang.instructions.Instruction;
-import apolang.instructions.InstructionFactory;
-import apolang.instructions.InstructionList;
+import apolang.instruction.Instruction;
+import apolang.instruction.InstructionFactory;
+import apolang.instruction.InstructionList;
 import apolang.interpreter.external.IOConnector;
 import apolang.interpreter.external.Memory;
 import apolang.interpreter.parser.OldParser;

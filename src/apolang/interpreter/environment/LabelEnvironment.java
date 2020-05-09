@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import apolang.errors.LabelException;
-import apolang.instructions.Instruction;
+import apolang.instruction.Instruction;
 
 /**
  * Klasa przechowujaca liste etykiet wraz z odpowiadajacymi im instrukcjami.

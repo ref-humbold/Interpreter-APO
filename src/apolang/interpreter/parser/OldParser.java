@@ -11,11 +11,11 @@ import apolang.errors.ArithmeticException;
 import apolang.errors.LabelException;
 import apolang.errors.LanguageException;
 import apolang.errors.SymbolException;
-import apolang.instructions.Instruction;
-import apolang.instructions.InstructionFactory;
-import apolang.instructions.InstructionList;
-import apolang.instructions.InstructionName;
-import apolang.instructions.JumpInstruction;
+import apolang.instruction.Instruction;
+import apolang.instruction.InstructionFactory;
+import apolang.instruction.InstructionList;
+import apolang.instruction.InstructionName;
+import apolang.instruction.JumpInstruction;
 import apolang.interpreter.environment.VariableEnvironment;
 
 /**

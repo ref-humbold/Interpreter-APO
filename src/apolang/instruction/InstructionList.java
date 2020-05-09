@@ -1,4 +1,4 @@
-package apolang.instructions;
+package apolang.instruction;
 
 import java.util.Iterator;
 import java.util.NoSuchElementException;

@@ -1,4 +1,4 @@
-package apolang.instructions;
+package apolang.instruction;
 
 import java.util.Arrays;
 import java.util.Objects;

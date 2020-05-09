@@ -4,7 +4,7 @@ import java.util.List;
 
 import apolang.errors.LabelException;
 import apolang.errors.SymbolException;
-import apolang.instructions.InstructionName;
+import apolang.instruction.InstructionName;
 import apolang.interpreter.Environment;
 
 public class EnvironmentParser

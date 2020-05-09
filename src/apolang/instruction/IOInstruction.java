@@ -1,4 +1,4 @@
-package apolang.instructions;
+package apolang.instruction;
 
 import apolang.errors.LanguageException;
 import apolang.errors.SymbolException;

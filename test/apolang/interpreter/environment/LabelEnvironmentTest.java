@@ -6,8 +6,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import apolang.errors.LabelException;
-import apolang.instructions.Instruction;
-import apolang.instructions.NOPInstruction;
+import apolang.instruction.Instruction;
+import apolang.instruction.NOPInstruction;
 
 public class LabelEnvironmentTest
 {

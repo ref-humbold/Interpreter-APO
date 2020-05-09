@@ -1,4 +1,4 @@
-package apolang.instructions;
+package apolang.instruction;
 
 import apolang.interpreter.environment.VariableEnvironment;
 
