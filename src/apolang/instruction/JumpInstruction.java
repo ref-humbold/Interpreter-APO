@@ -2,38 +2,25 @@ package apolang.instruction;
 
 import java.util.Objects;
 
-import apolang.errors.SymbolException;
-import apolang.interpreter.environment.VariableEnvironment;
+import apolang.interpreter.Environment;
 
-/**
- * Klasa przechowujaca pojedyncza instrukcje skoku w liscie rozkazow.
- * @see Instruction
- */
 public class JumpInstruction
         extends Instruction
 {
     private Instruction link = null;
     private boolean isJump = false;
 
-    public JumpInstruction(int lineNumber, InstructionName name, int... args)
+    public JumpInstruction(int lineNumber, InstructionName name, String... args)
     {
         super(lineNumber, name, args);
     }
 
-    /**
-     * Przechodzi do nastepnej instrukcji zaleznej od wykonania skoku.
-     * @return nastepna instrukcja do wykonania
-     */
     @Override
     public Instruction getNext()
     {
         return isJump ? link : next;
     }
 
-    /**
-     * Ustawia wskaznik do instrukcji, do ktorej moze zostac wykonany skok.
-     * @param link referencja do instrukcji
-     */
     public void setLink(Instruction link)
     {
         this.link = link;
@@ -65,22 +52,10 @@ public class JumpInstruction
     }
 
     @Override
-    public void execute(VariableEnvironment variables)
-            throws SymbolException
+    public void execute(Environment environment)
     {
         int argValue0;
         int argValue1;
-
-        try
-        {
-            argValue0 = variables.getValue(arguments[0]);
-            argValue1 = variables.getValue(arguments[1]);
-        }
-        catch(SymbolException e)
-        {
-            e.setLineNumber(lineNumber);
-            throw e;
-        }
 
         switch(name)
         {
@@ -89,18 +64,26 @@ public class JumpInstruction
                 break;
 
             case JPEQ:
+                argValue0 = environment.getVariableValue(arguments[0]);
+                argValue1 = environment.getVariableValue(arguments[1]);
                 isJump = argValue0 == argValue1;
                 break;
 
             case JPNE:
+                argValue0 = environment.getVariableValue(arguments[0]);
+                argValue1 = environment.getVariableValue(arguments[1]);
                 isJump = argValue0 != argValue1;
                 break;
 
             case JPLT:
+                argValue0 = environment.getVariableValue(arguments[0]);
+                argValue1 = environment.getVariableValue(arguments[1]);
                 isJump = argValue0 < argValue1;
                 break;
 
             case JPGT:
+                argValue0 = environment.getVariableValue(arguments[0]);
+                argValue1 = environment.getVariableValue(arguments[1]);
                 isJump = argValue0 > argValue1;
                 break;
 

@@ -29,6 +29,9 @@ public class EnvironmentParser
 
         if(label != null)
         {
+            if(Environment.END_LABEL.equals(label))
+                throw new LabelException("Label `End` is predefined", lineNumber);
+
             if(result.contains(label))
                 throw new LabelException(LabelException.DUPLICATED, lineNumber);
 

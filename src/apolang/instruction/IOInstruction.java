@@ -1,8 +1,7 @@
 package apolang.instruction;
 
 import apolang.errors.LanguageException;
-import apolang.errors.SymbolException;
-import apolang.interpreter.environment.VariableEnvironment;
+import apolang.interpreter.Environment;
 import apolang.interpreter.external.IOConnector;
 
 public class IOInstruction
@@ -10,14 +9,14 @@ public class IOInstruction
 {
     private final IOConnector connector;
 
-    public IOInstruction(int lineNumber, InstructionName name, int... args)
+    public IOInstruction(int lineNumber, InstructionName name, String... args)
     {
         super(lineNumber, name, args);
         connector = IOConnector.getInstance();
     }
 
     @Override
-    public void execute(VariableEnvironment variables)
+    public void execute(Environment environment)
             throws LanguageException
     {
         int argValue;
@@ -29,65 +28,23 @@ public class IOInstruction
                 break;
 
             case PTINT:
-                try
-                {
-                    argValue = variables.getValue(arguments[0]);
-                }
-                catch(SymbolException e)
-                {
-                    e.setLineNumber(lineNumber);
-
-                    throw e;
-                }
-
+                argValue = environment.getVariableValue(arguments[0]);
                 connector.printInt(argValue);
                 break;
 
             case PTCHR:
-                try
-                {
-                    argValue = variables.getValue(arguments[0]);
-                }
-                catch(SymbolException e)
-                {
-                    e.setLineNumber(lineNumber);
-
-                    throw e;
-                }
-
+                argValue = environment.getVariableValue(arguments[0]);
                 connector.printChar(argValue);
                 break;
 
             case RDINT:
                 argValue = connector.readInt();
-
-                try
-                {
-                    variables.setValue(arguments[0], argValue);
-                }
-                catch(SymbolException e)
-                {
-                    e.setLineNumber(lineNumber);
-
-                    throw e;
-                }
-
+                environment.setVariableValue(arguments[0], argValue);
                 break;
 
             case RDCHR:
                 argValue = connector.readChar();
-
-                try
-                {
-                    variables.setValue(arguments[0], argValue);
-                }
-                catch(SymbolException e)
-                {
-                    e.setLineNumber(lineNumber);
-
-                    throw e;
-                }
-
+                environment.setVariableValue(arguments[0], argValue);
                 break;
 
             default:

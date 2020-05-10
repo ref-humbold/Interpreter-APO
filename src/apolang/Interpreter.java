@@ -6,19 +6,9 @@ import java.nio.file.Paths;
 
 import apolang.interpreter.Controller;
 
-/**
- * Glowna klasa, ktora pozwala na uruchomienie interpretera przez uzytkownika. Odpowiada ona za
- * pobranie programu do wykonania oraz rozpoczecie dzialania interpretera.
- * @author Rafal Kaleta
- * @version 1.2
- */
 public final class Interpreter
 {
-    /**
-     * Pobiera plik i uruchamia jego interpretacje w {@link Controller}.
-     * @param args pobiera parametry wejsciowe interpretera: nazwe programu z rozszerzeniem .apo
-     * oraz (opcjonalnie) rozmiar pamieci do alokacji
-     */
+
     public static void main(String[] args)
             throws IOException
     {

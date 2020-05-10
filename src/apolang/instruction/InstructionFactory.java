@@ -6,7 +6,7 @@ public final class InstructionFactory
 {
     public static Memory memory;
 
-    public static Instruction create(int lineNumber, InstructionName name, int... args)
+    public static Instruction create(int lineNumber, InstructionName name, String... args)
     {
         switch(name)
         {

@@ -18,8 +18,8 @@ import apolang.interpreter.Environment;
 public class InstructionParser
         extends AbstractParser<InstructionList>
 {
-    private Environment environment;
-    private Map<Integer, Instruction> labelledInstructions = new HashMap<>();
+    private final Environment environment;
+    private final Map<String, Instruction> labelledInstructions = new HashMap<>();
 
     public InstructionParser(List<String> lines, Environment environment)
     {
@@ -50,7 +50,7 @@ public class InstructionParser
             try
             {
                 InstructionName instructionName = InstructionName.fromName(splitLine.get(0));
-                int[] arguments = parseArguments(splitLine, instructionName, environment);
+                String[] arguments = parseArguments(splitLine, instructionName, environment);
 
                 instruction = InstructionFactory.create(lineNumber, instructionName, arguments);
             }
@@ -63,7 +63,7 @@ public class InstructionParser
         result.add(instruction);
 
         if(label != null)
-            labelledInstructions.put(environment.getCode(label), instruction);
+            labelledInstructions.put(label, instruction);
     }
 
     @Override
@@ -73,19 +73,19 @@ public class InstructionParser
         {
             if(instruction instanceof JumpInstruction)
             {
-                int labelCode = instruction.getArgument(instruction.getArgumentsCount() - 1);
+                String label = instruction.getArgument(instruction.getArgumentsCount() - 1);
 
-                ((JumpInstruction)instruction).setLink(labelledInstructions.get(labelCode));
+                ((JumpInstruction)instruction).setLink(labelledInstructions.get(label));
             }
         }
     }
 
-    private int[] parseArguments(List<String> splitLine, InstructionName instructionName,
-                                 Environment environment)
+    private String[] parseArguments(List<String> splitLine, InstructionName instructionName,
+                                    Environment environment)
             throws LanguageException
     {
         int argumentsCount = instructionName.getArgumentsCount();
-        int[] arguments = new int[argumentsCount];
+        String[] arguments = new String[argumentsCount];
 
         if(splitLine.size() <= argumentsCount)
             throw new SymbolException(SymbolException.TOO_FEW_ARGUMENTS);
@@ -95,7 +95,7 @@ public class InstructionParser
             if(i == argumentsCount)
             {
                 if(instructionName.hasImmediate())
-                    arguments[i - 1] = parseImmediate(splitLine.get(i));
+                    arguments[i - 1] = parseConstant(splitLine.get(i));
                 else if(instructionName.isJump())
                     arguments[i - 1] = parseLabel(splitLine.get(i), environment);
             }
@@ -108,13 +108,15 @@ public class InstructionParser
         return arguments;
     }
 
-    private int parseImmediate(String value)
+    private String parseConstant(String value)
             throws ArithmeticException
     {
         try
         {
-            return value.startsWith("0x") ? Integer.parseInt(value.substring(2), 16)
-                                          : Integer.parseInt(value);
+            int decimalValue = value.startsWith("0x") ? Integer.parseInt(value.substring(2), 16)
+                                                      : Integer.parseInt(value);
+
+            return Integer.toString(decimalValue);
         }
         catch(NumberFormatException e)
         {
@@ -122,32 +124,28 @@ public class InstructionParser
         }
     }
 
-    private int parseLabel(String value, Environment environment)
+    private String parseLabel(String label, Environment environment)
             throws LabelException
     {
-        environment.validateLabel(value);
+        environment.validateLabel(label);
 
-        Integer labelCode = environment.getCode(value);
-
-        if(labelCode == null)
+        if(!environment.contains(label))
             throw new LabelException(LabelException.LABEL_NOT_FOUND);
 
-        return labelCode;
+        return label;
     }
 
-    private int parseVariable(String value, Environment environment, boolean checkZero)
+    private String parseVariable(String variable, Environment environment, boolean checkZero)
             throws SymbolException
     {
-        environment.validateVariable(value);
+        environment.validateVariable(variable);
 
-        if(checkZero && Environment.ZERO_VARIABLE.equals(value))
+        if(checkZero && Environment.ZERO_VARIABLE.equals(variable))
             throw new SymbolException(SymbolException.CHANGE_ZERO);
 
-        Integer variableCode = environment.getCode(value);
-
-        if(variableCode == null)
+        if(!environment.contains(variable))
             throw new SymbolException(SymbolException.VARIABLE_NOT_INIT);
 
-        return variableCode;
+        return variable;
     }
 }

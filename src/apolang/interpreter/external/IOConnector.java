@@ -5,10 +5,6 @@ import java.io.InputStreamReader;
 
 import apolang.errors.LanguageException;
 
-/**
- * Klasa odpowiadajaca za interakcje programu z uzytkownikiem. Wykonuje operacje wejscia / wyjscia
- * zadane w programie asemblerowym.
- */
 public final class IOConnector
 {
     private static BufferedReader stdin = new BufferedReader(new InputStreamReader(System.in), 1);
@@ -26,36 +22,21 @@ public final class IOConnector
         return instance;
     }
 
-    /**
-     * Wyswietla na ekranie znak konca linii.
-     */
     public void printLine()
     {
         System.out.println();
     }
 
-    /**
-     * Wyswietla liczbe na standardowe wyjscie.
-     * @param number liczba
-     */
     public void printInt(int number)
     {
         System.out.print(number);
     }
 
-    /**
-     * Wyswietla znak na standardowe wyjscie.
-     * @param code kod znaku
-     */
     public void printChar(int code)
     {
         System.out.print((char)code);
     }
 
-    /**
-     * Wczytuje liczbe w systemie dziesietnym lub szesnastkowym ze standardowego wejscia.
-     * @return wczytana liczba
-     */
     public int readInt()
             throws LanguageException
     {
@@ -74,10 +55,6 @@ public final class IOConnector
         return Integer.parseInt(read);
     }
 
-    /**
-     * Wczytuje znak ze standardowego wejscia.
-     * @return kod wczytanego znaku
-     */
     public int readChar()
             throws LanguageException
     {

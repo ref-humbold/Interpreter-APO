@@ -4,17 +4,16 @@ import java.util.Arrays;
 import java.util.Objects;
 
 import apolang.errors.LanguageException;
-import apolang.interpreter.environment.VariableEnvironment;
+import apolang.interpreter.Environment;
 
-/** Bazowa klasa do przechowywania pojedynczej instrukcji w liscie rozkazow */
 public abstract class Instruction
 {
     protected int lineNumber;
     protected InstructionName name;
-    protected int[] arguments;
+    protected String[] arguments;
     protected Instruction next = null;
 
-    public Instruction(int lineNumber, InstructionName name, int... arguments)
+    public Instruction(int lineNumber, InstructionName name, String... arguments)
     {
         this.lineNumber = lineNumber;
         this.name = name;
@@ -46,7 +45,7 @@ public abstract class Instruction
         this.next = next;
     }
 
-    public int getArgument(int index)
+    public String getArgument(int index)
     {
         return arguments[index];
     }
@@ -72,6 +71,6 @@ public abstract class Instruction
         return Objects.hash(name, arguments);
     }
 
-    public abstract void execute(VariableEnvironment variables)
+    public abstract void execute(Environment environment)
             throws LanguageException;
 }

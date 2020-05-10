@@ -10,59 +10,42 @@ import apolang.errors.LanguageException;
 import apolang.instruction.Instruction;
 import apolang.instruction.InstructionFactory;
 import apolang.instruction.InstructionList;
-import apolang.interpreter.external.IOConnector;
 import apolang.interpreter.external.Memory;
-import apolang.interpreter.parser.OldParser;
+import apolang.interpreter.parser.EnvironmentParser;
+import apolang.interpreter.parser.InstructionParser;
 
-/**
- * Klasa kontrolujaca przebieg pracy interpretera. Odpowiada za rozpoczecie parsowania oraz poprawne
- * wykonanie interpretacji.
- */
 public class Controller
 {
-    private final List<String> lines;
-    // TODO replace OldParser with Parser
-    private OldParser oldParser;
+    private final EnvironmentParser environmentParser;
+    private final InstructionParser instructionParser;
     private Environment environment;
     private InstructionList instructionList;
 
-    /**
-     * Rozpoczyna prace interpretera i inicjalizuje jego skladniki.
-     * @param memorySize rozmiar pamieci do alokacji
-     * @param path sciezka dostepu do pliku programu
-     */
     public Controller(int memorySize, Path path)
             throws IOException
     {
-        lines = Files.readAllLines(path, StandardCharsets.UTF_8);
-        oldParser = new OldParser(path);
+        List<String> lines = Files.readAllLines(path, StandardCharsets.UTF_8);
+
         InstructionFactory.memory = new Memory(memorySize);
+        environmentParser = new EnvironmentParser(lines);
+        instructionParser = new InstructionParser(lines, environment);
     }
 
-    /**
-     * Dokonuje parsowania programu. Uruchamia parser {@link OldParser} tworzacy liste
-     * instrukcji.
-     */
     public void parse()
-            throws Exception
+            throws LanguageException
     {
         System.out.print("parsing>> ");
-        instructionList = oldParser.parse();
-        System.out.println("done");
+        environment = environmentParser.parse();
+        System.out.println(". ");
+        instructionList = instructionParser.parse();
+        System.out.println(". done");
     }
 
-    /**
-     * Dokonuje interpretacji programu. Kolejno odczytuje instrukcje z listy, pobiera zmienne,
-     * wykonuje operacje i zapisuje nowe wartosci do zmiennych. W razie potrzeby wywoluje dodatkowe
-     * skladniki interpretera.
-     * @see Memory
-     * @see IOConnector
-     */
     public void run()
             throws LanguageException
     {
-        for(Instruction instr : instructionList)
-            instr.execute(oldParser.variables);
+        for(Instruction instruction : instructionList)
+            instruction.execute(environment);
     }
 }
 

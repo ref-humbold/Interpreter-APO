@@ -3,12 +3,6 @@ package apolang.instruction;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
-import apolang.interpreter.parser.OldParser;
-
-/**
- * Klasa przechowujaca liste instrukcji programu. Lista zostaje utworzona podczas parsowania.
- * @see OldParser#parse
- */
 public class InstructionList
         implements Iterable<Instruction>
 {
@@ -25,11 +19,6 @@ public class InstructionList
         return new InstructionIterator(begin);
     }
 
-    /**
-     * Dodaje nowa instrukcje do listy.
-     * @param instruction instrukcja
-     * @see Instruction
-     */
     public void add(Instruction instruction)
     {
         if(instruction == null)

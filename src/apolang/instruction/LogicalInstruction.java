@@ -1,20 +1,19 @@
 package apolang.instruction;
 
 import apolang.errors.ArithmeticException;
-import apolang.errors.SymbolException;
-import apolang.interpreter.environment.VariableEnvironment;
+import apolang.interpreter.Environment;
 
 public class LogicalInstruction
         extends Instruction
 {
-    public LogicalInstruction(int lineNumber, InstructionName name, int... args)
+    public LogicalInstruction(int lineNumber, InstructionName name, String... args)
     {
         super(lineNumber, name, args);
     }
 
     @Override
-    public void execute(VariableEnvironment variables)
-            throws ArithmeticException, SymbolException
+    public void execute(Environment environment)
+            throws ArithmeticException
     {
         int argValue1;
         int argValue2;
@@ -22,212 +21,83 @@ public class LogicalInstruction
         switch(name)
         {
             case SHLT:
-                try
-                {
-                    argValue1 = variables.getValue(arguments[1]);
-                }
-                catch(SymbolException e)
-                {
-                    e.setLineNumber(lineNumber);
+                argValue1 = environment.getVariableValue(arguments[1]);
+                argValue2 = Integer.parseInt(arguments[2]);
 
-                    throw e;
-                }
-
-                if(arguments[2] < 0)
+                if(argValue2 < 0)
                     throw new ArithmeticException(ArithmeticException.NEGATIVE_SHIFT, lineNumber);
 
-                try
-                {
-                    variables.setValue(arguments[0], argValue1 << arguments[2]);
-                }
-                catch(SymbolException e)
-                {
-                    e.setLineNumber(lineNumber);
-
-                    throw e;
-                }
-
+                environment.setVariableValue(arguments[0], argValue1 << argValue2);
                 break;
 
             case SHRT:
-                try
-                {
-                    argValue1 = variables.getValue(arguments[1]);
-                }
-                catch(SymbolException e)
-                {
-                    e.setLineNumber(lineNumber);
+                argValue1 = environment.getVariableValue(arguments[1]);
+                argValue2 = Integer.parseInt(arguments[2]);
 
-                    throw e;
-                }
-
-                if(arguments[2] < 0)
+                if(argValue2 < 0)
                     throw new ArithmeticException(ArithmeticException.NEGATIVE_SHIFT, lineNumber);
 
-                try
-                {
-                    variables.setValue(arguments[0], argValue1 >>> arguments[2]);
-                }
-                catch(SymbolException e)
-                {
-                    e.setLineNumber(lineNumber);
-
-                    throw e;
-                }
-
+                environment.setVariableValue(arguments[0], argValue1 >>> argValue2);
                 break;
 
             case SHRS:
-                try
-                {
-                    argValue1 = variables.getValue(arguments[1]);
-                }
-                catch(SymbolException e)
-                {
-                    e.setLineNumber(lineNumber);
+                argValue1 = environment.getVariableValue(arguments[1]);
+                argValue2 = Integer.parseInt(arguments[2]);
 
-                    throw e;
-                }
-
-                if(arguments[2] < 0)
+                if(argValue2 < 0)
                     throw new ArithmeticException(ArithmeticException.NEGATIVE_SHIFT, lineNumber);
 
-                try
-                {
-                    variables.setValue(arguments[0], argValue1 >> arguments[2]);
-                }
-                catch(SymbolException e)
-                {
-                    e.setLineNumber(lineNumber);
-
-                    throw e;
-                }
-
+                environment.setVariableValue(arguments[0], argValue1 >> argValue2);
                 break;
 
             case AND:
-                try
-                {
-                    argValue1 = variables.getValue(arguments[1]);
-                    argValue2 = variables.getValue(arguments[2]);
-                    variables.setValue(arguments[0], argValue1 & argValue2);
-                }
-                catch(SymbolException e)
-                {
-                    e.setLineNumber(lineNumber);
-
-                    throw e;
-                }
-
+                argValue1 = environment.getVariableValue(arguments[1]);
+                argValue2 = environment.getVariableValue(arguments[2]);
+                environment.setVariableValue(arguments[0], argValue1 & argValue2);
                 break;
 
             case ANDC:
-                try
-                {
-                    argValue1 = variables.getValue(arguments[1]);
-                    variables.setValue(arguments[0], argValue1 & arguments[2]);
-                }
-                catch(SymbolException e)
-                {
-                    e.setLineNumber(lineNumber);
-
-                    throw e;
-                }
-
+                argValue1 = environment.getVariableValue(arguments[1]);
+                argValue2 = Integer.parseInt(arguments[2]);
+                environment.setVariableValue(arguments[0], argValue1 & argValue2);
                 break;
 
             case OR:
-                try
-                {
-                    argValue1 = variables.getValue(arguments[1]);
-                    argValue2 = variables.getValue(arguments[2]);
-                    variables.setValue(arguments[0], argValue1 | argValue2);
-                }
-                catch(SymbolException e)
-                {
-                    e.setLineNumber(lineNumber);
-
-                    throw e;
-                }
+                argValue1 = environment.getVariableValue(arguments[1]);
+                argValue2 = environment.getVariableValue(arguments[2]);
+                environment.setVariableValue(arguments[0], argValue1 | argValue2);
 
                 break;
 
             case ORC:
-                try
-                {
-                    argValue1 = variables.getValue(arguments[1]);
-                    variables.setValue(arguments[0], argValue1 | arguments[2]);
-                }
-                catch(SymbolException e)
-                {
-                    e.setLineNumber(lineNumber);
-
-                    throw e;
-                }
-
+                argValue1 = environment.getVariableValue(arguments[1]);
+                argValue2 = Integer.parseInt(arguments[2]);
+                environment.setVariableValue(arguments[0], argValue1 | argValue2);
                 break;
 
             case XOR:
-                try
-                {
-                    argValue1 = variables.getValue(arguments[1]);
-                    argValue2 = variables.getValue(arguments[2]);
-                    variables.setValue(arguments[0], argValue1 ^ argValue2);
-                }
-                catch(SymbolException e)
-                {
-                    e.setLineNumber(lineNumber);
-
-                    throw e;
-                }
+                argValue1 = environment.getVariableValue(arguments[1]);
+                argValue2 = environment.getVariableValue(arguments[2]);
+                environment.setVariableValue(arguments[0], argValue1 ^ argValue2);
 
                 break;
 
             case XORC:
-                try
-                {
-                    argValue1 = variables.getValue(arguments[1]);
-                    variables.setValue(arguments[0], argValue1 ^ arguments[2]);
-                }
-                catch(SymbolException e)
-                {
-                    e.setLineNumber(lineNumber);
-
-                    throw e;
-                }
-
+                argValue1 = environment.getVariableValue(arguments[1]);
+                argValue2 = Integer.parseInt(arguments[2]);
+                environment.setVariableValue(arguments[0], argValue1 ^ argValue2);
                 break;
 
             case NAND:
-                try
-                {
-                    argValue1 = variables.getValue(arguments[1]);
-                    argValue2 = variables.getValue(arguments[2]);
-                    variables.setValue(arguments[0], ~(argValue1 & argValue2));
-                }
-                catch(SymbolException e)
-                {
-                    e.setLineNumber(lineNumber);
-
-                    throw e;
-                }
-
+                argValue1 = environment.getVariableValue(arguments[1]);
+                argValue2 = environment.getVariableValue(arguments[2]);
+                environment.setVariableValue(arguments[0], ~(argValue1 & argValue2));
                 break;
 
             case NOR:
-                try
-                {
-                    argValue1 = variables.getValue(arguments[1]);
-                    argValue2 = variables.getValue(arguments[2]);
-                    variables.setValue(arguments[0], ~(argValue1 | argValue2));
-                }
-                catch(SymbolException e)
-                {
-                    e.setLineNumber(lineNumber);
-
-                    throw e;
-                }
-
+                argValue1 = environment.getVariableValue(arguments[1]);
+                argValue2 = environment.getVariableValue(arguments[2]);
+                environment.setVariableValue(arguments[0], ~(argValue1 | argValue2));
                 break;
 
             default:

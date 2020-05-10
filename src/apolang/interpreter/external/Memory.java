@@ -2,28 +2,16 @@ package apolang.interpreter.external;
 
 import apolang.errors.MemoryException;
 
-/**
- * Klasa odpowiedzialna za interakcje programu z pamiecia. Wykonuje instrukcje zapisu i odczytu
- * danych z pamieci.
- */
 public class Memory
 {
     private int[] memory;
 
-    /**
-     * Alokuje pamiec na potrzeby programu.
-     * @param memorySize rozmiar pamieci do zaalokowania.
-     */
     public Memory(int memorySize)
     {
         memory = new int[memorySize * 256];
         System.out.println("memory>> " + memorySize + "kB allocated");
     }
 
-    /**
-     * Odczytuje slowo 32 bit z pamieci.
-     * @param address adres do zapisu
-     */
     public int loadWord(int address)
             throws MemoryException
     {
@@ -36,11 +24,6 @@ public class Memory
         return memory[address / 4];
     }
 
-    /**
-     * Zapisuje slowo 32 bit do pamieci.
-     * @param address adres do zapisu
-     * @param value wartosc do zapisu
-     */
     public void storeWord(int address, int value)
             throws MemoryException
     {
@@ -53,10 +36,6 @@ public class Memory
         memory[address / 4] = value;
     }
 
-    /**
-     * Odczytuje pojedynczy bajt z pamieci.
-     * @param address adres do odczytu
-     */
     public int loadByte(int address)
             throws MemoryException
     {
@@ -68,11 +47,6 @@ public class Memory
         return (memory[address / 4] & 0xFF << shift) >>> shift;
     }
 
-    /**
-     * Zapisuje liczbe okreslona na 1 bajcie do pamieci.
-     * @param address adres do zapisu
-     * @param value wartosc do zapisu
-     */
     public void storeByte(int address, int value)
             throws MemoryException
     {
