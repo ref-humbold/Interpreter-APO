@@ -23,30 +23,21 @@ public class LogicalInstruction
             case SHLT:
                 argValue1 = environment.getVariableValue(arguments[1]);
                 argValue2 = Integer.parseInt(arguments[2]);
-
-                if(argValue2 < 0)
-                    throw new ArithmeticException(ArithmeticException.NEGATIVE_SHIFT, lineNumber);
-
+                validateShift(argValue2);
                 environment.setVariableValue(arguments[0], argValue1 << argValue2);
                 break;
 
             case SHRT:
                 argValue1 = environment.getVariableValue(arguments[1]);
                 argValue2 = Integer.parseInt(arguments[2]);
-
-                if(argValue2 < 0)
-                    throw new ArithmeticException(ArithmeticException.NEGATIVE_SHIFT, lineNumber);
-
+                validateShift(argValue2);
                 environment.setVariableValue(arguments[0], argValue1 >>> argValue2);
                 break;
 
             case SHRS:
                 argValue1 = environment.getVariableValue(arguments[1]);
                 argValue2 = Integer.parseInt(arguments[2]);
-
-                if(argValue2 < 0)
-                    throw new ArithmeticException(ArithmeticException.NEGATIVE_SHIFT, lineNumber);
-
+                validateShift(argValue2);
                 environment.setVariableValue(arguments[0], argValue1 >> argValue2);
                 break;
 
@@ -66,7 +57,6 @@ public class LogicalInstruction
                 argValue1 = environment.getVariableValue(arguments[1]);
                 argValue2 = environment.getVariableValue(arguments[2]);
                 environment.setVariableValue(arguments[0], argValue1 | argValue2);
-
                 break;
 
             case ORC:
@@ -79,7 +69,6 @@ public class LogicalInstruction
                 argValue1 = environment.getVariableValue(arguments[1]);
                 argValue2 = environment.getVariableValue(arguments[2]);
                 environment.setVariableValue(arguments[0], argValue1 ^ argValue2);
-
                 break;
 
             case XORC:
@@ -103,5 +92,12 @@ public class LogicalInstruction
             default:
                 break;
         }
+    }
+
+    private void validateShift(int shiftValue)
+            throws ArithmeticException
+    {
+        if(shiftValue < 0)
+            throw new ArithmeticException("Shift by negative value", lineNumber);
     }
 }

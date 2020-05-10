@@ -81,9 +81,9 @@ public class ArithmeticInstruction
         if(argValue2 == 0)
         {
             if(argValue1 == 0)
-                throw new ArithmeticException(ArithmeticException.NOT_A_NUMBER, lineNumber);
+                throw new ArithmeticException("Not a number", lineNumber);
 
-            throw new ArithmeticException(ArithmeticException.ZERO_DIVISION, lineNumber);
+            throw new ArithmeticException("Division by zero", lineNumber);
         }
     }
 }

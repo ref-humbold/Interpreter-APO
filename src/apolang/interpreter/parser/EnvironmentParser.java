@@ -33,7 +33,7 @@ public class EnvironmentParser
                 throw new LabelException("Label `End` is predefined", lineNumber);
 
             if(result.contains(label))
-                throw new LabelException(LabelException.DUPLICATED, lineNumber);
+                throw new LabelException(String.format("Duplicated label `%s`", label), lineNumber);
 
             try
             {

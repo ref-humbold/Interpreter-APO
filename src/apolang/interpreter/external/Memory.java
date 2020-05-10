@@ -4,7 +4,7 @@ import apolang.errors.MemoryException;
 
 public class Memory
 {
-    private int[] memory;
+    private final int[] memory;
 
     public Memory(int memorySize)
     {
@@ -15,32 +15,21 @@ public class Memory
     public int loadWord(int address)
             throws MemoryException
     {
-        if(address < 0 || address >= memory.length)
-            throw new MemoryException(MemoryException.OUT_OF_MEMORY);
-
-        if(address % 4 > 0)
-            throw new MemoryException(MemoryException.ADDRESS_NOT_A_WORD);
-
+        validateMemory(address, true);
         return memory[address / 4];
     }
 
     public void storeWord(int address, int value)
             throws MemoryException
     {
-        if(address < 0 || address >= memory.length)
-            throw new MemoryException(MemoryException.OUT_OF_MEMORY);
-
-        if(address % 4 > 0)
-            throw new MemoryException(MemoryException.ADDRESS_NOT_A_WORD);
-
+        validateMemory(address, true);
         memory[address / 4] = value;
     }
 
     public int loadByte(int address)
             throws MemoryException
     {
-        if(address < 0 || address >= memory.length)
-            throw new MemoryException(MemoryException.OUT_OF_MEMORY);
+        validateMemory(address, false);
 
         int shift = (3 - address % 4) * 8;
 
@@ -50,15 +39,26 @@ public class Memory
     public void storeByte(int address, int value)
             throws MemoryException
     {
-        if(address < 0 || address >= memory.length)
-            throw new MemoryException(MemoryException.OUT_OF_MEMORY);
+        validateMemory(address, false);
 
         if(value < 0 || value >= 256)
-            throw new MemoryException(MemoryException.NUMBER_NOT_IN_BYTE);
+            throw new MemoryException(
+                    String.format("Number %d to store does not fit in a byte", value));
 
         int shift = (3 - address % 4) * 8;
-        int tmp = memory[address / 4] & ~(0xFF << shift);
+        int memoryValueMask = memory[address / 4] & ~(0xFF << shift);
 
-        memory[address / 4] = tmp | value << shift;
+        memory[address / 4] = memoryValueMask | value << shift;
+    }
+
+    private void validateMemory(int address, boolean isAligned)
+            throws MemoryException
+    {
+        if(address < 0 || address >= memory.length)
+            throw new MemoryException("Outside of available memory");
+
+        if(isAligned && address % 4 > 0)
+            throw new MemoryException(
+                    String.format("Address %d is not aligned to a word", address));
     }
 }

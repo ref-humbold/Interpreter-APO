@@ -40,7 +40,7 @@ public class InstructionParser
         String label = extractLabel(splitLine);
 
         if(label != null && !environment.contains(label))
-            throw new LabelException(LabelException.LABEL_NOT_FOUND, lineNumber);
+            throw new LabelException(String.format("Label `%s` not found", label), lineNumber);
 
         Instruction instruction;
 
@@ -88,7 +88,8 @@ public class InstructionParser
         String[] arguments = new String[argumentsCount];
 
         if(splitLine.size() <= argumentsCount)
-            throw new SymbolException(SymbolException.TOO_FEW_ARGUMENTS);
+            throw new SymbolException(String.format("Too few arguments for instruction `%s`",
+                                                    instructionName.toString()));
 
         for(int i = 1; i <= argumentsCount; ++i)
         {
@@ -120,7 +121,7 @@ public class InstructionParser
         }
         catch(NumberFormatException e)
         {
-            throw new ArithmeticException(ArithmeticException.INVALID_FORMAT, e);
+            throw new ArithmeticException("Invalid number format", e);
         }
     }
 
@@ -130,7 +131,7 @@ public class InstructionParser
         environment.validateLabel(label);
 
         if(!environment.contains(label))
-            throw new LabelException(LabelException.LABEL_NOT_FOUND);
+            throw new LabelException(String.format("Label `%s` not found", label));
 
         return label;
     }
@@ -141,10 +142,10 @@ public class InstructionParser
         environment.validateVariable(variable);
 
         if(checkZero && Environment.ZERO_VARIABLE.equals(variable))
-            throw new SymbolException(SymbolException.CHANGE_ZERO);
+            throw new SymbolException("Cannot assign to variable `zero`");
 
         if(!environment.contains(variable))
-            throw new SymbolException(SymbolException.VARIABLE_NOT_INIT);
+            throw new SymbolException(String.format("Variable `%s` was not initialized", variable));
 
         return variable;
     }

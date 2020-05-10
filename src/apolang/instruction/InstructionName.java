@@ -50,7 +50,7 @@ public enum InstructionName
         }
         catch(IllegalArgumentException e)
         {
-            throw new SymbolException(SymbolException.NO_SUCH_INSTRUCTION, e);
+            throw new SymbolException(String.format("Not existing instruction `%s`", name), e);
         }
     }
 
