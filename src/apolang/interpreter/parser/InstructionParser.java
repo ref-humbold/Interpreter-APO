@@ -142,7 +142,8 @@ public class InstructionParser
         environment.validateVariable(variable);
 
         if(checkZero && Environment.ZERO_VARIABLE.equals(variable))
-            throw new SymbolException("Cannot assign to variable `zero`");
+            throw new SymbolException(
+                    String.format("Cannot assign to variable `%s`", Environment.ZERO_VARIABLE));
 
         if(!environment.contains(variable))
             throw new SymbolException(String.format("Variable `%s` was not initialized", variable));

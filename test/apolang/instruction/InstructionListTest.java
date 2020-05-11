@@ -11,7 +11,7 @@ import apolang.interpreter.Environment;
 
 public class InstructionListTest
 {
-    private static final String[] VARS = new String[]{"zero", "one", "two", "tree", "res"};
+    private static final String[] VARS = new String[]{"one", "two", "tree", "res"};
     private static final String LABEL = "Label";
     private final Environment environment = new Environment();
     private InstructionList testObject;
@@ -45,7 +45,7 @@ public class InstructionListTest
     {
         // given
         Instruction instruction =
-                InstructionFactory.create(1, InstructionName.ADD, VARS[4], VARS[1], VARS[2]);
+                InstructionFactory.create(1, InstructionName.ADD, VARS[3], VARS[0], VARS[1]);
         // when
         testObject.add(instruction);
         // then
@@ -61,9 +61,9 @@ public class InstructionListTest
     {
         // given
         Instruction instruction1 =
-                InstructionFactory.create(1, InstructionName.ADD, VARS[4], VARS[1], VARS[2]);
+                InstructionFactory.create(1, InstructionName.ADD, VARS[3], VARS[0], VARS[1]);
         Instruction instruction2 =
-                InstructionFactory.create(1, InstructionName.MUL, VARS[4], VARS[1], VARS[2]);
+                InstructionFactory.create(1, InstructionName.MUL, VARS[3], VARS[0], VARS[1]);
         // when
         testObject.add(instruction1);
         testObject.add(instruction2);
@@ -96,7 +96,7 @@ public class InstructionListTest
     {
         // given
         Instruction instruction =
-                InstructionFactory.create(1, InstructionName.ADD, VARS[4], VARS[1], VARS[2]);
+                InstructionFactory.create(1, InstructionName.ADD, VARS[3], VARS[0], VARS[1]);
 
         testObject.add(instruction);
         // when
@@ -115,11 +115,11 @@ public class InstructionListTest
     {
         // given
         JumpInstruction instruction1 =
-                new JumpInstruction(1, InstructionName.JPNE, VARS[1], VARS[2]);
+                new JumpInstruction(1, InstructionName.JPNE, VARS[0], VARS[1]);
         Instruction instruction2 =
-                InstructionFactory.create(2, InstructionName.ADD, VARS[4], VARS[1], VARS[3]);
+                InstructionFactory.create(2, InstructionName.ADD, VARS[3], VARS[0], VARS[2]);
         Instruction instruction3 =
-                InstructionFactory.create(2, InstructionName.MUL, VARS[4], VARS[1], VARS[3]);
+                InstructionFactory.create(2, InstructionName.MUL, VARS[3], VARS[0], VARS[2]);
 
         instruction1.setLink(instruction3);
         testObject.add(instruction1);
@@ -156,11 +156,11 @@ public class InstructionListTest
     {
         // given
         JumpInstruction instruction1 =
-                new JumpInstruction(1, InstructionName.JPEQ, VARS[1], VARS[2]);
+                new JumpInstruction(1, InstructionName.JPEQ, VARS[0], VARS[1]);
         Instruction instruction2 =
-                InstructionFactory.create(2, InstructionName.ADD, VARS[4], VARS[1], VARS[3]);
+                InstructionFactory.create(2, InstructionName.ADD, VARS[3], VARS[0], VARS[2]);
         Instruction instruction3 =
-                InstructionFactory.create(2, InstructionName.MUL, VARS[4], VARS[1], VARS[3]);
+                InstructionFactory.create(2, InstructionName.MUL, VARS[3], VARS[0], VARS[2]);
 
         instruction1.setLink(instruction3);
         testObject.add(instruction1);

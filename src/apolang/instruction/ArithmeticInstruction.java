@@ -1,6 +1,7 @@
 package apolang.instruction;
 
 import apolang.errors.ArithmeticException;
+import apolang.errors.LanguageException;
 import apolang.interpreter.Environment;
 
 public class ArithmeticInstruction
@@ -13,7 +14,7 @@ public class ArithmeticInstruction
 
     @Override
     public void execute(Environment environment)
-            throws ArithmeticException
+            throws LanguageException
     {
         int argValue1;
         int argValue2;

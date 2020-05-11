@@ -1,5 +1,6 @@
 package apolang.instruction;
 
+import apolang.errors.LanguageException;
 import apolang.errors.MemoryException;
 import apolang.interpreter.Environment;
 import apolang.interpreter.external.Memory;
@@ -17,7 +18,7 @@ public class MemoryInstruction
 
     @Override
     public void execute(Environment environment)
-            throws MemoryException
+            throws LanguageException
     {
         int argValue0;
         int argValue1;

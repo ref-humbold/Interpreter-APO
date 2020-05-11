@@ -12,9 +12,9 @@ public class Environment
 {
     public static final String ZERO_VARIABLE = "zero";
     public static final String END_LABEL = "End";
+    static final Integer DEFAULT_VARIABLE_VALUE = 0;
     private static final String LABEL_REGEX = "[A-Z][a-z]+";
     private static final String VARIABLE_REGEX = "[a-z]+";
-    private static final Integer DEFAULT_VARIABLE_VALUE = 0;
     private final Map<String, Integer> variableValues = new HashMap<>();
     private final Set<String> namesSet = new HashSet<>();
 
@@ -25,14 +25,19 @@ public class Environment
         variableValues.put(ZERO_VARIABLE, DEFAULT_VARIABLE_VALUE);
     }
 
-    public int getVariableValue(String variable)
+    public Integer getVariableValue(String variable)
     {
         return variableValues.get(variable);
     }
 
     public void setVariableValue(String variable, int value)
+            throws SymbolException
     {
-        variableValues.put(variable, value);
+        if(ZERO_VARIABLE.equals(variable))
+            throw new SymbolException(
+                    String.format("Cannot assign to variable `%s`", Environment.ZERO_VARIABLE));
+
+        variableValues.computeIfPresent(variable, (k, v) -> value);
     }
 
     public boolean contains(String name)
