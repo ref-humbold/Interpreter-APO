@@ -6,6 +6,8 @@ import apolang.errors.SymbolException;
 
 public enum InstructionName
 {
+    ASGN,
+    ASGNC,
     ADD,
     ADDC,
     SUB,
@@ -58,6 +60,12 @@ public enum InstructionName
     {
         switch(this)
         {
+            case PTLN:
+            case NOP:
+                return 0;
+
+            case ASGN:
+            case ASGNC:
             case JUMP:
             case LDW:
             case LDB:
@@ -95,10 +103,9 @@ public enum InstructionName
             case NAND:
             case NOR:
                 return 3;
-
-            default:
-                return 0;
         }
+
+        return 0;
     }
 
     public boolean isJump()
@@ -110,6 +117,9 @@ public enum InstructionName
     {
         switch(this)
         {
+
+            case ASGN:
+            case ASGNC:
             case ADD:
             case ADDC:
             case SUB:
@@ -135,15 +145,28 @@ public enum InstructionName
             case LDB:
                 return true;
 
-            default:
+            case JUMP:
+            case JPEQ:
+            case JPNE:
+            case JPLT:
+            case JPGT:
+            case STW:
+            case STB:
+            case PTLN:
+            case PTINT:
+            case PTCHR:
+            case NOP:
                 return false;
         }
+
+        return false;
     }
 
-    public boolean hasImmediate()
+    public boolean hasConstant()
     {
         switch(this)
         {
+            case ASGNC:
             case ADDC:
             case SUBC:
             case MULC:
@@ -156,15 +179,43 @@ public enum InstructionName
             case SHRS:
                 return true;
 
-            default:
+            case ASGN:
+            case ADD:
+            case SUB:
+            case MUL:
+            case DIV:
+            case AND:
+            case OR:
+            case XOR:
+            case NAND:
+            case NOR:
+            case JUMP:
+            case JPEQ:
+            case JPNE:
+            case JPLT:
+            case JPGT:
+            case LDW:
+            case LDB:
+            case STW:
+            case STB:
+            case PTLN:
+            case PTINT:
+            case PTCHR:
+            case RDINT:
+            case RDCHR:
+            case NOP:
                 return false;
         }
+
+        return false;
     }
 
     public Set<Integer> zeroVariablePosition()
     {
         switch(this)
         {
+            case ASGN:
+            case ASGNC:
             case ADD:
             case ADDC:
             case SUB:
@@ -192,8 +243,20 @@ public enum InstructionName
             case LDB:
                 return Set.of(1, 2);
 
-            default:
+            case JUMP:
+            case JPEQ:
+            case JPNE:
+            case JPLT:
+            case JPGT:
+            case STW:
+            case STB:
+            case PTLN:
+            case PTINT:
+            case PTCHR:
+            case NOP:
                 return Set.of();
         }
+
+        return Set.of();
     }
 }
