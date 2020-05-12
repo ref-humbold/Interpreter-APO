@@ -95,7 +95,7 @@ public class InstructionParser
         {
             if(i == argumentsCount)
             {
-                if(instructionName.hasImmediate())
+                if(instructionName.hasConstant())
                     arguments[i - 1] = parseConstant(splitLine.get(i));
                 else if(instructionName.isJump())
                     arguments[i - 1] = parseLabel(splitLine.get(i), environment);

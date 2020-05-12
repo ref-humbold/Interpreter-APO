@@ -10,6 +10,10 @@ public final class InstructionFactory
     {
         switch(name)
         {
+            case ASGN:
+            case ASGNC:
+                return new AssignInstruction(lineNumber, name, args);
+
             case ADD:
             case ADDC:
             case SUB:
