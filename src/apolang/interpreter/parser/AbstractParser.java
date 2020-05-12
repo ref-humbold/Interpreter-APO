@@ -1,5 +1,6 @@
 package apolang.interpreter.parser;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -29,7 +30,7 @@ public abstract class AbstractParser<T>
                 line = line.substring(0, commentIndex);
 
             if(!line.isEmpty())
-                parseLine(Arrays.asList(line.split("\\s+")), i + 1, result);
+                parseLine(new ArrayList<>(Arrays.asList(line.split("\\s+"))), i + 1, result);
         }
 
         afterParsing(result);
@@ -51,7 +52,7 @@ public abstract class AbstractParser<T>
             String label = splitLine.get(0);
 
             splitLine.remove(0);
-            return label.substring(0, splitLine.get(0).length() - 1);
+            return label.substring(0, label.length() - 1);
         }
 
         return null;

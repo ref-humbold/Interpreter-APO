@@ -12,7 +12,7 @@ public class Environment
 {
     public static final String ZERO_VARIABLE = "zero";
     public static final String END_LABEL = "End";
-    static final Integer DEFAULT_VARIABLE_VALUE = 0;
+    public static final Integer DEFAULT_VARIABLE_VALUE = 0;
     private static final String LABEL_REGEX = "[A-Z][a-z]+";
     private static final String VARIABLE_REGEX = "[a-z]+";
     private final Map<String, Integer> variableValues = new HashMap<>();
