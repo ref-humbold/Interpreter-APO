@@ -4,15 +4,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import apolang.errors.ArithmeticException;
-import apolang.errors.LabelException;
-import apolang.errors.LanguageException;
-import apolang.errors.SymbolException;
-import apolang.instruction.Instruction;
-import apolang.instruction.InstructionFactory;
-import apolang.instruction.InstructionList;
-import apolang.instruction.InstructionName;
-import apolang.instruction.JumpInstruction;
+import apolang.exceptions.LanguageException;
+import apolang.exceptions.arithmetic.ArithmeticException;
+import apolang.exceptions.label.LabelException;
+import apolang.exceptions.label.LabelNotFoundException;
+import apolang.exceptions.symbol.AssignmentToZeroException;
+import apolang.exceptions.symbol.SymbolException;
+import apolang.exceptions.symbol.TooFewArgumentsException;
+import apolang.exceptions.symbol.VariableNotInitializedException;
+import apolang.instruction.*;
 import apolang.interpreter.Environment;
 
 public class InstructionParser
@@ -40,7 +40,7 @@ public class InstructionParser
         String label = extractLabel(splitLine);
 
         if(label != null && !environment.contains(label))
-            throw new LabelException(String.format("Label `%s` not found", label), lineNumber);
+            throw new LabelNotFoundException(label, lineNumber);
 
         Instruction instruction;
 
@@ -84,27 +84,30 @@ public class InstructionParser
                                     Environment environment)
             throws LanguageException
     {
-        int argumentsCount = instructionName.getArgumentsCount();
+        ArgumentType[] argumentsTypes = instructionName.getArgumentsTypes();
+        int argumentsCount = argumentsTypes.length;
         String[] arguments = new String[argumentsCount];
 
         if(splitLine.size() <= argumentsCount)
-            throw new SymbolException(String.format("Too few arguments for instruction `%s`",
-                                                    instructionName.toString()));
+            throw new TooFewArgumentsException(instructionName);
 
-        for(int i = 1; i <= argumentsCount; ++i)
-        {
-            if(i == argumentsCount)
+        for(int i = 0; i < argumentsCount; ++i)
+            switch(argumentsTypes[i])
             {
-                if(instructionName.hasConstant())
-                    arguments[i - 1] = parseConstant(splitLine.get(i));
-                else if(instructionName.isJump())
-                    arguments[i - 1] = parseLabel(splitLine.get(i), environment);
-            }
-            else
-                arguments[i - 1] = parseVariable(splitLine.get(i), environment,
+                case VARIABLE:
+                    arguments[i] = parseVariable(splitLine.get(i + 1), environment,
                                                  instructionName.zeroVariablePosition()
                                                                 .contains(i));
-        }
+                    break;
+
+                case LABEL:
+                    arguments[i] = parseLabel(splitLine.get(i + 1), environment);
+                    break;
+
+                case CONSTANT:
+                    arguments[i] = parseConstant(splitLine.get(i + 1));
+                    break;
+            }
 
         return arguments;
     }
@@ -131,7 +134,7 @@ public class InstructionParser
         environment.validateLabel(label);
 
         if(!environment.contains(label))
-            throw new LabelException(String.format("Label `%s` not found", label));
+            throw new LabelNotFoundException(label);
 
         return label;
     }
@@ -142,11 +145,10 @@ public class InstructionParser
         environment.validateVariable(variable);
 
         if(checkZero && Environment.ZERO_VARIABLE.equals(variable))
-            throw new SymbolException(
-                    String.format("Cannot assign to variable `%s`", Environment.ZERO_VARIABLE));
+            throw new AssignmentToZeroException();
 
         if(!environment.contains(variable))
-            throw new SymbolException(String.format("Variable `%s` was not initialized", variable));
+            throw new VariableNotInitializedException(variable);
 
         return variable;
     }

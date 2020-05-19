@@ -2,8 +2,9 @@ package apolang.interpreter.parser;
 
 import java.util.List;
 
-import apolang.errors.LabelException;
-import apolang.errors.SymbolException;
+import apolang.exceptions.label.DuplicatedLabelException;
+import apolang.exceptions.label.LabelException;
+import apolang.exceptions.symbol.SymbolException;
 import apolang.instruction.InstructionName;
 import apolang.interpreter.Environment;
 
@@ -35,7 +36,7 @@ public class EnvironmentParser
                         lineNumber);
 
             if(result.contains(label))
-                throw new LabelException(String.format("Duplicated label `%s`", label), lineNumber);
+                throw new DuplicatedLabelException(label, lineNumber);
 
             try
             {

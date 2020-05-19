@@ -5,9 +5,11 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
 
-import apolang.errors.LabelException;
-import apolang.errors.LanguageException;
-import apolang.errors.SymbolException;
+import apolang.exceptions.LanguageException;
+import apolang.exceptions.label.DuplicatedLabelException;
+import apolang.exceptions.label.InvalidLabelNameException;
+import apolang.exceptions.label.LabelException;
+import apolang.exceptions.symbol.InvalidVariableNameException;
 import apolang.interpreter.Environment;
 
 public class EnvironmentParserTest
@@ -48,9 +50,7 @@ public class EnvironmentParserTest
     public void parse_WhenRedefinedEndLabel_ThenLabelException()
     {
         // given
-        List<String> lines =
-                List.of("ADDC x zero 9", "End: ADD y x x", "# next is empty line", "", "Square:",
-                        "MUL z x x", "PTINT k");
+        List<String> lines = List.of("End: ADDC x zero 9");
         testObject = new EnvironmentParser(lines);
         // when
         Executable executable = () -> testObject.parse();
@@ -59,44 +59,38 @@ public class EnvironmentParserTest
     }
 
     @Test
-    public void parse_WhenDuplicatedLabel_ThenLabelException()
+    public void parse_WhenDuplicatedLabel_ThenDuplicatedLabelException()
     {
         // given
-        List<String> lines =
-                List.of("ADDC x zero 9", "Label: ADD y x x", "# next is empty line", "", "Label:",
-                        "MUL z x x", "PTINT k");
+        List<String> lines = List.of("Label: ADDC x zero 9", "Label:");
         testObject = new EnvironmentParser(lines);
         // when
         Executable executable = () -> testObject.parse();
         // then
-        Assertions.assertThrows(LabelException.class, executable);
+        Assertions.assertThrows(DuplicatedLabelException.class, executable);
     }
 
     @Test
-    public void parse_WhenLabelDoesNotConformToNamingStandard_ThenLabelException()
+    public void parse_WhenLabelDoesNotConformToNamingStandard_ThenInvalidLabelNameException()
     {
         // given
-        List<String> lines =
-                List.of("ADDC x zero 9", "Label: ADD y x x", "# next is empty line", "", "Label2:",
-                        "MUL z x x", "PTINT k");
+        List<String> lines = List.of("Label2:");
         testObject = new EnvironmentParser(lines);
         // when
         Executable executable = () -> testObject.parse();
         // then
-        Assertions.assertThrows(LabelException.class, executable);
+        Assertions.assertThrows(InvalidLabelNameException.class, executable);
     }
 
     @Test
-    public void parse_WhenVariableDoesNotConformToNamingStandard_ThenSymbolException()
+    public void parse_WhenVariableDoesNotConformToNamingStandard_ThenInvalidVariableNameException()
     {
         // given
-        List<String> lines =
-                List.of("ADDC x zero 9", "Label: ADD y x x", "", "Square:", "MUL zZ x x",
-                        "PTINT k");
+        List<String> lines = List.of("ADDC xX zero 9");
         testObject = new EnvironmentParser(lines);
         // when
         Executable executable = () -> testObject.parse();
         // then
-        Assertions.assertThrows(SymbolException.class, executable);
+        Assertions.assertThrows(InvalidVariableNameException.class, executable);
     }
 }

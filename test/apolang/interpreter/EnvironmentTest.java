@@ -6,8 +6,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
 
-import apolang.errors.LabelException;
-import apolang.errors.SymbolException;
+import apolang.exceptions.label.LabelException;
+import apolang.exceptions.symbol.SymbolException;
 
 public class EnvironmentTest
 {

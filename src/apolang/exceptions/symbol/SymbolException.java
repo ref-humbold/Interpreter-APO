@@ -1,4 +1,6 @@
-package apolang.errors;
+package apolang.exceptions.symbol;
+
+import apolang.exceptions.LanguageException;
 
 public class SymbolException
         extends LanguageException
@@ -10,8 +12,8 @@ public class SymbolException
         super(message);
     }
 
-    public SymbolException(String message, Throwable t)
+    public SymbolException(String message, Exception e)
     {
-        super(message, t);
+        super(message, e);
     }
 }

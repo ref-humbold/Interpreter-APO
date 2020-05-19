@@ -3,7 +3,7 @@ package apolang.instruction;
 import java.util.Arrays;
 import java.util.Objects;
 
-import apolang.errors.LanguageException;
+import apolang.exceptions.LanguageException;
 import apolang.interpreter.Environment;
 
 public abstract class Instruction

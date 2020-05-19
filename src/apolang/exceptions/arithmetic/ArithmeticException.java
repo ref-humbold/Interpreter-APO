@@ -1,4 +1,6 @@
-package apolang.errors;
+package apolang.exceptions.arithmetic;
+
+import apolang.exceptions.LanguageException;
 
 public class ArithmeticException
         extends LanguageException
@@ -10,8 +12,8 @@ public class ArithmeticException
         super(message, lineNumber);
     }
 
-    public ArithmeticException(String message, Throwable t)
+    public ArithmeticException(String message, Exception e)
     {
-        super(message, t);
+        super(message, e);
     }
 }

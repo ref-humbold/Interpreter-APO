@@ -1,4 +1,6 @@
-package apolang.errors;
+package apolang.exceptions.label;
+
+import apolang.exceptions.LanguageException;
 
 public class LabelException
         extends LanguageException

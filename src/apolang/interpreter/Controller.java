@@ -6,7 +6,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
 
-import apolang.errors.LanguageException;
+import apolang.exceptions.LanguageException;
 import apolang.instruction.Instruction;
 import apolang.instruction.InstructionFactory;
 import apolang.instruction.InstructionList;

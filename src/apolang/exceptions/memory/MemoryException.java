@@ -1,4 +1,6 @@
-package apolang.errors;
+package apolang.exceptions.memory;
+
+import apolang.exceptions.LanguageException;
 
 public class MemoryException
         extends LanguageException

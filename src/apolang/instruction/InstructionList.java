@@ -2,6 +2,7 @@ package apolang.instruction;
 
 import java.util.Iterator;
 import java.util.NoSuchElementException;
+import java.util.Objects;
 
 public class InstructionList
         implements Iterable<Instruction>
@@ -13,6 +14,11 @@ public class InstructionList
     {
     }
 
+    public boolean isEmpty()
+    {
+        return begin == null && end == null;
+    }
+
     @Override
     public Iterator<Instruction> iterator()
     {
@@ -21,8 +27,7 @@ public class InstructionList
 
     public void add(Instruction instruction)
     {
-        if(instruction == null)
-            throw new IllegalArgumentException("Instruction in list is null.");
+        Objects.requireNonNull(instruction);
 
         if(begin == null)
             begin = instruction;
@@ -32,7 +37,7 @@ public class InstructionList
         end = instruction;
     }
 
-    private final class InstructionIterator
+    private static final class InstructionIterator
             implements Iterator<Instruction>
     {
         private Instruction previous = null;

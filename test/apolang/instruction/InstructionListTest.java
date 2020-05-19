@@ -5,8 +5,9 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.function.Executable;
 
-import apolang.errors.LanguageException;
+import apolang.exceptions.LanguageException;
 import apolang.interpreter.Environment;
 
 public class InstructionListTest
@@ -41,7 +42,30 @@ public class InstructionListTest
     }
 
     @Test
-    public void add_WhenEmpty()
+    public void isEmpty_WhenEmpty_ThenTrue()
+    {
+        // when
+        boolean result = testObject.isEmpty();
+        // then
+        Assertions.assertTrue(result);
+    }
+
+    @Test
+    public void isEmpty_WhenNotEmpty_ThenFalse()
+    {
+        // given
+        Instruction instruction =
+                InstructionFactory.create(1, InstructionName.ADD, VARS[3], VARS[0], VARS[1]);
+
+        testObject.add(instruction);
+        // when
+        boolean result = testObject.isEmpty();
+        // then
+        Assertions.assertFalse(result);
+    }
+
+    @Test
+    public void add_WhenEmpty_ThenSingleInstruction()
     {
         // given
         Instruction instruction =
@@ -57,7 +81,7 @@ public class InstructionListTest
     }
 
     @Test
-    public void add_WhenNotEmpty()
+    public void add_WhenNotEmpty_ThenAddedToEnd()
     {
         // given
         Instruction instruction1 =
@@ -78,21 +102,25 @@ public class InstructionListTest
     }
 
     @Test
-    public void add_WhenInstructionNull()
+    public void add_WhenInstructionNull_ThenNullPointerException()
     {
-        Assertions.assertThrows(IllegalArgumentException.class, () -> testObject.add(null));
+        // when
+        Executable executable = () -> testObject.add(null);
+        // then
+        Assertions.assertThrows(NullPointerException.class, executable);
     }
 
     @Test
-    public void iterator_WhenEmptyList()
+    public void iterator_WhenEmptyList_ThenHasNoElements()
     {
+        // when
         Iterator<Instruction> iterator = testObject.iterator();
-
+        // then
         Assertions.assertFalse(iterator.hasNext());
     }
 
     @Test
-    public void iterator_WhenNonEmptyList()
+    public void iterator_WhenNonEmptyList_ThenHasElements()
     {
         // given
         Instruction instruction =
@@ -111,7 +139,7 @@ public class InstructionListTest
     }
 
     @Test
-    public void iteratorNext_WhenJump()
+    public void iteratorNext_WhenJump_ThenNextIsInstructionFromLabel()
     {
         // given
         JumpInstruction instruction1 =
@@ -152,7 +180,7 @@ public class InstructionListTest
     }
 
     @Test
-    public void iteratorNext_WhenNoJump()
+    public void iteratorNext_WhenNoJump_ThenNextIsFollowingInstruction()
     {
         // given
         JumpInstruction instruction1 =

@@ -2,7 +2,7 @@ package apolang.instruction;
 
 import java.util.Set;
 
-import apolang.errors.SymbolException;
+import apolang.exceptions.symbol.NotExistingInstructionException;
 
 public enum InstructionName
 {
@@ -44,7 +44,7 @@ public enum InstructionName
     NOP;
 
     public static InstructionName fromName(String name)
-            throws SymbolException
+            throws NotExistingInstructionException
     {
         try
         {
@@ -52,72 +52,77 @@ public enum InstructionName
         }
         catch(IllegalArgumentException e)
         {
-            throw new SymbolException(String.format("Not existing instruction `%s`", name), e);
+            throw new NotExistingInstructionException(name, e);
         }
     }
 
-    public int getArgumentsCount()
+    public ArgumentType[] getArgumentsTypes()
     {
         switch(this)
         {
             case PTLN:
             case NOP:
-                return 0;
+                return new ArgumentType[0];
 
-            case ASGN:
-            case ASGNC:
             case JUMP:
-            case LDW:
-            case LDB:
+                return new ArgumentType[]{ArgumentType.LABEL};
+
             case PTINT:
             case PTCHR:
             case RDINT:
             case RDCHR:
-                return 1;
+                return new ArgumentType[]{ArgumentType.VARIABLE};
 
+            case ASGN:
+            case LDW:
+            case LDB:
             case STW:
             case STB:
-                return 2;
+                return new ArgumentType[]{ArgumentType.VARIABLE, ArgumentType.VARIABLE};
+
+            case ASGNC:
+                return new ArgumentType[]{ArgumentType.VARIABLE, ArgumentType.CONSTANT};
 
             case JPEQ:
             case JPNE:
             case JPLT:
             case JPGT:
+                return new ArgumentType[]{ArgumentType.VARIABLE, ArgumentType.VARIABLE,
+                                          ArgumentType.LABEL};
+
             case ADD:
-            case ADDC:
             case SUB:
-            case SUBC:
             case MUL:
-            case MULC:
             case DIV:
+            case AND:
+            case OR:
+            case XOR:
+            case NAND:
+            case NOR:
+                return new ArgumentType[]{ArgumentType.VARIABLE, ArgumentType.VARIABLE,
+                                          ArgumentType.VARIABLE};
+
+            case ADDC:
+            case SUBC:
+            case MULC:
             case DIVC:
             case SHLT:
             case SHRT:
             case SHRS:
-            case AND:
             case ANDC:
-            case OR:
             case ORC:
-            case XOR:
             case XORC:
-            case NAND:
-            case NOR:
-                return 3;
+                return new ArgumentType[]{ArgumentType.VARIABLE, ArgumentType.VARIABLE,
+                                          ArgumentType.CONSTANT};
         }
 
-        return 0;
-    }
-
-    public boolean isJump()
-    {
-        return this == JUMP || this == JPEQ || this == JPNE || this == JPLT || this == JPGT;
+        return new ArgumentType[0];
     }
 
     public boolean hasValueSet()
     {
         switch(this)
         {
-
             case ASGN:
             case ASGNC:
             case ADD:
@@ -155,54 +160,6 @@ public enum InstructionName
             case PTLN:
             case PTINT:
             case PTCHR:
-            case NOP:
-                return false;
-        }
-
-        return false;
-    }
-
-    public boolean hasConstant()
-    {
-        switch(this)
-        {
-            case ASGNC:
-            case ADDC:
-            case SUBC:
-            case MULC:
-            case DIVC:
-            case ANDC:
-            case ORC:
-            case XORC:
-            case SHLT:
-            case SHRT:
-            case SHRS:
-                return true;
-
-            case ASGN:
-            case ADD:
-            case SUB:
-            case MUL:
-            case DIV:
-            case AND:
-            case OR:
-            case XOR:
-            case NAND:
-            case NOR:
-            case JUMP:
-            case JPEQ:
-            case JPNE:
-            case JPLT:
-            case JPGT:
-            case LDW:
-            case LDB:
-            case STW:
-            case STB:
-            case PTLN:
-            case PTINT:
-            case PTCHR:
-            case RDINT:
-            case RDCHR:
             case NOP:
                 return false;
         }
@@ -237,11 +194,11 @@ public enum InstructionName
             case NOR:
             case RDINT:
             case RDCHR:
-                return Set.of(1);
+                return Set.of(0);
 
             case LDW:
             case LDB:
-                return Set.of(1, 2);
+                return Set.of(0, 1);
 
             case JUMP:
             case JPEQ:

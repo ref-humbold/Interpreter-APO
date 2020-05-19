@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import apolang.errors.LanguageException;
+import apolang.exceptions.LanguageException;
 
 public abstract class AbstractParser<T>
 {

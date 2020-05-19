@@ -5,8 +5,9 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import apolang.errors.LabelException;
-import apolang.errors.SymbolException;
+import apolang.exceptions.label.InvalidLabelNameException;
+import apolang.exceptions.symbol.AssignmentToZeroException;
+import apolang.exceptions.symbol.InvalidVariableNameException;
 
 public class Environment
 {
@@ -31,11 +32,10 @@ public class Environment
     }
 
     public void setVariableValue(String variable, int value)
-            throws SymbolException
+            throws AssignmentToZeroException
     {
         if(ZERO_VARIABLE.equals(variable))
-            throw new SymbolException(
-                    String.format("Cannot assign to variable `%s`", Environment.ZERO_VARIABLE));
+            throw new AssignmentToZeroException();
 
         variableValues.computeIfPresent(variable, (k, v) -> value);
     }
@@ -46,14 +46,14 @@ public class Environment
     }
 
     public void addLabel(String label)
-            throws LabelException
+            throws InvalidLabelNameException
     {
         validateLabel(label);
         namesSet.add(label);
     }
 
     public void addVariable(String variable)
-            throws SymbolException
+            throws InvalidVariableNameException
     {
         validateVariable(variable);
         namesSet.add(variable);
@@ -61,18 +61,16 @@ public class Environment
     }
 
     public void validateLabel(String label)
-            throws LabelException
+            throws InvalidLabelNameException
     {
         if(!label.matches(LABEL_REGEX))
-            throw new LabelException(
-                    "Invalid label format - should start with uppercase letter and be followed by at least one lowercase letter");
+            throw new InvalidLabelNameException();
     }
 
     public void validateVariable(String variable)
-            throws SymbolException
+            throws InvalidVariableNameException
     {
         if(!variable.matches(VARIABLE_REGEX))
-            throw new SymbolException(
-                    "Invalid variable name format - should be all in lowercase letters");
+            throw new InvalidVariableNameException();
     }
 }

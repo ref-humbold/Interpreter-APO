@@ -1,7 +1,7 @@
 package apolang.instruction;
 
-import apolang.errors.ArithmeticException;
-import apolang.errors.LanguageException;
+import apolang.exceptions.LanguageException;
+import apolang.exceptions.arithmetic.NegativeShiftException;
 import apolang.interpreter.Environment;
 
 public class LogicalInstruction
@@ -24,21 +24,30 @@ public class LogicalInstruction
             case SHLT:
                 argValue1 = environment.getVariableValue(arguments[1]);
                 argValue2 = Integer.parseInt(arguments[2]);
-                validateShift(argValue2);
+
+                if(argValue2 < 0)
+                    throw new NegativeShiftException(lineNumber);
+
                 environment.setVariableValue(arguments[0], argValue1 << argValue2);
                 break;
 
             case SHRT:
                 argValue1 = environment.getVariableValue(arguments[1]);
                 argValue2 = Integer.parseInt(arguments[2]);
-                validateShift(argValue2);
+
+                if(argValue2 < 0)
+                    throw new NegativeShiftException(lineNumber);
+
                 environment.setVariableValue(arguments[0], argValue1 >>> argValue2);
                 break;
 
             case SHRS:
                 argValue1 = environment.getVariableValue(arguments[1]);
                 argValue2 = Integer.parseInt(arguments[2]);
-                validateShift(argValue2);
+
+                if(argValue2 < 0)
+                    throw new NegativeShiftException(lineNumber);
+
                 environment.setVariableValue(arguments[0], argValue1 >> argValue2);
                 break;
 
@@ -93,12 +102,5 @@ public class LogicalInstruction
             default:
                 break;
         }
-    }
-
-    private void validateShift(int shiftValue)
-            throws ArithmeticException
-    {
-        if(shiftValue < 0)
-            throw new ArithmeticException("Shift by negative value", lineNumber);
     }
 }

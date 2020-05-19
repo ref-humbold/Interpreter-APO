@@ -1,4 +1,4 @@
-package apolang.errors;
+package apolang.exceptions;
 
 public class LanguageException
         extends Exception

@@ -1,7 +1,7 @@
 package apolang.instruction;
 
-import apolang.errors.ArithmeticException;
-import apolang.errors.LanguageException;
+import apolang.exceptions.LanguageException;
+import apolang.exceptions.arithmetic.DivisionByZeroException;
 import apolang.interpreter.Environment;
 
 public class ArithmeticInstruction
@@ -60,31 +60,25 @@ public class ArithmeticInstruction
             case DIV:
                 argValue1 = environment.getVariableValue(arguments[1]);
                 argValue2 = environment.getVariableValue(arguments[2]);
-                validateDivision(argValue1, argValue2);
+
+                if(argValue2 == 0)
+                    throw new DivisionByZeroException(lineNumber);
+
                 environment.setVariableValue(arguments[0], argValue1 / argValue2);
                 break;
 
             case DIVC:
                 argValue1 = environment.getVariableValue(arguments[1]);
                 argValue2 = Integer.parseInt(arguments[2]);
-                validateDivision(argValue1, argValue2);
+
+                if(argValue2 == 0)
+                    throw new DivisionByZeroException(lineNumber);
+
                 environment.setVariableValue(arguments[0], argValue1 / argValue2);
                 break;
 
             default:
                 break;
-        }
-    }
-
-    private void validateDivision(int argValue1, int argValue2)
-            throws ArithmeticException
-    {
-        if(argValue2 == 0)
-        {
-            if(argValue1 == 0)
-                throw new ArithmeticException("Not a number", lineNumber);
-
-            throw new ArithmeticException("Division by zero", lineNumber);
         }
     }
 }

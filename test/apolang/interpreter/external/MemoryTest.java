@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import apolang.errors.MemoryException;
+import apolang.exceptions.memory.MemoryException;
 
 public class MemoryTest
 {

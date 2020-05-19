@@ -3,7 +3,7 @@ package apolang.interpreter.external;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 
-import apolang.errors.LanguageException;
+import apolang.exceptions.LanguageException;
 
 public final class IOConnector
 {

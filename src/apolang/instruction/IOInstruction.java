@@ -1,6 +1,6 @@
 package apolang.instruction;
 
-import apolang.errors.LanguageException;
+import apolang.exceptions.LanguageException;
 import apolang.interpreter.Environment;
 import apolang.interpreter.external.IOConnector;
 

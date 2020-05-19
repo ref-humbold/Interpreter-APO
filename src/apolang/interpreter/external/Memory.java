@@ -1,6 +1,9 @@
 package apolang.interpreter.external;
 
-import apolang.errors.MemoryException;
+import apolang.exceptions.memory.AddressNotAlignedException;
+import apolang.exceptions.memory.MemoryException;
+import apolang.exceptions.memory.NotFitInByteException;
+import apolang.exceptions.memory.OutOfMemoryException;
 
 public class Memory
 {
@@ -42,8 +45,7 @@ public class Memory
         validateMemory(address, false);
 
         if(value < 0 || value >= 256)
-            throw new MemoryException(
-                    String.format("Number %d to store does not fit in a byte", value));
+            throw new NotFitInByteException(value);
 
         int shift = (3 - address % 4) * 8;
         int memoryValueMask = memory[address / 4] & ~(0xFF << shift);
@@ -55,10 +57,9 @@ public class Memory
             throws MemoryException
     {
         if(address < 0 || address >= memory.length)
-            throw new MemoryException("Outside of available memory");
+            throw new OutOfMemoryException();
 
         if(isAligned && address % 4 > 0)
-            throw new MemoryException(
-                    String.format("Address %d is not aligned to a word", address));
+            throw new AddressNotAlignedException(address);
     }
 }
