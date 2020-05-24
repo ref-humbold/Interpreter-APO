@@ -1,7 +1,8 @@
-package apolang.instruction;
+package apolang.instruction.instructions;
 
 import apolang.exceptions.LanguageException;
 import apolang.exceptions.memory.MemoryException;
+import apolang.instruction.InstructionName;
 import apolang.interpreter.Environment;
 import apolang.interpreter.external.Memory;
 

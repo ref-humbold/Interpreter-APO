@@ -1,5 +1,6 @@
 package apolang.interpreter.parser;
 
+import java.util.Arrays;
 import java.util.List;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -14,7 +15,9 @@ import apolang.exceptions.symbol.InvalidVariableNameException;
 import apolang.exceptions.symbol.NotExistingInstructionException;
 import apolang.exceptions.symbol.SymbolException;
 import apolang.exceptions.symbol.VariableNotInitializedException;
-import apolang.instruction.InstructionList;
+import apolang.instruction.InstructionName;
+import apolang.instruction.instructions.JumpInstruction;
+import apolang.instruction.list.InstructionList;
 import apolang.interpreter.Environment;
 
 public class InstructionParserTest
@@ -41,6 +44,44 @@ public class InstructionParserTest
             e.printStackTrace();
             Assertions.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
         }
+    }
+
+    @Test
+    public void parse_WhenCorrectProgram_ThenInstructionList()
+    {
+        // given
+        List<String> lines =
+                Arrays.asList("ASGNC a 0x11", "JPGT a zero Lb", "JPLT a zero Lc", "# equal",
+                              "MULC a a 2", "Lb: SUBC a a 1", "Lc: PTINT a");
+
+        testObject = new InstructionParser(lines, environment);
+        // when
+        InstructionList result = null;
+
+        try
+        {
+            result = testObject.parse();
+        }
+        catch(LanguageException e)
+        {
+            e.printStackTrace();
+            Assertions.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
+        }
+        // then
+        Assertions.assertFalse(result.isEmpty());
+        Assertions.assertEquals(InstructionName.ASGNC, result.getByLineNumber(1).getName());
+        Assertions.assertEquals(InstructionName.JPGT, result.getByLineNumber(2).getName());
+        Assertions.assertEquals(InstructionName.JPLT, result.getByLineNumber(3).getName());
+        Assertions.assertEquals(InstructionName.MULC, result.getByLineNumber(4).getName());
+        Assertions.assertEquals(InstructionName.MULC, result.getByLineNumber(5).getName());
+        Assertions.assertEquals(InstructionName.SUBC, result.getByLineNumber(6).getName());
+        Assertions.assertEquals(InstructionName.PTINT, result.getByLineNumber(7).getName());
+
+        JumpInstruction jumpGreaterThan = (JumpInstruction)result.getByLineNumber(2);
+        JumpInstruction jumpLessThan = (JumpInstruction)result.getByLineNumber(3);
+
+        Assertions.assertSame(result.getByLineNumber(6), jumpGreaterThan.getLink());
+        Assertions.assertSame(result.getByLineNumber(7), jumpLessThan.getLink());
     }
 
     @Test

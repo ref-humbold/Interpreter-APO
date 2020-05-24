@@ -1,5 +1,6 @@
-package apolang.instruction;
+package apolang.instruction.instructions;
 
+import apolang.instruction.InstructionName;
 import apolang.interpreter.Environment;
 
 public class NOPInstruction

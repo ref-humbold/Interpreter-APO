@@ -7,9 +7,9 @@ import java.nio.file.Path;
 import java.util.List;
 
 import apolang.exceptions.LanguageException;
-import apolang.instruction.Instruction;
 import apolang.instruction.InstructionFactory;
-import apolang.instruction.InstructionList;
+import apolang.instruction.list.ExecutionIterator;
+import apolang.instruction.list.InstructionList;
 import apolang.interpreter.external.Memory;
 import apolang.interpreter.parser.EnvironmentParser;
 import apolang.interpreter.parser.InstructionParser;
@@ -44,8 +44,10 @@ public class Controller
     public void run()
             throws LanguageException
     {
-        for(Instruction instruction : instructionList)
-            instruction.execute(environment);
+        ExecutionIterator executionIterator = instructionList.run();
+
+        while(executionIterator.hasNext())
+            executionIterator.next().execute(environment);
     }
 }
 

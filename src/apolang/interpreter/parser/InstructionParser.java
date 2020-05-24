@@ -12,7 +12,12 @@ import apolang.exceptions.symbol.AssignmentToZeroException;
 import apolang.exceptions.symbol.SymbolException;
 import apolang.exceptions.symbol.TooFewArgumentsException;
 import apolang.exceptions.symbol.VariableNotInitializedException;
-import apolang.instruction.*;
+import apolang.instruction.ArgumentType;
+import apolang.instruction.InstructionFactory;
+import apolang.instruction.InstructionName;
+import apolang.instruction.instructions.Instruction;
+import apolang.instruction.instructions.JumpInstruction;
+import apolang.instruction.list.InstructionList;
 import apolang.interpreter.Environment;
 
 public class InstructionParser
@@ -70,14 +75,12 @@ public class InstructionParser
     protected void afterParsing(InstructionList result)
     {
         for(Instruction instruction : result)
-        {
             if(instruction instanceof JumpInstruction)
             {
                 String label = instruction.getArgument(instruction.getArgumentsCount() - 1);
 
                 ((JumpInstruction)instruction).setLink(labelledInstructions.get(label));
             }
-        }
     }
 
     private String[] parseArguments(List<String> splitLine, InstructionName instructionName,

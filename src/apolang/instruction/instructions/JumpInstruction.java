@@ -1,7 +1,6 @@
-package apolang.instruction;
+package apolang.instruction.instructions;
 
-import java.util.Objects;
-
+import apolang.instruction.InstructionName;
 import apolang.interpreter.Environment;
 
 public class JumpInstruction
@@ -10,45 +9,25 @@ public class JumpInstruction
     private Instruction link = null;
     private boolean isJump = false;
 
-    public JumpInstruction(int lineNumber, InstructionName name, String... args)
+    public JumpInstruction(int lineNumber, InstructionName name, String... arguments)
     {
-        super(lineNumber, name, args);
+        super(lineNumber, name, arguments);
     }
 
     @Override
-    public Instruction getNext()
+    public Instruction getNextExecuted()
     {
         return isJump ? link : next;
+    }
+
+    public Instruction getLink()
+    {
+        return link;
     }
 
     public void setLink(Instruction link)
     {
         this.link = link;
-    }
-
-    @Override
-    public boolean equals(Object obj)
-    {
-        if(this == obj)
-            return true;
-
-        if(obj == null)
-            return false;
-
-        if(!(obj instanceof JumpInstruction))
-            return false;
-
-        JumpInstruction other = (JumpInstruction)obj;
-
-        return super.equals(other) && Objects.equals(link, other.link);
-    }
-
-    @Override
-    public int hashCode()
-    {
-        int prime = 37;
-
-        return prime * super.hashCode() + (link == null ? 0 : link.hashCode());
     }
 
     @Override

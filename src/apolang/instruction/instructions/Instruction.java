@@ -1,17 +1,18 @@
-package apolang.instruction;
+package apolang.instruction.instructions;
 
 import java.util.Arrays;
 import java.util.Objects;
 
 import apolang.exceptions.LanguageException;
+import apolang.instruction.InstructionName;
 import apolang.interpreter.Environment;
 
 public abstract class Instruction
 {
-    protected int lineNumber;
-    protected InstructionName name;
-    protected String[] arguments;
-    protected Instruction next = null;
+    final int lineNumber;
+    final InstructionName name;
+    final String[] arguments;
+    Instruction next = null;
 
     public Instruction(int lineNumber, InstructionName name, String... arguments)
     {
@@ -45,6 +46,11 @@ public abstract class Instruction
         this.next = next;
     }
 
+    public Instruction getNextExecuted()
+    {
+        return next;
+    }
+
     public String getArgument(int index)
     {
         return arguments[index];
@@ -61,14 +67,14 @@ public abstract class Instruction
 
         Instruction other = (Instruction)obj;
 
-        return lineNumber == other.lineNumber && name.equals(other.name) && Arrays.equals(arguments,
-                                                                                          other.arguments);
+        return Objects.equals(lineNumber, other.lineNumber) && Objects.equals(name, other.name)
+                && Arrays.equals(arguments, other.arguments);
     }
 
     @Override
     public int hashCode()
     {
-        return Objects.hash(name, arguments);
+        return Objects.hash(lineNumber, name, arguments);
     }
 
     public abstract void execute(Environment environment)

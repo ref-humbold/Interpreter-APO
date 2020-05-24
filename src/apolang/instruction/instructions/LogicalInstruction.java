@@ -1,7 +1,8 @@
-package apolang.instruction;
+package apolang.instruction.instructions;
 
 import apolang.exceptions.LanguageException;
 import apolang.exceptions.arithmetic.NegativeShiftException;
+import apolang.instruction.InstructionName;
 import apolang.interpreter.Environment;
 
 public class LogicalInstruction
