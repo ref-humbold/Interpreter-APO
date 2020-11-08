@@ -1,4 +1,4 @@
-package apolang.interpreter.external;
+package apolang.interpreter.externals;
 
 import apolang.exceptions.memory.AddressNotAlignedException;
 import apolang.exceptions.memory.MemoryException;

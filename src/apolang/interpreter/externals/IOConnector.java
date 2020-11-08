@@ -1,4 +1,4 @@
-package apolang.interpreter.external;
+package apolang.interpreter.externals;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;

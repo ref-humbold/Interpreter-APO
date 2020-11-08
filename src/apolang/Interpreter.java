@@ -8,12 +8,11 @@ import apolang.interpreter.Controller;
 
 public final class Interpreter
 {
-
     public static void main(String[] args)
             throws IOException
     {
         int memorySize = 1;
-        String address = args[0];
+        String filename = args[0];
 
         if(args.length > 1)
         {
@@ -23,18 +22,18 @@ public final class Interpreter
             }
             catch(Exception e)
             {
-                System.err.println("Memory could not be allocated.\n\tExecution stopped.");
+                System.err.println("Invalid memory size. Execution stopped.");
                 return;
             }
         }
 
-        if(!address.endsWith(".apo"))
+        if(!filename.endsWith(".apo"))
         {
-            System.err.println("Wrong filename extension.\n\tExecution stopped.");
+            System.err.println("Wrong filename extension. Execution stopped.");
             return;
         }
 
-        Path path = Paths.get(address);
+        Path path = Paths.get(filename);
         Controller controller = new Controller(memorySize, path);
 
         try
@@ -43,7 +42,7 @@ public final class Interpreter
         }
         catch(Exception e)
         {
-            System.err.println("\nparser error>> " + e.toString() + "\n\tExecution stopped.");
+            System.err.printf("parser error>> %s\n\tExecution stopped.\n", e);
             return;
         }
 
@@ -53,7 +52,7 @@ public final class Interpreter
         }
         catch(Exception e)
         {
-            System.err.println("\ninterpreter error>> " + e.toString() + "\n\tExecution stopped.");
+            System.err.printf("interpreter error>> %s\n\tExecution stopped.\n", e);
         }
     }
 }

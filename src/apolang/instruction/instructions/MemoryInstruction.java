@@ -4,7 +4,7 @@ import apolang.exceptions.LanguageException;
 import apolang.exceptions.memory.MemoryException;
 import apolang.instruction.InstructionName;
 import apolang.interpreter.Environment;
-import apolang.interpreter.external.Memory;
+import apolang.interpreter.externals.Memory;
 
 public class MemoryInstruction
         extends Instruction
