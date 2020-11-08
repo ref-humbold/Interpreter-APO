@@ -26,7 +26,7 @@ public class AssignInstruction
                 break;
 
             case ASGNC:
-                argValue = Integer.parseInt(arguments[2]);
+                argValue = Integer.parseInt(arguments[1]);
                 environment.setVariableValue(arguments[0], argValue);
                 break;
 

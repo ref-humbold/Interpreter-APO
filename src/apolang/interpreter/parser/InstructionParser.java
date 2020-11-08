@@ -23,12 +23,21 @@ import apolang.interpreter.Environment;
 public class InstructionParser
         extends AbstractParser<InstructionList>
 {
-    private final Environment environment;
     private final Map<String, Instruction> labelledInstructions = new HashMap<>();
+    private Environment environment;
 
-    public InstructionParser(List<String> lines, Environment environment)
+    public InstructionParser(List<String> lines)
     {
         super(lines);
+    }
+
+    public Environment getEnvironment()
+    {
+        return environment;
+    }
+
+    public void setEnvironment(Environment environment)
+    {
         this.environment = environment;
     }
 

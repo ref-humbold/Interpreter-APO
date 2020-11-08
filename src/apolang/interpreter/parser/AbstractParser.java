@@ -1,8 +1,8 @@
 package apolang.interpreter.parser;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import apolang.exceptions.LanguageException;
 
@@ -30,7 +30,11 @@ public abstract class AbstractParser<T>
                 line = line.substring(0, commentIndex);
 
             if(!line.isEmpty())
-                parseLine(new ArrayList<>(Arrays.asList(line.split("\\s+"))), i + 1, result);
+            {
+                List<String> splitLine =
+                        Arrays.stream(line.split("\\s+")).collect(Collectors.toList());
+                parseLine(splitLine, i + 1, result);
+            }
         }
 
         afterParsing(result);

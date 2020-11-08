@@ -54,7 +54,8 @@ public class InstructionParserTest
                 Arrays.asList("ASGNC a 0x11", "JPGT a zero Lb", "JPLT a zero Lc", "# equal",
                               "MULC a a 2", "Lb: SUBC a a 1", "Lc: PTINT a");
 
-        testObject = new InstructionParser(lines, environment);
+        testObject = new InstructionParser(lines);
+        testObject.setEnvironment(environment);
         // when
         InstructionList result = null;
 
@@ -90,7 +91,8 @@ public class InstructionParserTest
         // given
         List<String> lines = List.of("# only empty line", "");
 
-        testObject = new InstructionParser(lines, environment);
+        testObject = new InstructionParser(lines);
+        testObject.setEnvironment(environment);
         // when
         InstructionList result = null;
 
@@ -113,7 +115,8 @@ public class InstructionParserTest
         // given
         List<String> lines = List.of("# only label", "La:");
 
-        testObject = new InstructionParser(lines, environment);
+        testObject = new InstructionParser(lines);
+        testObject.setEnvironment(environment);
         // when
         InstructionList result = null;
 
@@ -136,7 +139,8 @@ public class InstructionParserTest
         // given
         List<String> lines = List.of("XYZ a b c");
 
-        testObject = new InstructionParser(lines, environment);
+        testObject = new InstructionParser(lines);
+        testObject.setEnvironment(environment);
         // when
         Executable executable = () -> testObject.parse();
         // then
@@ -149,7 +153,8 @@ public class InstructionParserTest
         // given
         List<String> lines = List.of("ADD a b");
 
-        testObject = new InstructionParser(lines, environment);
+        testObject = new InstructionParser(lines);
+        testObject.setEnvironment(environment);
         // when
         Executable executable = () -> testObject.parse();
         // then
@@ -162,7 +167,8 @@ public class InstructionParserTest
         // given
         List<String> lines = List.of("ADD a x c");
 
-        testObject = new InstructionParser(lines, environment);
+        testObject = new InstructionParser(lines);
+        testObject.setEnvironment(environment);
         // when
         Executable executable = () -> testObject.parse();
         // then
@@ -175,7 +181,8 @@ public class InstructionParserTest
         // given
         List<String> lines = List.of("ADD a X c");
 
-        testObject = new InstructionParser(lines, environment);
+        testObject = new InstructionParser(lines);
+        testObject.setEnvironment(environment);
         // when
         Executable executable = () -> testObject.parse();
         // then
@@ -188,7 +195,8 @@ public class InstructionParserTest
         // given
         List<String> lines = List.of("ADD zero b c");
 
-        testObject = new InstructionParser(lines, environment);
+        testObject = new InstructionParser(lines);
+        testObject.setEnvironment(environment);
         // when
         Executable executable = () -> testObject.parse();
         // then
@@ -201,7 +209,8 @@ public class InstructionParserTest
         // given
         List<String> lines = List.of("JUMP Xyz");
 
-        testObject = new InstructionParser(lines, environment);
+        testObject = new InstructionParser(lines);
+        testObject.setEnvironment(environment);
         // when
         Executable executable = () -> testObject.parse();
         // then
@@ -214,7 +223,8 @@ public class InstructionParserTest
         // given
         List<String> lines = List.of("ASGNC a b");
 
-        testObject = new InstructionParser(lines, environment);
+        testObject = new InstructionParser(lines);
+        testObject.setEnvironment(environment);
         // when
         Executable executable = () -> testObject.parse();
         // then
@@ -227,7 +237,8 @@ public class InstructionParserTest
         // given
         List<String> lines = List.of("Xyz: ASGNC a 10");
 
-        testObject = new InstructionParser(lines, environment);
+        testObject = new InstructionParser(lines);
+        testObject.setEnvironment(environment);
         // when
         Executable executable = () -> testObject.parse();
         // then

@@ -28,7 +28,7 @@ public class Controller
 
         InstructionFactory.memory = new Memory(memorySize);
         environmentParser = new EnvironmentParser(lines);
-        instructionParser = new InstructionParser(lines, environment);
+        instructionParser = new InstructionParser(lines);
     }
 
     public void parse()
@@ -36,7 +36,8 @@ public class Controller
     {
         System.out.print("parsing>> ");
         environment = environmentParser.parse();
-        System.out.println(". ");
+        System.out.print(". ");
+        instructionParser.setEnvironment(environment);
         instructionList = instructionParser.parse();
         System.out.println(". done");
     }

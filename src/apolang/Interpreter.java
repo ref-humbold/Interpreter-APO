@@ -43,6 +43,7 @@ public final class Interpreter
         catch(Exception e)
         {
             System.err.printf("parser error>> %s\n\tExecution stopped.\n", e);
+            e.printStackTrace(System.err);
             return;
         }
 
@@ -53,6 +54,7 @@ public final class Interpreter
         catch(Exception e)
         {
             System.err.printf("interpreter error>> %s\n\tExecution stopped.\n", e);
+            e.printStackTrace(System.err);
         }
     }
 }
