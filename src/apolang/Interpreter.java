@@ -1,27 +1,18 @@
 package apolang;
 
+import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-import apolang.interpret.Controller;
+import apolang.interpreter.Controller;
 
-/**
- * Glowna klasa, ktora pozwala na uruchomienie interpretera przez uzytkownika. Odpowiada ona za
- * pobranie programu do wykonania oraz rozpoczecie dzialania interpretera.
- * @author Rafal Kaleta
- * @version 1.2
- */
-public class Interpreter
+public final class Interpreter
 {
-    /**
-     * Pobiera plik i uruchamia jego interpretacje w {@link Controller}.
-     * @param args pobiera parametry wejsciowe interpretera: nazwe programu z rozszerzeniem .apo
-     * oraz (opcjonalnie) rozmiar pamieci do alokacji
-     */
     public static void main(String[] args)
+            throws IOException
     {
         int memorySize = 1;
-        String address = args[0];
+        String filename = args[0];
 
         if(args.length > 1)
         {
@@ -31,18 +22,18 @@ public class Interpreter
             }
             catch(Exception e)
             {
-                System.err.println("Memory could not be allocated.\n\tExecution stopped.");
+                System.err.println("Invalid memory size. Execution stopped.");
                 return;
             }
         }
 
-        if(!address.endsWith(".apo"))
+        if(!filename.endsWith(".apo"))
         {
-            System.err.println("Wrong filename extension.\n\tExecution stopped.");
+            System.err.println("Wrong filename extension. Execution stopped.");
             return;
         }
 
-        Path path = Paths.get(address);
+        Path path = Paths.get(filename);
         Controller controller = new Controller(memorySize, path);
 
         try
@@ -51,17 +42,19 @@ public class Interpreter
         }
         catch(Exception e)
         {
-            System.err.println("\nparser error>> " + e.toString() + "\n\tExecution stopped.");
+            System.err.printf("parser error>> %s\n\tExecution stopped.\n", e);
+            e.printStackTrace(System.err);
             return;
         }
 
         try
         {
-            controller.make();
+            controller.run();
         }
         catch(Exception e)
         {
-            System.err.println("\ninterpreter error>> " + e.toString() + "\n\tExecution stopped.");
+            System.err.printf("interpreter error>> %s\n\tExecution stopped.\n", e);
+            e.printStackTrace(System.err);
         }
     }
 }
