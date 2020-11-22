@@ -1,9 +1,9 @@
-package apolang.instruction.list;
+package apolang.instructions.list;
 
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
-import apolang.instruction.instructions.Instruction;
+import apolang.instructions.instruction.Instruction;
 
 public class InstructionIterator
         implements Iterator<Instruction>

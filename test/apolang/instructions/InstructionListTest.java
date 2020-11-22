@@ -1,4 +1,4 @@
-package apolang.instruction;
+package apolang.instructions;
 
 import java.util.Iterator;
 import org.junit.jupiter.api.AfterEach;
@@ -7,8 +7,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
 
-import apolang.instruction.instructions.Instruction;
-import apolang.instruction.list.InstructionList;
+import apolang.instructions.instruction.Instruction;
+import apolang.instructions.list.InstructionList;
 
 public class InstructionListTest
 {

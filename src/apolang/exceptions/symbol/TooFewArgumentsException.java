@@ -1,6 +1,6 @@
 package apolang.exceptions.symbol;
 
-import apolang.instruction.InstructionName;
+import apolang.instructions.InstructionName;
 
 public class TooFewArgumentsException
         extends SymbolException

@@ -1,4 +1,4 @@
-package apolang.instruction;
+package apolang.instructions;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
@@ -6,10 +6,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import apolang.exceptions.LanguageException;
-import apolang.instruction.instructions.Instruction;
-import apolang.instruction.instructions.JumpInstruction;
-import apolang.instruction.list.ExecutionIterator;
-import apolang.instruction.list.InstructionList;
+import apolang.instructions.instruction.Instruction;
+import apolang.instructions.instruction.JumpInstruction;
+import apolang.instructions.list.ExecutionIterator;
+import apolang.instructions.list.InstructionList;
 import apolang.interpreter.Environment;
 
 public class ExecutionIteratorTest

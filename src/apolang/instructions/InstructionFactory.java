@@ -1,6 +1,6 @@
-package apolang.instruction;
+package apolang.instructions;
 
-import apolang.instruction.instructions.*;
+import apolang.instructions.instruction.*;
 import apolang.interpreter.externals.Memory;
 
 public final class InstructionFactory

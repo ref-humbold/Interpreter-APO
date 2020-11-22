@@ -1,4 +1,4 @@
-package apolang.instruction;
+package apolang.instructions;
 
 public enum ArgumentType
 {

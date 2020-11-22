@@ -1,7 +1,7 @@
-package apolang.instruction.instructions;
+package apolang.instructions.instruction;
 
 import apolang.exceptions.LanguageException;
-import apolang.instruction.InstructionName;
+import apolang.instructions.InstructionName;
 import apolang.interpreter.Environment;
 
 public class AssignInstruction

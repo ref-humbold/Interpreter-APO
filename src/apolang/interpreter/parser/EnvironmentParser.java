@@ -5,7 +5,7 @@ import java.util.List;
 import apolang.exceptions.label.DuplicatedLabelException;
 import apolang.exceptions.label.LabelException;
 import apolang.exceptions.symbol.SymbolException;
-import apolang.instruction.InstructionName;
+import apolang.instructions.InstructionName;
 import apolang.interpreter.Environment;
 
 public class EnvironmentParser
