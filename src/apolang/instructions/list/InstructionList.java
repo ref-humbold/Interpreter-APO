@@ -10,10 +10,16 @@ public class InstructionList
 {
     private Instruction begin = null;
     private Instruction end = null;
+    private int linesCount = 0;
 
     public boolean isEmpty()
     {
         return begin == null && end == null;
+    }
+
+    public int getLinesCount()
+    {
+        return linesCount;
     }
 
     @Override
@@ -37,6 +43,7 @@ public class InstructionList
             end.setNext(instruction);
 
         end = instruction;
+        linesCount = end.getLineNumber();
     }
 
     public Instruction getByLineNumber(int lineNumber)

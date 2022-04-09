@@ -38,7 +38,6 @@ public abstract class AbstractParser<T>
         }
 
         afterParsing(result);
-
         return result;
     }
 

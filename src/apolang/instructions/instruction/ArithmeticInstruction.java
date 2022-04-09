@@ -8,9 +8,9 @@ import apolang.interpreter.Environment;
 public class ArithmeticInstruction
         extends Instruction
 {
-    public ArithmeticInstruction(int lineNumber, InstructionName name, String... args)
+    public ArithmeticInstruction(int lineNumber, InstructionName name, String... arguments)
     {
-        super(lineNumber, name, args);
+        super(lineNumber, name, arguments);
     }
 
     @Override

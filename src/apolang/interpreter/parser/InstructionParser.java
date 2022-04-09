@@ -17,6 +17,7 @@ import apolang.instructions.InstructionFactory;
 import apolang.instructions.InstructionName;
 import apolang.instructions.instruction.Instruction;
 import apolang.instructions.instruction.JumpInstruction;
+import apolang.instructions.instruction.NOPInstruction;
 import apolang.instructions.list.InstructionList;
 import apolang.interpreter.Environment;
 
@@ -83,6 +84,11 @@ public class InstructionParser
     @Override
     protected void afterParsing(InstructionList result)
     {
+        NOPInstruction endInstruction = new NOPInstruction(result.getLinesCount());
+
+        result.add(endInstruction);
+        labelledInstructions.put(Environment.END_LABEL, endInstruction);
+
         for(Instruction instruction : result)
             if(instruction instanceof JumpInstruction)
             {
@@ -129,8 +135,9 @@ public class InstructionParser
     {
         try
         {
-            int decimalValue = value.startsWith("0x") ? Integer.parseInt(value.substring(2), 16)
-                                                      : Integer.parseInt(value);
+            int decimalValue = value.startsWith("0x")
+                    ? Integer.parseInt(value.substring(2), 16)
+                    : Integer.parseInt(value);
 
             return Integer.toString(decimalValue);
         }

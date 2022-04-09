@@ -10,9 +10,9 @@ public class IOInstruction
 {
     private final IOConnector connector;
 
-    public IOInstruction(int lineNumber, InstructionName name, String... args)
+    public IOInstruction(int lineNumber, InstructionName name, String... arguments)
     {
-        super(lineNumber, name, args);
+        super(lineNumber, name, arguments);
         connector = IOConnector.getInstance();
     }
 

@@ -1,4 +1,3 @@
-# [ Java ]
 # Java / Apache ANT output
 bin/
 dist/
@@ -11,6 +10,10 @@ junit/
 
 # Apache Ivy dependencies
 lib/
+
+# Visual Studio Code
+.vscode
+*.code-workspace
 
 # IntelliJ IDEA
 .idea

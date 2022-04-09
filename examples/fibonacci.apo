@@ -1,0 +1,24 @@
+ASGNC n 0
+ASGNC fa 0
+ASGNC fb 1
+ASGNC fs 1
+
+RDINT n
+
+ASGNC one 1
+ASGNC three 3
+
+JPLT n one Zero
+
+Loop: JPLT n three Result
+ASGN fa fb
+ASGN fb fs
+ADD fs fa fb
+SUBC n n 1
+JUMP Loop
+
+Result: PTINT fs
+JUMP End
+
+Zero: PTINT zero
+JUMP End
