@@ -1,17 +1,16 @@
-package apolang.instructions.list;
+package apolang.instructions_old.list;
 
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
-import apolang.instructions.instruction.Instruction;
+import apolang.instructions_old.instruction.Instruction;
 
-public class ExecutionIterator
+public class InstructionIterator
         implements Iterator<Instruction>
 {
-    private Instruction previous = null;
     private Instruction current;
 
-    ExecutionIterator(Instruction current)
+    InstructionIterator(Instruction current)
     {
         this.current = current;
     }
@@ -26,19 +25,11 @@ public class ExecutionIterator
     public Instruction next()
             throws NoSuchElementException
     {
-        if(previous != null)
-        {
-            Instruction next = previous.getNextExecuted();
-
-            if(next != null && !next.equals(current))
-                current = next;
-        }
-
         if(!hasNext())
             throw new NoSuchElementException();
 
-        previous = current;
-        current = current.getNextExecuted();
+        Instruction previous = current;
+        current = current.getNext();
 
         return previous;
     }

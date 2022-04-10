@@ -6,10 +6,12 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import apolang.exceptions.LanguageException;
-import apolang.instructions.instruction.Instruction;
-import apolang.instructions.instruction.JumpInstruction;
-import apolang.instructions.list.ExecutionIterator;
-import apolang.instructions.list.InstructionList;
+import apolang.instructions_old.InstructionFactory;
+import apolang.instructions_old.InstructionName;
+import apolang.instructions_old.instruction.Instruction;
+import apolang.instructions_old.instruction.JumpInstruction;
+import apolang.instructions_old.list.ExecutionIterator;
+import apolang.instructions_old.list.InstructionList;
 import apolang.interpreter.Environment;
 
 public class ExecutionIteratorTest

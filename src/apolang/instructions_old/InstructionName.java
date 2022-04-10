@@ -1,4 +1,4 @@
-package apolang.instructions;
+package apolang.instructions_old;
 
 import java.util.Set;
 

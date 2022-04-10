@@ -7,8 +7,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
 
-import apolang.instructions.instruction.Instruction;
-import apolang.instructions.list.InstructionList;
+import apolang.instructions_old.InstructionFactory;
+import apolang.instructions_old.InstructionName;
+import apolang.instructions_old.instruction.Instruction;
+import apolang.instructions_old.list.InstructionList;
 
 public class InstructionListTest
 {

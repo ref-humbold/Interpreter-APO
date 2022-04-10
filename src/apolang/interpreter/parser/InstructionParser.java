@@ -12,13 +12,13 @@ import apolang.exceptions.symbol.AssignmentToZeroException;
 import apolang.exceptions.symbol.SymbolException;
 import apolang.exceptions.symbol.TooFewArgumentsException;
 import apolang.exceptions.symbol.VariableNotInitializedException;
-import apolang.instructions.ArgumentType;
-import apolang.instructions.InstructionFactory;
-import apolang.instructions.InstructionName;
-import apolang.instructions.instruction.Instruction;
-import apolang.instructions.instruction.JumpInstruction;
-import apolang.instructions.instruction.NOPInstruction;
-import apolang.instructions.list.InstructionList;
+import apolang.instructions_old.ArgumentType;
+import apolang.instructions_old.InstructionFactory;
+import apolang.instructions_old.InstructionName;
+import apolang.instructions_old.instruction.Instruction;
+import apolang.instructions_old.instruction.JumpInstruction;
+import apolang.instructions_old.instruction.NOPInstruction;
+import apolang.instructions_old.list.InstructionList;
 import apolang.interpreter.Environment;
 
 public class InstructionParser

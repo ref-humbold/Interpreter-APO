@@ -1,6 +1,6 @@
-package apolang.instructions.instruction;
+package apolang.instructions_old.instruction;
 
-import apolang.instructions.InstructionName;
+import apolang.instructions_old.InstructionName;
 import apolang.interpreter.Environment;
 
 public class JumpInstruction

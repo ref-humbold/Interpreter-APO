@@ -15,9 +15,9 @@ import apolang.exceptions.symbol.InvalidVariableNameException;
 import apolang.exceptions.symbol.NotExistingInstructionException;
 import apolang.exceptions.symbol.SymbolException;
 import apolang.exceptions.symbol.VariableNotInitializedException;
-import apolang.instructions.InstructionName;
-import apolang.instructions.instruction.JumpInstruction;
-import apolang.instructions.list.InstructionList;
+import apolang.instructions_old.InstructionName;
+import apolang.instructions_old.instruction.JumpInstruction;
+import apolang.instructions_old.list.InstructionList;
 import apolang.interpreter.Environment;
 
 public class InstructionParserTest

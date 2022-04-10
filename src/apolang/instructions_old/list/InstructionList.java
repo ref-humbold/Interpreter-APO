@@ -1,9 +1,9 @@
-package apolang.instructions.list;
+package apolang.instructions_old.list;
 
 import java.util.Iterator;
 import java.util.Objects;
 
-import apolang.instructions.instruction.Instruction;
+import apolang.instructions_old.instruction.Instruction;
 
 public class InstructionList
         implements Iterable<Instruction>
