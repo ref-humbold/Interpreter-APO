@@ -26,6 +26,7 @@ public class InstructionParser
 {
     private final Map<String, Instruction> labelledInstructions = new HashMap<>();
     private Environment environment;
+    private boolean usesEndLabel = false;
 
     public InstructionParser(List<String> lines)
     {
@@ -84,10 +85,13 @@ public class InstructionParser
     @Override
     protected void afterParsing(InstructionList result)
     {
-        NOPInstruction endInstruction = new NOPInstruction(result.getLinesCount());
+        if(usesEndLabel)
+        {
+            NOPInstruction endInstruction = new NOPInstruction(result.getLinesCount() + 1);
 
-        result.add(endInstruction);
-        labelledInstructions.put(Environment.END_LABEL, endInstruction);
+            result.add(endInstruction);
+            labelledInstructions.put(Environment.END_LABEL, endInstruction);
+        }
 
         for(Instruction instruction : result)
             if(instruction instanceof JumpInstruction)
@@ -154,6 +158,9 @@ public class InstructionParser
 
         if(!environment.contains(label))
             throw new LabelNotFoundException(label);
+
+        if(Environment.END_LABEL.equals(label))
+            usesEndLabel = true;
 
         return label;
     }

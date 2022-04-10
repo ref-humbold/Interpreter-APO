@@ -107,6 +107,7 @@ public class InstructionParserTest
         }
         // then
         Assertions.assertTrue(result.isEmpty());
+        Assertions.assertEquals(0, result.getLinesCount());
     }
 
     @Test
@@ -131,6 +132,32 @@ public class InstructionParserTest
         }
         // then
         Assertions.assertFalse(result.isEmpty());
+        Assertions.assertEquals(2, result.getLinesCount());
+    }
+
+    @Test
+    public void parse_WhenEndLabel_ThenEndsWithNOPInstruction()
+    {
+        // given
+        List<String> lines = List.of("# jump to End", "JUMP End");
+
+        testObject = new InstructionParser(lines);
+        testObject.setEnvironment(environment);
+        // when
+        InstructionList result = null;
+
+        try
+        {
+            result = testObject.parse();
+        }
+        catch(LanguageException e)
+        {
+            e.printStackTrace();
+            Assertions.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
+        }
+        // then
+        Assertions.assertFalse(result.isEmpty());
+        Assertions.assertEquals(3, result.getLinesCount());
     }
 
     @Test
