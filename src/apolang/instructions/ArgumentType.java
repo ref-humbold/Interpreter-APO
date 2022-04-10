@@ -2,5 +2,5 @@ package apolang.instructions;
 
 public enum ArgumentType
 {
-    VARIABLE, LABEL, CONSTANT
+    VARIABLE_READ, VARIABLE_WRITE, LABEL, CONSTANT
 }

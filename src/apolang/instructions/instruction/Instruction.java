@@ -1,82 +1,20 @@
 package apolang.instructions.instruction;
 
-import java.util.Arrays;
-import java.util.Objects;
-
 import apolang.exceptions.LanguageException;
-import apolang.instructions.InstructionName;
+import apolang.instructions.ArgumentType;
 import apolang.interpreter.Environment;
 
-public abstract class Instruction
+public interface Instruction<R>
 {
-    final int lineNumber;
-    final InstructionName name;
-    final String[] arguments;
-    Instruction next = null;
+    ArgumentType[] getArgumentsTypes();
 
-    public Instruction(int lineNumber, InstructionName name, String... arguments)
-    {
-        this.lineNumber = lineNumber;
-        this.name = name;
-        this.arguments = arguments;
-    }
-
-    public int getLineNumber()
-    {
-        return lineNumber;
-    }
-
-    public InstructionName getName()
-    {
-        return name;
-    }
-
-    public int getArgumentsCount()
-    {
-        return arguments.length;
-    }
-
-    public Instruction getNext()
-    {
-        return next;
-    }
-
-    public void setNext(Instruction next)
-    {
-        this.next = next;
-    }
-
-    public Instruction getNextExecuted()
-    {
-        return next;
-    }
-
-    public String getArgument(int index)
-    {
-        return arguments[index];
-    }
-
-    @Override
-    public boolean equals(Object obj)
-    {
-        if(this == obj)
-            return true;
-
-        if(!(obj instanceof Instruction))
-            return false;
-
-        Instruction other = (Instruction)obj;
-
-        return Objects.equals(lineNumber, other.lineNumber) && Objects.equals(name, other.name)
-                && Arrays.equals(arguments, other.arguments);
-    }
-
-    @Override
-    public int hashCode()
-    {
-        return Objects.hash(lineNumber, name, arguments);
-    }
-
-    public abstract void execute(Environment environment)
+    R execute(Environment environment, String... arguments)
             throws LanguageException;
+
+    default boolean hasValueSet()
+    {
+        ArgumentType[] argumentsTypes = getArgumentsTypes();
+
+        return argumentsTypes.length > 0 && argumentsTypes[0] == ArgumentType.VARIABLE_WRITE;
+    }
 }
