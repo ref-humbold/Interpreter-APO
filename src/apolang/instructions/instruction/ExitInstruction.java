@@ -1,20 +1,20 @@
 package apolang.instructions.instruction;
 
-import apolang.instructions.ArgumentType;
+import apolang.instructions.statement.ExitStatement;
 import apolang.interpreter.Environment;
 
 public class ExitInstruction
-        implements Instruction<Void>
+        extends AbstractInstruction<ExitStatement>
 {
-    @Override
-    public ArgumentType[] getArgumentsTypes()
+    public ExitInstruction(int lineNumber, ExitStatement statement, String... arguments)
     {
-        return new ArgumentType[0];
+        super(lineNumber, statement, arguments);
     }
 
     @Override
-    public Void execute(Environment environment, String... arguments)
+    public boolean execute(Environment environment)
     {
-        return null;
+        statement.execute(environment, arguments);
+        return false;
     }
 }
