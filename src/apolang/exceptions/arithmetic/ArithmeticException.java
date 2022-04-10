@@ -7,6 +7,11 @@ public class ArithmeticException
 {
     private static final long serialVersionUID = -5079970583212010548L;
 
+    public ArithmeticException(String message)
+    {
+        super(message);
+    }
+
     public ArithmeticException(String message, int lineNumber)
     {
         super(message, lineNumber);
