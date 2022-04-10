@@ -3,11 +3,11 @@ package apolang.instructions.instruction.arithmetic;
 import apolang.exceptions.LanguageException;
 import apolang.exceptions.arithmetic.DivisionByZeroException;
 import apolang.instructions.ArgumentType;
-import apolang.instructions.instruction.Instruction;
+import apolang.instructions.instruction.BaseInstruction;
 import apolang.interpreter.Environment;
 
 public class DivideInstruction
-        implements Instruction<Void>
+        implements BaseInstruction
 {
     @Override
     public ArgumentType[] getArgumentsTypes()

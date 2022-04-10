@@ -2,12 +2,12 @@ package apolang.instructions.instruction.io;
 
 import apolang.exceptions.LanguageException;
 import apolang.instructions.ArgumentType;
-import apolang.instructions.instruction.Instruction;
+import apolang.instructions.instruction.BaseInstruction;
 import apolang.interpreter.Environment;
 import apolang.interpreter.externals.IOConnector;
 
 public class ReadIntInstruction
-        implements Instruction<Void>
+        implements BaseInstruction
 {
     private final IOConnector connector;
 

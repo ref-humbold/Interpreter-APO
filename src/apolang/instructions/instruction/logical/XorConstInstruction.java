@@ -2,11 +2,11 @@ package apolang.instructions.instruction.logical;
 
 import apolang.exceptions.LanguageException;
 import apolang.instructions.ArgumentType;
-import apolang.instructions.instruction.Instruction;
+import apolang.instructions.instruction.BaseInstruction;
 import apolang.interpreter.Environment;
 
 public class XorConstInstruction
-        implements Instruction<Void>
+        implements BaseInstruction
 {
     @Override
     public ArgumentType[] getArgumentsTypes()

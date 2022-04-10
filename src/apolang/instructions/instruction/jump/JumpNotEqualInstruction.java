@@ -1,11 +1,11 @@
 package apolang.instructions.instruction.jump;
 
 import apolang.instructions.ArgumentType;
-import apolang.instructions.instruction.Instruction;
+import apolang.instructions.instruction.JumpBaseInstruction;
 import apolang.interpreter.Environment;
 
 public class JumpNotEqualInstruction
-        implements Instruction<Boolean>
+        implements JumpBaseInstruction
 {
     @Override
     public ArgumentType[] getArgumentsTypes()

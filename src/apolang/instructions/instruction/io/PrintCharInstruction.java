@@ -1,12 +1,12 @@
 package apolang.instructions.instruction.io;
 
 import apolang.instructions.ArgumentType;
-import apolang.instructions.instruction.Instruction;
+import apolang.instructions.instruction.BaseInstruction;
 import apolang.interpreter.Environment;
 import apolang.interpreter.externals.IOConnector;
 
 public class PrintCharInstruction
-        implements Instruction<Void>
+        implements BaseInstruction
 {
     private final IOConnector connector;
 

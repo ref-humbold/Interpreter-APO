@@ -2,12 +2,12 @@ package apolang.instructions.instruction.memory;
 
 import apolang.exceptions.LanguageException;
 import apolang.instructions.ArgumentType;
-import apolang.instructions.instruction.Instruction;
+import apolang.instructions.instruction.BaseInstruction;
 import apolang.interpreter.Environment;
 import apolang.interpreter.externals.Memory;
 
 public class LoadWordInstruction
-        implements Instruction<Void>
+        implements BaseInstruction
 {
     private final Memory memory;
 
