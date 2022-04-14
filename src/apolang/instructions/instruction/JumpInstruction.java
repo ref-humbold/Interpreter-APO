@@ -5,9 +5,9 @@ import apolang.instructions.statement.JumpBaseStatement;
 import apolang.interpreter.Environment;
 
 public class JumpInstruction<S extends JumpBaseStatement>
-        extends AbstractInstruction<S>
+        extends Instruction<S>
 {
-    private AbstractInstruction<?> link;
+    private Instruction<?> link;
     private boolean isJump = false;
 
     public JumpInstruction(int lineNumber, S statement, String... arguments)
@@ -15,18 +15,18 @@ public class JumpInstruction<S extends JumpBaseStatement>
         super(lineNumber, statement, arguments);
     }
 
-    public AbstractInstruction<?> getLink()
+    public Instruction<?> getLink()
     {
         return link;
     }
 
-    public void setLink(AbstractInstruction<?> link)
+    public void setLink(Instruction<?> link)
     {
         this.link = link;
     }
 
     @Override
-    public AbstractInstruction<?> getNextInstruction()
+    public Instruction<?> getNextExecuted()
     {
         return isJump ? link : next;
     }

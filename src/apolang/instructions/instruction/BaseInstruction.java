@@ -5,7 +5,7 @@ import apolang.instructions.statement.BaseStatement;
 import apolang.interpreter.Environment;
 
 public class BaseInstruction<S extends BaseStatement>
-        extends AbstractInstruction<S>
+        extends Instruction<S>
 {
     public BaseInstruction(int lineNumber, S statement, String... arguments)
     {

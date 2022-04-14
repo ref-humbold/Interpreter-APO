@@ -4,14 +4,14 @@ import apolang.exceptions.LanguageException;
 import apolang.instructions.statement.Statement;
 import apolang.interpreter.Environment;
 
-public abstract class AbstractInstruction<S extends Statement<?>>
+public abstract class Instruction<S extends Statement<?>>
 {
     protected final int lineNumber;
     protected final S statement;
     protected final String[] arguments;
-    protected AbstractInstruction<?> next = null;
+    protected Instruction<?> next = null;
 
-    public AbstractInstruction(int lineNumber, S statement, String... arguments)
+    public Instruction(int lineNumber, S statement, String... arguments)
     {
         this.lineNumber = lineNumber;
         this.statement = statement;
@@ -33,17 +33,17 @@ public abstract class AbstractInstruction<S extends Statement<?>>
         return arguments.length;
     }
 
-    public AbstractInstruction<?> getNext()
+    public Instruction<?> getNext()
     {
         return next;
     }
 
-    public void setNext(AbstractInstruction<?> next)
+    public void setNext(Instruction<?> next)
     {
         this.next = next;
     }
 
-    public AbstractInstruction<?> getNextInstruction()
+    public Instruction<?> getNextExecuted()
     {
         return next;
     }

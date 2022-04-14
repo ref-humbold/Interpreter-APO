@@ -4,7 +4,7 @@ import apolang.instructions.statement.ExitStatement;
 import apolang.interpreter.Environment;
 
 public class ExitInstruction
-        extends AbstractInstruction<ExitStatement>
+        extends Instruction<ExitStatement>
 {
     public ExitInstruction(int lineNumber, ExitStatement statement, String... arguments)
     {
