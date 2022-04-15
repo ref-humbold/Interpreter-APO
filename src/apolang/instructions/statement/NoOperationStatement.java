@@ -4,7 +4,7 @@ import apolang.instructions.ArgumentType;
 import apolang.interpreter.Environment;
 
 public class NoOperationStatement
-        implements BaseStatement
+        implements BasicStatement
 {
     @Override
     public ArgumentType[] getArgumentsTypes()

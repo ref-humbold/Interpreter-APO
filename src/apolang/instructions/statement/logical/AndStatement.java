@@ -2,11 +2,11 @@ package apolang.instructions.statement.logical;
 
 import apolang.exceptions.LanguageException;
 import apolang.instructions.ArgumentType;
-import apolang.instructions.statement.BaseStatement;
+import apolang.instructions.statement.BasicStatement;
 import apolang.interpreter.Environment;
 
 public class AndStatement
-        implements BaseStatement
+        implements BasicStatement
 {
     @Override
     public ArgumentType[] getArgumentsTypes()

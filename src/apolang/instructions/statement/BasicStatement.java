@@ -1,6 +1,6 @@
 package apolang.instructions.statement;
 
-public interface BaseStatement
+public interface BasicStatement
         extends Statement<Void>
 {
 }

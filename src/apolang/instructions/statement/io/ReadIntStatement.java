@@ -2,12 +2,12 @@ package apolang.instructions.statement.io;
 
 import apolang.exceptions.LanguageException;
 import apolang.instructions.ArgumentType;
-import apolang.instructions.statement.BaseStatement;
+import apolang.instructions.statement.BasicStatement;
 import apolang.interpreter.Environment;
 import apolang.interpreter.externals.IOConnector;
 
 public class ReadIntStatement
-        implements BaseStatement
+        implements BasicStatement
 {
     private final IOConnector connector;
 

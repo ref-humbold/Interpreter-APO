@@ -2,12 +2,12 @@ package apolang.instructions.statement.memory;
 
 import apolang.exceptions.LanguageException;
 import apolang.instructions.ArgumentType;
-import apolang.instructions.statement.BaseStatement;
+import apolang.instructions.statement.BasicStatement;
 import apolang.interpreter.Environment;
 import apolang.interpreter.externals.Memory;
 
 public class LoadByteStatement
-        implements BaseStatement
+        implements BasicStatement
 {
     private final Memory memory;
 

@@ -1,13 +1,13 @@
 package apolang.instructions.instruction;
 
 import apolang.exceptions.LanguageException;
-import apolang.instructions.statement.BaseStatement;
+import apolang.instructions.statement.BasicStatement;
 import apolang.interpreter.Environment;
 
-public class BaseInstruction<S extends BaseStatement>
+public class BasicInstruction<S extends BasicStatement>
         extends Instruction<S>
 {
-    public BaseInstruction(int lineNumber, S statement, String... arguments)
+    public BasicInstruction(int lineNumber, S statement, String... arguments)
     {
         super(lineNumber, statement, arguments);
     }
