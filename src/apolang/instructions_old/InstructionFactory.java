@@ -1,7 +1,7 @@
 package apolang.instructions_old;
 
 import apolang.instructions_old.instruction.*;
-import apolang.interpreter.externals.Memory;
+import apolang.interpreter.memory.Memory;
 
 public final class InstructionFactory
 {

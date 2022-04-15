@@ -2,20 +2,11 @@ package apolang.instructions.statement.memory;
 
 import apolang.exceptions.LanguageException;
 import apolang.instructions.ArgumentType;
-import apolang.instructions.statement.BasicStatement;
 import apolang.interpreter.Environment;
-import apolang.interpreter.externals.Memory;
 
 public class LoadWordStatement
-        implements BasicStatement
+        extends AbstractMemoryStatement
 {
-    private final Memory memory;
-
-    public LoadWordStatement(Memory memory)
-    {
-        this.memory = memory;
-    }
-
     @Override
     public ArgumentType[] getArgumentsTypes()
     {

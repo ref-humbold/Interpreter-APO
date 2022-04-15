@@ -3,7 +3,7 @@ package apolang.instructions_old.instruction;
 import apolang.exceptions.LanguageException;
 import apolang.instructions_old.InstructionName;
 import apolang.interpreter.Environment;
-import apolang.interpreter.externals.IOConnector;
+import apolang.interpreter.io.IOConnector;
 
 public class IOInstruction
         extends Instruction

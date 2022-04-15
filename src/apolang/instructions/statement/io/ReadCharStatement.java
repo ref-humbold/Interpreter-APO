@@ -4,7 +4,7 @@ import apolang.exceptions.LanguageException;
 import apolang.instructions.ArgumentType;
 import apolang.instructions.statement.BasicStatement;
 import apolang.interpreter.Environment;
-import apolang.interpreter.externals.IOConnector;
+import apolang.interpreter.io.IOConnector;
 
 public class ReadCharStatement
         implements BasicStatement

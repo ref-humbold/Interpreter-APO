@@ -10,7 +10,7 @@ import apolang.exceptions.LanguageException;
 import apolang.instructions_old.InstructionFactory;
 import apolang.instructions_old.list.ExecutionIterator;
 import apolang.instructions_old.list.InstructionList;
-import apolang.interpreter.externals.Memory;
+import apolang.interpreter.memory.Memory;
 import apolang.interpreter.parser.EnvironmentParser;
 import apolang.interpreter.parser.InstructionParser;
 
