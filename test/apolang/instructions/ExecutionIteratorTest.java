@@ -6,12 +6,12 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import apolang.exceptions.LanguageException;
-import apolang.instructions_old.InstructionFactory;
-import apolang.instructions_old.InstructionName;
-import apolang.instructions_old.instruction.Instruction;
-import apolang.instructions_old.instruction.JumpInstruction;
-import apolang.instructions_old.list.ExecutionIterator;
-import apolang.instructions_old.list.InstructionList;
+import apolang.instructions.instruction.Instruction;
+import apolang.instructions.instruction.JumpInstruction;
+import apolang.instructions.list.ExecutionIterator;
+import apolang.instructions.list.InstructionList;
+import apolang.instructions.statement.JumpBaseStatement;
+import apolang.instructions.statement.StatementName;
 import apolang.interpreter.Environment;
 
 public class ExecutionIteratorTest
@@ -19,6 +19,7 @@ public class ExecutionIteratorTest
     private static final String[] VARS = new String[]{"one", "two", "tree", "res"};
     private static final String LABEL = "Label";
     private final Environment environment = new Environment();
+    private final InstructionFactory instructionFactory = InstructionFactory.getInstance();
     private InstructionList instructionList;
 
     public ExecutionIteratorTest()
@@ -61,7 +62,7 @@ public class ExecutionIteratorTest
     {
         // given
         Instruction instruction =
-                InstructionFactory.create(1, InstructionName.ADD, VARS[3], VARS[0], VARS[1]);
+                instructionFactory.create(1, StatementName.ADD, VARS[3], VARS[0], VARS[1]);
 
         instructionList.add(instruction);
         ExecutionIterator testObject = instructionList.run();
@@ -75,9 +76,9 @@ public class ExecutionIteratorTest
     public void next_WhenStandardInstruction_ThenFollowingInstruction()
     {
         Instruction instruction1 =
-                InstructionFactory.create(2, InstructionName.ADD, VARS[3], VARS[0], VARS[2]);
+                instructionFactory.create(2, StatementName.ADD, VARS[3], VARS[0], VARS[2]);
         Instruction instruction2 =
-                InstructionFactory.create(2, InstructionName.MUL, VARS[3], VARS[0], VARS[2]);
+                instructionFactory.create(2, StatementName.MUL, VARS[3], VARS[0], VARS[2]);
 
         instructionList.add(instruction1);
         instructionList.add(instruction2);
@@ -96,11 +97,12 @@ public class ExecutionIteratorTest
     {
         // given
         JumpInstruction instruction1 =
-                new JumpInstruction(1, InstructionName.JPNE, VARS[0], VARS[1]);
+                new JumpInstruction(1, (JumpBaseStatement)StatementName.JPNE.getStatement(),
+                                    VARS[0], VARS[1]);
         Instruction instruction2 =
-                InstructionFactory.create(2, InstructionName.ADD, VARS[3], VARS[0], VARS[2]);
+                instructionFactory.create(2, StatementName.ADD, VARS[3], VARS[0], VARS[2]);
         Instruction instruction3 =
-                InstructionFactory.create(2, InstructionName.MUL, VARS[3], VARS[0], VARS[2]);
+                instructionFactory.create(2, StatementName.MUL, VARS[3], VARS[0], VARS[2]);
 
         instruction1.setLink(instruction3);
         instructionList.add(instruction1);
@@ -131,11 +133,12 @@ public class ExecutionIteratorTest
     {
         // given
         JumpInstruction instruction1 =
-                new JumpInstruction(1, InstructionName.JPEQ, VARS[0], VARS[1]);
+                new JumpInstruction(1, (JumpBaseStatement)StatementName.JPEQ.getStatement(),
+                                    VARS[0], VARS[1]);
         Instruction instruction2 =
-                InstructionFactory.create(2, InstructionName.ADD, VARS[3], VARS[0], VARS[2]);
+                instructionFactory.create(2, StatementName.ADD, VARS[3], VARS[0], VARS[2]);
         Instruction instruction3 =
-                InstructionFactory.create(2, InstructionName.MUL, VARS[3], VARS[0], VARS[2]);
+                instructionFactory.create(2, StatementName.MUL, VARS[3], VARS[0], VARS[2]);
 
         instruction1.setLink(instruction3);
         instructionList.add(instruction1);
