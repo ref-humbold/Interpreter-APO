@@ -3,10 +3,11 @@ package apolang.instructions.statement.assignment;
 import apolang.exceptions.LanguageException;
 import apolang.instructions.ArgumentType;
 import apolang.instructions.statement.Statement;
+import apolang.instructions.statement.StatementResult;
 import apolang.interpreter.Environment;
 
 public class AssignmentStatement
-        implements Statement<Void>
+        implements Statement
 {
     @Override
     public ArgumentType[] getArgumentsTypes()
@@ -15,12 +16,12 @@ public class AssignmentStatement
     }
 
     @Override
-    public Void execute(Environment environment, String... arguments)
+    public StatementResult execute(Environment environment, String... arguments)
             throws LanguageException
     {
         int argValue = environment.getVariableValue(arguments[1]);
 
         environment.setVariableValue(arguments[0], argValue);
-        return null;
+        return StatementResult.NEXT;
     }
 }

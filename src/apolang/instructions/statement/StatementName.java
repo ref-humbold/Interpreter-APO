@@ -60,15 +60,15 @@ public enum StatementName
     NOP(NoOperationStatement::new),
     EXIT(ExitStatement::new);
 
-    private final Supplier<Statement<?>> statement;
+    private final Supplier<Statement> statement;
 
-    StatementName(Supplier<Statement<?>> statement)
+    StatementName(Supplier<Statement> statement)
     {
         this.statement = statement;
     }
 
-    public Supplier<Statement<?>> getStatement()
+    public Statement getStatement()
     {
-        return statement;
+        return statement.get();
     }
 }

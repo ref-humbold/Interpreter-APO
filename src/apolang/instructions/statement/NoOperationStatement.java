@@ -4,7 +4,7 @@ import apolang.instructions.ArgumentType;
 import apolang.interpreter.Environment;
 
 public class NoOperationStatement
-        implements Statement<Void>
+        implements Statement
 {
     @Override
     public ArgumentType[] getArgumentsTypes()
@@ -13,8 +13,8 @@ public class NoOperationStatement
     }
 
     @Override
-    public Void execute(Environment environment, String... arguments)
+    public StatementResult execute(Environment environment, String... arguments)
     {
-        return null;
+        return StatementResult.NEXT;
     }
 }

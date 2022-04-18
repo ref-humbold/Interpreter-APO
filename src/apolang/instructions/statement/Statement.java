@@ -4,11 +4,11 @@ import apolang.exceptions.LanguageException;
 import apolang.instructions.ArgumentType;
 import apolang.interpreter.Environment;
 
-public interface Statement<R>
+public interface Statement
 {
     ArgumentType[] getArgumentsTypes();
 
-    R execute(Environment environment, String... arguments)
+    StatementResult execute(Environment environment, String... arguments)
             throws LanguageException;
 
     default boolean hasValueSet()

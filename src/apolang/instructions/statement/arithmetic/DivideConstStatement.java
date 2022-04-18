@@ -4,10 +4,11 @@ import apolang.exceptions.LanguageException;
 import apolang.exceptions.arithmetic.DivisionByZeroException;
 import apolang.instructions.ArgumentType;
 import apolang.instructions.statement.Statement;
+import apolang.instructions.statement.StatementResult;
 import apolang.interpreter.Environment;
 
 public class DivideConstStatement
-        implements Statement<Void>
+        implements Statement
 {
     @Override
     public ArgumentType[] getArgumentsTypes()
@@ -17,7 +18,7 @@ public class DivideConstStatement
     }
 
     @Override
-    public Void execute(Environment environment, String... arguments)
+    public StatementResult execute(Environment environment, String... arguments)
             throws LanguageException
     {
         int argValue1 = environment.getVariableValue(arguments[1]);
@@ -27,6 +28,6 @@ public class DivideConstStatement
             throw new DivisionByZeroException();
 
         environment.setVariableValue(arguments[0], argValue1 / argValue2);
-        return null;
+        return StatementResult.NEXT;
     }
 }

@@ -2,6 +2,7 @@ package apolang.instructions.statement.memory;
 
 import apolang.exceptions.LanguageException;
 import apolang.instructions.ArgumentType;
+import apolang.instructions.statement.StatementResult;
 import apolang.interpreter.Environment;
 
 public class LoadByteStatement
@@ -14,13 +15,13 @@ public class LoadByteStatement
     }
 
     @Override
-    public Void execute(Environment environment, String... arguments)
+    public StatementResult execute(Environment environment, String... arguments)
             throws LanguageException
     {
         int address = environment.getVariableValue(arguments[1]);
         int result = memory.loadByte(address);
 
         environment.setVariableValue(arguments[0], result);
-        return null;
+        return StatementResult.NEXT;
     }
 }

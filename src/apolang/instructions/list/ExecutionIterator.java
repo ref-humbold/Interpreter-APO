@@ -6,12 +6,12 @@ import java.util.NoSuchElementException;
 import apolang.instructions.instruction.Instruction;
 
 public class ExecutionIterator
-        implements Iterator<Instruction<?>>
+        implements Iterator<Instruction>
 {
-    private Instruction<?> previous = null;
-    private Instruction<?> current;
+    private Instruction previous = null;
+    private Instruction current;
 
-    ExecutionIterator(Instruction<?> current)
+    ExecutionIterator(Instruction current)
     {
         this.current = current;
     }
@@ -23,12 +23,12 @@ public class ExecutionIterator
     }
 
     @Override
-    public Instruction<?> next()
+    public Instruction next()
             throws NoSuchElementException
     {
         if(previous != null)
         {
-            Instruction<?> next = previous.getNextExecuted();
+            Instruction next = previous.getNextExecuted();
 
             if(next != null && !next.equals(current))
                 current = next;

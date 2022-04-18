@@ -2,18 +2,19 @@ package apolang.instructions.instruction;
 
 import apolang.exceptions.LanguageException;
 import apolang.instructions.statement.Statement;
+import apolang.instructions.statement.StatementResult;
 import apolang.interpreter.Environment;
 
-public class SimpleInstruction<S extends Statement<?>>
-        extends Instruction<S>
+public class SimpleInstruction
+        extends Instruction
 {
-    public SimpleInstruction(int lineNumber, S statement, String... arguments)
+    public SimpleInstruction(int lineNumber, Statement statement, String... arguments)
     {
         super(lineNumber, statement, arguments);
     }
 
     @Override
-    public Instruction<?> getNextExecuted()
+    public Instruction getNextExecuted()
     {
         return next;
     }
@@ -24,8 +25,7 @@ public class SimpleInstruction<S extends Statement<?>>
     {
         try
         {
-            statement.execute(environment, arguments);
-            return true;
+            return statement.execute(environment, arguments) != StatementResult.EXIT;
         }
         catch(LanguageException e)
         {

@@ -2,11 +2,12 @@ package apolang.instructions.statement.io;
 
 import apolang.instructions.ArgumentType;
 import apolang.instructions.statement.Statement;
+import apolang.instructions.statement.StatementResult;
 import apolang.interpreter.Environment;
 import apolang.interpreter.io.IOConnector;
 
 public class PrintCharStatement
-        implements Statement<Void>
+        implements Statement
 {
     private final IOConnector connector;
 
@@ -22,11 +23,11 @@ public class PrintCharStatement
     }
 
     @Override
-    public Void execute(Environment environment, String... arguments)
+    public StatementResult execute(Environment environment, String... arguments)
     {
         int argValue = environment.getVariableValue(arguments[0]);
 
         connector.printChar(argValue);
-        return null;
+        return StatementResult.NEXT;
     }
 }

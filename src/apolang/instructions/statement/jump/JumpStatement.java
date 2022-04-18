@@ -2,6 +2,7 @@ package apolang.instructions.statement.jump;
 
 import apolang.instructions.ArgumentType;
 import apolang.instructions.statement.JumpBaseStatement;
+import apolang.instructions.statement.StatementResult;
 import apolang.interpreter.Environment;
 
 public class JumpStatement
@@ -14,8 +15,8 @@ public class JumpStatement
     }
 
     @Override
-    public Boolean execute(Environment environment, String... arguments)
+    public StatementResult execute(Environment environment, String... arguments)
     {
-        return true;
+        return StatementResult.JUMP;
     }
 }

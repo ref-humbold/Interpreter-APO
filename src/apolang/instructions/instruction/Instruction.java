@@ -7,14 +7,14 @@ import apolang.exceptions.LanguageException;
 import apolang.instructions.statement.Statement;
 import apolang.interpreter.Environment;
 
-public abstract class Instruction<S extends Statement<?>>
+public abstract class Instruction
 {
     protected final int lineNumber;
-    protected final S statement;
+    protected final Statement statement;
     protected final String[] arguments;
-    protected Instruction<?> next = null;
+    protected Instruction next = null;
 
-    public Instruction(int lineNumber, S statement, String... arguments)
+    public Instruction(int lineNumber, Statement statement, String... arguments)
     {
         this.lineNumber = lineNumber;
         this.statement = statement;
@@ -26,7 +26,7 @@ public abstract class Instruction<S extends Statement<?>>
         return lineNumber;
     }
 
-    public S getStatement()
+    public Statement getStatement()
     {
         return statement;
     }
@@ -36,17 +36,17 @@ public abstract class Instruction<S extends Statement<?>>
         return arguments.length;
     }
 
-    public Instruction<?> getNext()
+    public Instruction getNext()
     {
         return next;
     }
 
-    public void setNext(Instruction<?> next)
+    public void setNext(Instruction next)
     {
         this.next = next;
     }
 
-    public abstract Instruction<?> getNextExecuted();
+    public abstract Instruction getNextExecuted();
 
     public String getArgument(int index)
     {
@@ -65,7 +65,7 @@ public abstract class Instruction<S extends Statement<?>>
         if(!(obj instanceof Instruction))
             return false;
 
-        Instruction<?> other = (Instruction<?>)obj;
+        Instruction other = (Instruction)obj;
 
         return lineNumber == other.lineNumber && Objects.equals(statement, other.statement)
                 && Arrays.equals(arguments, other.arguments);

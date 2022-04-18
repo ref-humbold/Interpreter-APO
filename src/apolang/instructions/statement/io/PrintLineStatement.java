@@ -2,11 +2,12 @@ package apolang.instructions.statement.io;
 
 import apolang.instructions.ArgumentType;
 import apolang.instructions.statement.Statement;
+import apolang.instructions.statement.StatementResult;
 import apolang.interpreter.Environment;
 import apolang.interpreter.io.IOConnector;
 
 public class PrintLineStatement
-        implements Statement<Void>
+        implements Statement
 {
     private final IOConnector connector;
 
@@ -22,9 +23,9 @@ public class PrintLineStatement
     }
 
     @Override
-    public Void execute(Environment environment, String... arguments)
+    public StatementResult execute(Environment environment, String... arguments)
     {
         connector.printLine();
-        return null;
+        return StatementResult.NEXT;
     }
 }

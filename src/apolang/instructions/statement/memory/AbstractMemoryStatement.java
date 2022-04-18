@@ -5,7 +5,7 @@ import apolang.interpreter.memory.MemoryAccessor;
 import apolang.interpreter.memory.MemoryInterface;
 
 public abstract class AbstractMemoryStatement
-        implements Statement<Void>
+        implements Statement
 {
     protected final MemoryInterface memory;
 

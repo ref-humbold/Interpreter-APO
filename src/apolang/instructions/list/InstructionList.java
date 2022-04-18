@@ -6,10 +6,10 @@ import java.util.Objects;
 import apolang.instructions.instruction.Instruction;
 
 public class InstructionList
-        implements Iterable<Instruction<?>>
+        implements Iterable<Instruction>
 {
-    private Instruction<?> begin = null;
-    private Instruction<?> end = null;
+    private Instruction begin = null;
+    private Instruction end = null;
     private int linesCount = 0;
 
     public boolean isEmpty()
@@ -23,7 +23,7 @@ public class InstructionList
     }
 
     @Override
-    public Iterator<Instruction<?>> iterator()
+    public Iterator<Instruction> iterator()
     {
         return new InstructionIterator(begin);
     }
@@ -33,7 +33,7 @@ public class InstructionList
         return new ExecutionIterator(begin);
     }
 
-    public void add(Instruction<?> instruction)
+    public void add(Instruction instruction)
     {
         Objects.requireNonNull(instruction);
 
@@ -46,9 +46,9 @@ public class InstructionList
         linesCount = end.getLineNumber();
     }
 
-    public Instruction<?> getByLineNumber(int lineNumber)
+    public Instruction getByLineNumber(int lineNumber)
     {
-        Instruction<?> instruction = begin;
+        Instruction instruction = begin;
 
         while(instruction != null && instruction.getLineNumber() < lineNumber)
             instruction = instruction.getNext();
