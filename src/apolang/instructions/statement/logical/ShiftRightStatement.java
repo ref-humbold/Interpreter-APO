@@ -3,11 +3,11 @@ package apolang.instructions.statement.logical;
 import apolang.exceptions.LanguageException;
 import apolang.exceptions.arithmetic.NegativeShiftException;
 import apolang.instructions.ArgumentType;
-import apolang.instructions.statement.BasicStatement;
+import apolang.instructions.statement.Statement;
 import apolang.interpreter.Environment;
 
 public class ShiftRightStatement
-        implements BasicStatement
+        implements Statement<Void>
 {
     @Override
     public ArgumentType[] getArgumentsTypes()

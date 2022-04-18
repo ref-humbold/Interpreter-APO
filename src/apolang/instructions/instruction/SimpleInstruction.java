@@ -1,15 +1,21 @@
 package apolang.instructions.instruction;
 
 import apolang.exceptions.LanguageException;
-import apolang.instructions.statement.BasicStatement;
+import apolang.instructions.statement.Statement;
 import apolang.interpreter.Environment;
 
-public class BasicInstruction<S extends BasicStatement>
+public class SimpleInstruction<S extends Statement<?>>
         extends Instruction<S>
 {
-    public BasicInstruction(int lineNumber, S statement, String... arguments)
+    public SimpleInstruction(int lineNumber, S statement, String... arguments)
     {
         super(lineNumber, statement, arguments);
+    }
+
+    @Override
+    public Instruction<?> getNextExecuted()
+    {
+        return next;
     }
 
     @Override

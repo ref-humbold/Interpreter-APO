@@ -1,11 +1,11 @@
 package apolang.instructions.statement.memory;
 
-import apolang.instructions.statement.BasicStatement;
+import apolang.instructions.statement.Statement;
 import apolang.interpreter.memory.MemoryAccessor;
 import apolang.interpreter.memory.MemoryInterface;
 
 public abstract class AbstractMemoryStatement
-        implements BasicStatement
+        implements Statement<Void>
 {
     protected final MemoryInterface memory;
 

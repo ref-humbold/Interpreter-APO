@@ -12,6 +12,12 @@ public class ExitInstruction
     }
 
     @Override
+    public Instruction<?> getNextExecuted()
+    {
+        return null;
+    }
+
+    @Override
     public boolean execute(Environment environment)
     {
         statement.execute(environment, arguments);

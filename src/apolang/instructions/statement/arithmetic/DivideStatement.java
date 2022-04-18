@@ -3,11 +3,11 @@ package apolang.instructions.statement.arithmetic;
 import apolang.exceptions.LanguageException;
 import apolang.exceptions.arithmetic.DivisionByZeroException;
 import apolang.instructions.ArgumentType;
-import apolang.instructions.statement.BasicStatement;
+import apolang.instructions.statement.Statement;
 import apolang.interpreter.Environment;
 
 public class DivideStatement
-        implements BasicStatement
+        implements Statement<Void>
 {
     @Override
     public ArgumentType[] getArgumentsTypes()

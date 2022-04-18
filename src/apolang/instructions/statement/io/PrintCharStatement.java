@@ -1,12 +1,12 @@
 package apolang.instructions.statement.io;
 
 import apolang.instructions.ArgumentType;
-import apolang.instructions.statement.BasicStatement;
+import apolang.instructions.statement.Statement;
 import apolang.interpreter.Environment;
 import apolang.interpreter.io.IOConnector;
 
 public class PrintCharStatement
-        implements BasicStatement
+        implements Statement<Void>
 {
     private final IOConnector connector;
 

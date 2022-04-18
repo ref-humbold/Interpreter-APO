@@ -1,5 +1,8 @@
 package apolang.instructions.instruction;
 
+import java.util.Arrays;
+import java.util.Objects;
+
 import apolang.exceptions.LanguageException;
 import apolang.instructions.statement.Statement;
 import apolang.interpreter.Environment;
@@ -43,10 +46,7 @@ public abstract class Instruction<S extends Statement<?>>
         this.next = next;
     }
 
-    public Instruction<?> getNextExecuted()
-    {
-        return next;
-    }
+    public abstract Instruction<?> getNextExecuted();
 
     public String getArgument(int index)
     {
@@ -55,4 +55,25 @@ public abstract class Instruction<S extends Statement<?>>
 
     public abstract boolean execute(Environment environment)
             throws LanguageException;
+
+    @Override
+    public boolean equals(Object obj)
+    {
+        if(this == obj)
+            return true;
+
+        if(!(obj instanceof Instruction))
+            return false;
+
+        Instruction<?> other = (Instruction<?>)obj;
+
+        return lineNumber == other.lineNumber && Objects.equals(statement, other.statement)
+                && Arrays.equals(arguments, other.arguments);
+    }
+
+    @Override
+    public int hashCode()
+    {
+        return Objects.hash(lineNumber, statement, Arrays.hashCode(arguments));
+    }
 }

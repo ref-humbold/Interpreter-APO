@@ -74,7 +74,7 @@ public abstract class Instruction
     @Override
     public int hashCode()
     {
-        return Objects.hash(lineNumber, name, arguments);
+        return Objects.hash(lineNumber, name, Arrays.hashCode(arguments));
     }
 
     public abstract void execute(Environment environment)
