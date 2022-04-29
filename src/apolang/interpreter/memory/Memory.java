@@ -1,4 +1,4 @@
-package apolang.interpreter.externals;
+package apolang.interpreter.memory;
 
 import apolang.exceptions.memory.AddressNotAlignedException;
 import apolang.exceptions.memory.MemoryException;
@@ -6,15 +6,17 @@ import apolang.exceptions.memory.NotFitInByteException;
 import apolang.exceptions.memory.OutOfMemoryException;
 
 public class Memory
+        implements MemoryInterface
 {
     private final int[] memory;
 
-    public Memory(int memorySize)
+    public Memory(int size)
     {
-        memory = new int[memorySize * 256];
-        System.out.println("memory>> " + memorySize + "kB allocated");
+        memory = new int[size * 256];
+        System.out.println("memory>> " + size + "kB allocated");
     }
 
+    @Override
     public int loadWord(int address)
             throws MemoryException
     {
@@ -22,6 +24,7 @@ public class Memory
         return memory[address / 4];
     }
 
+    @Override
     public void storeWord(int address, int value)
             throws MemoryException
     {
@@ -29,6 +32,7 @@ public class Memory
         memory[address / 4] = value;
     }
 
+    @Override
     public int loadByte(int address)
             throws MemoryException
     {
@@ -39,6 +43,7 @@ public class Memory
         return (memory[address / 4] & 0xFF << shift) >>> shift;
     }
 
+    @Override
     public void storeByte(int address, int value)
             throws MemoryException
     {

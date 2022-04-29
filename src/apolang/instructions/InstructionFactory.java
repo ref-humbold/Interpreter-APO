@@ -1,67 +1,38 @@
 package apolang.instructions;
 
-import apolang.instructions.instruction.*;
-import apolang.interpreter.externals.Memory;
+import apolang.instructions.instruction.Instruction;
+import apolang.instructions.instruction.JumpInstruction;
+import apolang.instructions.instruction.SimpleInstruction;
+import apolang.instructions.statement.JumpBaseStatement;
+import apolang.instructions.statement.Statement;
+import apolang.instructions.statement.StatementName;
 
 public final class InstructionFactory
 {
-    public static Memory memory;
+    private static InstructionFactory instance;
 
-    public static Instruction create(int lineNumber, InstructionName name, String... args)
+    private InstructionFactory()
     {
-        switch(name)
-        {
-            case ASGN:
-            case ASGNC:
-                return new AssignInstruction(lineNumber, name, args);
+    }
 
-            case ADD:
-            case ADDC:
-            case SUB:
-            case SUBC:
-            case MUL:
-            case MULC:
-            case DIV:
-            case DIVC:
-                return new ArithmeticInstruction(lineNumber, name, args);
+    public static InstructionFactory getInstance()
+    {
+        if(instance == null)
+            instance = new InstructionFactory();
 
-            case SHLT:
-            case SHRT:
-            case SHRS:
-            case AND:
-            case ANDC:
-            case OR:
-            case ORC:
-            case XOR:
-            case XORC:
-            case NAND:
-            case NOR:
-                return new LogicalInstruction(lineNumber, name, args);
+        return instance;
+    }
 
-            case JUMP:
-            case JPEQ:
-            case JPNE:
-            case JPLT:
-            case JPGT:
-                return new JumpInstruction(lineNumber, name, args);
+    public Instruction create(int lineNumber, StatementName statementName, String... arguments)
+    {
+        return create(lineNumber, statementName.getStatement(), arguments);
+    }
 
-            case LDW:
-            case LDB:
-            case STW:
-            case STB:
-                return new MemoryInstruction(memory, lineNumber, name, args);
+    public Instruction create(int lineNumber, Statement statement, String... arguments)
+    {
+        if(statement instanceof JumpBaseStatement)
+            return new JumpInstruction(lineNumber, (JumpBaseStatement)statement, arguments);
 
-            case PTLN:
-            case PTINT:
-            case PTCHR:
-            case RDINT:
-            case RDCHR:
-                return new IOInstruction(lineNumber, name, args);
-
-            case NOP:
-                return new NOPInstruction(lineNumber);
-        }
-
-        return null;
+        return new SimpleInstruction(lineNumber, statement, arguments);
     }
 }

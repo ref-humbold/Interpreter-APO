@@ -4,20 +4,20 @@ import java.util.Arrays;
 import java.util.Objects;
 
 import apolang.exceptions.LanguageException;
-import apolang.instructions.InstructionName;
+import apolang.instructions.statement.Statement;
 import apolang.interpreter.Environment;
 
 public abstract class Instruction
 {
-    final int lineNumber;
-    final InstructionName name;
-    final String[] arguments;
-    Instruction next = null;
+    protected final int lineNumber;
+    protected final Statement statement;
+    protected final String[] arguments;
+    protected Instruction next = null;
 
-    public Instruction(int lineNumber, InstructionName name, String... arguments)
+    public Instruction(int lineNumber, Statement statement, String... arguments)
     {
         this.lineNumber = lineNumber;
-        this.name = name;
+        this.statement = statement;
         this.arguments = arguments;
     }
 
@@ -26,9 +26,9 @@ public abstract class Instruction
         return lineNumber;
     }
 
-    public InstructionName getName()
+    public Statement getStatement()
     {
-        return name;
+        return statement;
     }
 
     public int getArgumentsCount()
@@ -46,15 +46,15 @@ public abstract class Instruction
         this.next = next;
     }
 
-    public Instruction getNextExecuted()
-    {
-        return next;
-    }
+    public abstract Instruction getNextExecuted();
 
     public String getArgument(int index)
     {
         return arguments[index];
     }
+
+    public abstract boolean execute(Environment environment)
+            throws LanguageException;
 
     @Override
     public boolean equals(Object obj)
@@ -67,16 +67,13 @@ public abstract class Instruction
 
         Instruction other = (Instruction)obj;
 
-        return Objects.equals(lineNumber, other.lineNumber) && Objects.equals(name, other.name)
+        return lineNumber == other.lineNumber && Objects.equals(statement, other.statement)
                 && Arrays.equals(arguments, other.arguments);
     }
 
     @Override
     public int hashCode()
     {
-        return Objects.hash(lineNumber, name, arguments);
+        return Objects.hash(lineNumber, statement, Arrays.hashCode(arguments));
     }
-
-    public abstract void execute(Environment environment)
-            throws LanguageException;
 }

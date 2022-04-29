@@ -5,6 +5,11 @@ public class NegativeShiftException
 {
     private static final long serialVersionUID = -872827790358284108L;
 
+    public NegativeShiftException()
+    {
+        super("Shift by negative value");
+    }
+
     public NegativeShiftException(int lineNumber)
     {
         super("Shift by negative value", lineNumber);

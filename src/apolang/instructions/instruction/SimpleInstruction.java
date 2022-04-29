@@ -1,35 +1,22 @@
 package apolang.instructions.instruction;
 
 import apolang.exceptions.LanguageException;
-import apolang.instructions.statement.JumpBaseStatement;
+import apolang.instructions.statement.Statement;
 import apolang.instructions.statement.StatementResult;
 import apolang.interpreter.Environment;
 
-public class JumpInstruction
+public class SimpleInstruction
         extends Instruction
 {
-    private Instruction link;
-    private boolean isJump = false;
-
-    public JumpInstruction(int lineNumber, JumpBaseStatement statement, String... arguments)
+    public SimpleInstruction(int lineNumber, Statement statement, String... arguments)
     {
         super(lineNumber, statement, arguments);
-    }
-
-    public Instruction getLink()
-    {
-        return link;
-    }
-
-    public void setLink(Instruction link)
-    {
-        this.link = link;
     }
 
     @Override
     public Instruction getNextExecuted()
     {
-        return isJump ? link : next;
+        return next;
     }
 
     @Override
@@ -38,8 +25,7 @@ public class JumpInstruction
     {
         try
         {
-            isJump = statement.execute(environment, arguments) == StatementResult.JUMP;
-            return true;
+            return statement.execute(environment, arguments) != StatementResult.EXIT;
         }
         catch(LanguageException e)
         {

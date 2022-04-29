@@ -9,10 +9,12 @@ import org.junit.jupiter.api.function.Executable;
 
 import apolang.instructions.instruction.Instruction;
 import apolang.instructions.list.InstructionList;
+import apolang.instructions.statement.StatementName;
 
 public class InstructionListTest
 {
     private static final String[] VARS = new String[]{"one", "two", "tree", "res"};
+    private final InstructionFactory instructionFactory = InstructionFactory.getInstance();
     private InstructionList testObject;
 
     @BeforeEach
@@ -41,7 +43,7 @@ public class InstructionListTest
     {
         // given
         Instruction instruction =
-                InstructionFactory.create(1, InstructionName.ADD, VARS[3], VARS[0], VARS[1]);
+                instructionFactory.create(1, StatementName.ADD, VARS[3], VARS[0], VARS[1]);
 
         testObject.add(instruction);
         // when
@@ -55,7 +57,7 @@ public class InstructionListTest
     {
         // given
         Instruction instruction =
-                InstructionFactory.create(1, InstructionName.ADD, VARS[3], VARS[0], VARS[1]);
+                instructionFactory.create(1, StatementName.ADD, VARS[3], VARS[0], VARS[1]);
         // when
         testObject.add(instruction);
         // then
@@ -71,9 +73,9 @@ public class InstructionListTest
     {
         // given
         Instruction instruction1 =
-                InstructionFactory.create(1, InstructionName.ADD, VARS[3], VARS[0], VARS[1]);
+                instructionFactory.create(1, StatementName.ADD, VARS[3], VARS[0], VARS[1]);
         Instruction instruction2 =
-                InstructionFactory.create(2, InstructionName.MUL, VARS[3], VARS[0], VARS[1]);
+                instructionFactory.create(2, StatementName.MUL, VARS[3], VARS[0], VARS[1]);
         // when
         testObject.add(instruction1);
         testObject.add(instruction2);
@@ -101,9 +103,9 @@ public class InstructionListTest
     {
         // given
         Instruction instruction1 =
-                InstructionFactory.create(1, InstructionName.ADD, VARS[3], VARS[0], VARS[1]);
+                instructionFactory.create(1, StatementName.ADD, VARS[3], VARS[0], VARS[1]);
         Instruction instruction2 =
-                InstructionFactory.create(2, InstructionName.MUL, VARS[3], VARS[0], VARS[1]);
+                instructionFactory.create(2, StatementName.MUL, VARS[3], VARS[0], VARS[1]);
 
         testObject.add(instruction1);
         testObject.add(instruction2);
@@ -118,9 +120,9 @@ public class InstructionListTest
     {
         // given
         Instruction instruction1 =
-                InstructionFactory.create(1, InstructionName.ADD, VARS[3], VARS[0], VARS[1]);
+                instructionFactory.create(1, StatementName.ADD, VARS[3], VARS[0], VARS[1]);
         Instruction instruction5 =
-                InstructionFactory.create(5, InstructionName.MUL, VARS[3], VARS[0], VARS[1]);
+                instructionFactory.create(5, StatementName.MUL, VARS[3], VARS[0], VARS[1]);
 
         testObject.add(instruction1);
         testObject.add(instruction5);

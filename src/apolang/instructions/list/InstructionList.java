@@ -48,11 +48,11 @@ public class InstructionList
 
     public Instruction getByLineNumber(int lineNumber)
     {
-        Instruction iter = begin;
+        Instruction instruction = begin;
 
-        while(iter != null && iter.getLineNumber() < lineNumber)
-            iter = iter.getNext();
+        while(instruction != null && instruction.getLineNumber() < lineNumber)
+            instruction = instruction.getNext();
 
-        return iter;
+        return instruction;
     }
 }
