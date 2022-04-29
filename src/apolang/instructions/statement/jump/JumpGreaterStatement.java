@@ -2,12 +2,19 @@ package apolang.instructions.statement.jump;
 
 import apolang.instructions.ArgumentType;
 import apolang.instructions.statement.JumpBaseStatement;
+import apolang.instructions.statement.StatementName;
 import apolang.instructions.statement.StatementResult;
 import apolang.interpreter.Environment;
 
 public class JumpGreaterStatement
         implements JumpBaseStatement
 {
+    @Override
+    public StatementName getName()
+    {
+        return StatementName.JPGT;
+    }
+
     @Override
     public ArgumentType[] getArgumentsTypes()
     {

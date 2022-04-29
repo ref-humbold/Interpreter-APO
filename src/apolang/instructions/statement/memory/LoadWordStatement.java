@@ -2,12 +2,19 @@ package apolang.instructions.statement.memory;
 
 import apolang.exceptions.LanguageException;
 import apolang.instructions.ArgumentType;
+import apolang.instructions.statement.StatementName;
 import apolang.instructions.statement.StatementResult;
 import apolang.interpreter.Environment;
 
 public class LoadWordStatement
         extends AbstractMemoryStatement
 {
+    @Override
+    public StatementName getName()
+    {
+        return StatementName.LDW;
+    }
+
     @Override
     public ArgumentType[] getArgumentsTypes()
     {

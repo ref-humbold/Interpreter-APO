@@ -12,19 +12,20 @@ import apolang.exceptions.symbol.AssignmentToZeroException;
 import apolang.exceptions.symbol.SymbolException;
 import apolang.exceptions.symbol.TooFewArgumentsException;
 import apolang.exceptions.symbol.VariableNotInitializedException;
-import apolang.instructions_old.ArgumentType;
-import apolang.instructions_old.InstructionFactory;
-import apolang.instructions_old.InstructionName;
-import apolang.instructions_old.instruction.Instruction;
-import apolang.instructions_old.instruction.JumpInstruction;
-import apolang.instructions_old.instruction.NOPInstruction;
-import apolang.instructions_old.list.InstructionList;
+import apolang.instructions.ArgumentType;
+import apolang.instructions.InstructionFactory;
+import apolang.instructions.instruction.Instruction;
+import apolang.instructions.instruction.JumpInstruction;
+import apolang.instructions.list.InstructionList;
+import apolang.instructions.statement.Statement;
+import apolang.instructions.statement.StatementName;
 import apolang.interpreter.Environment;
 
 public class InstructionParser
         extends AbstractParser<InstructionList>
 {
     private final Map<String, Instruction> labelledInstructions = new HashMap<>();
+    private final InstructionFactory instructionFactory = InstructionFactory.getInstance();
     private Environment environment;
     private boolean usesEndLabel = false;
 
@@ -61,14 +62,14 @@ public class InstructionParser
         Instruction instruction;
 
         if(splitLine.isEmpty())
-            instruction = InstructionFactory.create(lineNumber, InstructionName.NOP);
+            instruction = instructionFactory.create(lineNumber, StatementName.NOP);
         else
             try
             {
-                InstructionName instructionName = InstructionName.fromName(splitLine.get(0));
-                String[] arguments = parseArguments(splitLine, instructionName, environment);
+                Statement statement = StatementName.parse(splitLine.get(0)).getStatement();
+                String[] arguments = parseArguments(splitLine, statement, environment);
 
-                instruction = InstructionFactory.create(lineNumber, instructionName, arguments);
+                instruction = instructionFactory.create(lineNumber, statement, arguments);
             }
             catch(LanguageException e)
             {
@@ -87,7 +88,8 @@ public class InstructionParser
     {
         if(usesEndLabel)
         {
-            NOPInstruction endInstruction = new NOPInstruction(result.getLinesCount() + 1);
+            Instruction endInstruction =
+                    instructionFactory.create(result.getLinesCount() + 1, StatementName.NOP);
 
             result.add(endInstruction);
             labelledInstructions.put(Environment.END_LABEL, endInstruction);
@@ -102,24 +104,26 @@ public class InstructionParser
             }
     }
 
-    private String[] parseArguments(List<String> splitLine, InstructionName instructionName,
+    private String[] parseArguments(List<String> splitLine, Statement statement,
                                     Environment environment)
             throws LanguageException
     {
-        ArgumentType[] argumentsTypes = instructionName.getArgumentsTypes();
+        ArgumentType[] argumentsTypes = statement.getArgumentsTypes();
         int argumentsCount = argumentsTypes.length;
         String[] arguments = new String[argumentsCount];
 
         if(splitLine.size() <= argumentsCount)
-            throw new TooFewArgumentsException(instructionName);
+            throw new TooFewArgumentsException(statement.getName());
 
         for(int i = 0; i < argumentsCount; ++i)
             switch(argumentsTypes[i])
             {
-                case VARIABLE:
-                    arguments[i] = parseVariable(splitLine.get(i + 1), environment,
-                                                 instructionName.zeroVariablePosition()
-                                                                .contains(i));
+                case VARIABLE_READ:
+                    arguments[i] = parseVariable(splitLine.get(i + 1), environment, false);
+                    break;
+
+                case VARIABLE_WRITE:
+                    arguments[i] = parseVariable(splitLine.get(i + 1), environment, true);
                     break;
 
                 case LABEL:
@@ -165,12 +169,12 @@ public class InstructionParser
         return label;
     }
 
-    private String parseVariable(String variable, Environment environment, boolean checkZero)
+    private String parseVariable(String variable, Environment environment, boolean writable)
             throws SymbolException
     {
         environment.validateVariable(variable);
 
-        if(checkZero && Environment.ZERO_VARIABLE.equals(variable))
+        if(writable && Environment.ZERO_VARIABLE.equals(variable))
             throw new AssignmentToZeroException();
 
         if(!environment.contains(variable))

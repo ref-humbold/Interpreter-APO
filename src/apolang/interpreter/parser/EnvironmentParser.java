@@ -5,7 +5,8 @@ import java.util.List;
 import apolang.exceptions.label.DuplicatedLabelException;
 import apolang.exceptions.label.LabelException;
 import apolang.exceptions.symbol.SymbolException;
-import apolang.instructions_old.InstructionName;
+import apolang.instructions.statement.Statement;
+import apolang.instructions.statement.StatementName;
 import apolang.interpreter.Environment;
 
 public class EnvironmentParser
@@ -54,9 +55,9 @@ public class EnvironmentParser
 
         try
         {
-            InstructionName instructionName = InstructionName.fromName(splitLine.get(0));
+            Statement statement = StatementName.parse(splitLine.get(0)).getStatement();
 
-            if(!instructionName.hasValueSet())
+            if(!statement.hasValueSet())
                 return;
 
             result.addVariable(splitLine.get(1));

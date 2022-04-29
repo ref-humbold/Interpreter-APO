@@ -3,12 +3,19 @@ package apolang.instructions.statement.logical;
 import apolang.exceptions.LanguageException;
 import apolang.instructions.ArgumentType;
 import apolang.instructions.statement.Statement;
+import apolang.instructions.statement.StatementName;
 import apolang.instructions.statement.StatementResult;
 import apolang.interpreter.Environment;
 
 public class OrStatement
         implements Statement
 {
+    @Override
+    public StatementName getName()
+    {
+        return StatementName.OR;
+    }
+
     @Override
     public ArgumentType[] getArgumentsTypes()
     {

@@ -7,10 +7,9 @@ import java.nio.file.Path;
 import java.util.List;
 
 import apolang.exceptions.LanguageException;
-import apolang.instructions_old.InstructionFactory;
-import apolang.instructions_old.list.ExecutionIterator;
-import apolang.instructions_old.list.InstructionList;
-import apolang.interpreter.memory.Memory;
+import apolang.instructions.list.ExecutionIterator;
+import apolang.instructions.list.InstructionList;
+import apolang.interpreter.memory.MemoryAccessor;
 import apolang.interpreter.parser.EnvironmentParser;
 import apolang.interpreter.parser.InstructionParser;
 
@@ -26,7 +25,7 @@ public class Controller
     {
         List<String> lines = Files.readAllLines(path, StandardCharsets.UTF_8);
 
-        InstructionFactory.memory = new Memory(memorySize);
+        MemoryAccessor.getInstance().allocate(memorySize);
         environmentParser = new EnvironmentParser(lines);
         instructionParser = new InstructionParser(lines);
     }

@@ -25,8 +25,11 @@ public final class InstructionFactory
 
     public Instruction create(int lineNumber, StatementName statementName, String... arguments)
     {
-        Statement statement = statementName.getStatement();
+        return create(lineNumber, statementName.getStatement(), arguments);
+    }
 
+    public Instruction create(int lineNumber, Statement statement, String... arguments)
+    {
         if(statement instanceof JumpBaseStatement)
             return new JumpInstruction(lineNumber, (JumpBaseStatement)statement, arguments);
 

@@ -4,12 +4,19 @@ import apolang.exceptions.LanguageException;
 import apolang.exceptions.arithmetic.NegativeShiftException;
 import apolang.instructions.ArgumentType;
 import apolang.instructions.statement.Statement;
+import apolang.instructions.statement.StatementName;
 import apolang.instructions.statement.StatementResult;
 import apolang.interpreter.Environment;
 
 public class ShiftLeftStatement
         implements Statement
 {
+    @Override
+    public StatementName getName()
+    {
+        return StatementName.SHLT;
+    }
+
     @Override
     public ArgumentType[] getArgumentsTypes()
     {

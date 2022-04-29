@@ -7,6 +7,12 @@ public class NoOperationStatement
         implements Statement
 {
     @Override
+    public StatementName getName()
+    {
+        return null;
+    }
+
+    @Override
     public ArgumentType[] getArgumentsTypes()
     {
         return new ArgumentType[0];

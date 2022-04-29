@@ -6,6 +6,8 @@ import apolang.interpreter.Environment;
 
 public interface Statement
 {
+    StatementName getName();
+
     ArgumentType[] getArgumentsTypes();
 
     StatementResult execute(Environment environment, String... arguments)

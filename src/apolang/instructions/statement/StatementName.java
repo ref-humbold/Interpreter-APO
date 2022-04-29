@@ -2,6 +2,7 @@ package apolang.instructions.statement;
 
 import java.util.function.Supplier;
 
+import apolang.exceptions.symbol.NotExistingInstructionException;
 import apolang.instructions.statement.arithmetic.*;
 import apolang.instructions.statement.assignment.AssignConstStatement;
 import apolang.instructions.statement.assignment.AssignmentStatement;
@@ -65,6 +66,19 @@ public enum StatementName
     StatementName(Supplier<Statement> statement)
     {
         this.statement = statement;
+    }
+
+    public static StatementName parse(String name)
+            throws NotExistingInstructionException
+    {
+        try
+        {
+            return StatementName.valueOf(name);
+        }
+        catch(IllegalArgumentException e)
+        {
+            throw new NotExistingInstructionException(name, e);
+        }
     }
 
     public Statement getStatement()

@@ -4,12 +4,19 @@ import apolang.exceptions.LanguageException;
 import apolang.exceptions.arithmetic.DivisionByZeroException;
 import apolang.instructions.ArgumentType;
 import apolang.instructions.statement.Statement;
+import apolang.instructions.statement.StatementName;
 import apolang.instructions.statement.StatementResult;
 import apolang.interpreter.Environment;
 
 public class DivideConstStatement
         implements Statement
 {
+    @Override
+    public StatementName getName()
+    {
+        return StatementName.DIVC;
+    }
+
     @Override
     public ArgumentType[] getArgumentsTypes()
     {
