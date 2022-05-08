@@ -1,7 +1,8 @@
 package apolang.instructions;
 
+import java.util.NoSuchElementException;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -54,7 +55,7 @@ public class ExecutionIteratorTest
         // when
         boolean result = testObject.hasNext();
         // then
-        Assertions.assertFalse(result);
+        Assertions.assertThat(result).isFalse();
     }
 
     @Test
@@ -69,14 +70,14 @@ public class ExecutionIteratorTest
         // when
         boolean result = testObject.hasNext();
         // then
-        Assertions.assertTrue(result);
+        Assertions.assertThat(result).isTrue();
     }
 
     @Test
     public void next_WhenStandardInstruction_ThenFollowingInstruction()
     {
         Instruction instruction1 =
-                instructionFactory.create(2, StatementName.ADD, VARS[3], VARS[0], VARS[2]);
+                instructionFactory.create(1, StatementName.ADD, VARS[3], VARS[0], VARS[2]);
         Instruction instruction2 =
                 instructionFactory.create(2, StatementName.MUL, VARS[3], VARS[0], VARS[2]);
 
@@ -88,12 +89,13 @@ public class ExecutionIteratorTest
         Instruction result1 = testObject.next();
         Instruction result2 = testObject.next();
         // then
-        Assertions.assertEquals(instruction1, result1);
-        Assertions.assertEquals(instruction2, result2);
+        Assertions.assertThat(result1).isEqualTo(instruction1);
+        Assertions.assertThat(result2).isEqualTo(instruction2);
     }
 
     @Test
     public void next_WhenJump_ThenLinkedInstruction()
+            throws LanguageException
     {
         // given
         JumpInstruction instruction1 =
@@ -102,7 +104,7 @@ public class ExecutionIteratorTest
         Instruction instruction2 =
                 instructionFactory.create(2, StatementName.ADD, VARS[3], VARS[0], VARS[2]);
         Instruction instruction3 =
-                instructionFactory.create(2, StatementName.MUL, VARS[3], VARS[0], VARS[2]);
+                instructionFactory.create(3, StatementName.MUL, VARS[3], VARS[0], VARS[2]);
 
         instruction1.setLink(instruction3);
         instructionList.add(instruction1);
@@ -110,26 +112,18 @@ public class ExecutionIteratorTest
         instructionList.add(instruction3);
 
         ExecutionIterator testObject = instructionList.run();
-        Instruction result1 = testObject.next();
 
-        try
-        {
-            result1.execute(environment);
-        }
-        catch(LanguageException e)
-        {
-            e.printStackTrace();
-            Assertions.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
-        }
+        testObject.next().execute(environment);
         // when
         Instruction result = testObject.next();
         // then
-        Assertions.assertEquals(instruction3, result);
-        Assertions.assertFalse(testObject.hasNext());
+        Assertions.assertThat(result).isEqualTo(instruction3);
+        Assertions.assertThat(testObject.hasNext()).isFalse();
     }
 
     @Test
     public void next_WhenNoJump_ThenFollowingInstruction()
+            throws LanguageException
     {
         // given
         JumpInstruction instruction1 =
@@ -138,7 +132,7 @@ public class ExecutionIteratorTest
         Instruction instruction2 =
                 instructionFactory.create(2, StatementName.ADD, VARS[3], VARS[0], VARS[2]);
         Instruction instruction3 =
-                instructionFactory.create(2, StatementName.MUL, VARS[3], VARS[0], VARS[2]);
+                instructionFactory.create(3, StatementName.MUL, VARS[3], VARS[0], VARS[2]);
 
         instruction1.setLink(instruction3);
         instructionList.add(instruction1);
@@ -146,21 +140,38 @@ public class ExecutionIteratorTest
         instructionList.add(instruction3);
 
         ExecutionIterator testObject = instructionList.run();
-        Instruction result1 = testObject.next();
 
-        try
-        {
-            result1.execute(environment);
-        }
-        catch(LanguageException e)
-        {
-            e.printStackTrace();
-            Assertions.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
-        }
+        testObject.next().execute(environment);
         // when
         Instruction result = testObject.next();
         // then
-        Assertions.assertEquals(instruction2, result);
-        Assertions.assertTrue(testObject.hasNext());
+        Assertions.assertThat(result).isEqualTo(instruction2);
+        Assertions.assertThat(testObject.hasNext()).isTrue();
+    }
+
+    @Test
+    public void next_WhenExitInstruction_ThenNoSuchElementException()
+            throws LanguageException
+    {
+        // given
+        Instruction instruction1 =
+                instructionFactory.create(1, StatementName.ADD, VARS[3], VARS[0], VARS[2]);
+        Instruction instruction2 = instructionFactory.create(2, StatementName.EXIT);
+        Instruction instruction3 =
+                instructionFactory.create(3, StatementName.MUL, VARS[3], VARS[0], VARS[2]);
+
+        instructionList.add(instruction1);
+        instructionList.add(instruction2);
+        instructionList.add(instruction3);
+
+        ExecutionIterator testObject = instructionList.run();
+
+        testObject.next();
+        testObject.next().execute(environment);
+        // when
+        Exception exception = Assertions.catchException(testObject::next);
+        // then
+        Assertions.assertThat(exception).isInstanceOf(NoSuchElementException.class);
+        Assertions.assertThat(testObject.hasNext()).isFalse();
     }
 }

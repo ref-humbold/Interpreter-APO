@@ -2,21 +2,23 @@ package apolang.interpreter.parser;
 
 import java.util.Arrays;
 import java.util.List;
-import org.junit.jupiter.api.Assertions;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.function.Executable;
 
 import apolang.exceptions.LanguageException;
 import apolang.exceptions.arithmetic.ArithmeticException;
+import apolang.exceptions.label.InvalidLabelNameException;
 import apolang.exceptions.label.LabelNotFoundException;
 import apolang.exceptions.symbol.AssignmentToZeroException;
 import apolang.exceptions.symbol.InvalidVariableNameException;
 import apolang.exceptions.symbol.NotExistingInstructionException;
 import apolang.exceptions.symbol.SymbolException;
 import apolang.exceptions.symbol.VariableNotInitializedException;
+import apolang.instructions.instruction.Instruction;
 import apolang.instructions.instruction.JumpInstruction;
 import apolang.instructions.list.InstructionList;
+import apolang.instructions.statement.Statement;
 import apolang.instructions.statement.StatementName;
 import apolang.interpreter.Environment;
 
@@ -27,27 +29,20 @@ public class InstructionParserTest
 
     @BeforeEach
     public void setUp()
+            throws InvalidVariableNameException, InvalidLabelNameException
     {
         environment = new Environment();
-
-        try
-        {
-            environment.addVariable("a");
-            environment.addVariable("b");
-            environment.addVariable("c");
-            environment.addLabel("La");
-            environment.addLabel("Lb");
-            environment.addLabel("Lc");
-        }
-        catch(LanguageException e)
-        {
-            e.printStackTrace();
-            Assertions.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
-        }
+        environment.addVariable("a");
+        environment.addVariable("b");
+        environment.addVariable("c");
+        environment.addLabel("La");
+        environment.addLabel("Lb");
+        environment.addLabel("Lc");
     }
 
     @Test
     public void parse_WhenCorrectProgram_ThenInstructionList()
+            throws LanguageException
     {
         // given
         List<String> lines =
@@ -57,43 +52,48 @@ public class InstructionParserTest
         testObject = new InstructionParser(lines);
         testObject.setEnvironment(environment);
         // when
-        InstructionList result = null;
-
-        try
-        {
-            result = testObject.parse();
-        }
-        catch(LanguageException e)
-        {
-            e.printStackTrace();
-            Assertions.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
-        }
+        InstructionList result = testObject.parse();
         // then
-        Assertions.assertFalse(result.isEmpty());
-        Assertions.assertEquals(StatementName.ASGNC,
-                                result.getByLineNumber(1).getStatement().getName());
-        Assertions.assertEquals(StatementName.JPGT,
-                                result.getByLineNumber(2).getStatement().getName());
-        Assertions.assertEquals(StatementName.JPLT,
-                                result.getByLineNumber(3).getStatement().getName());
-        Assertions.assertEquals(StatementName.MULC,
-                                result.getByLineNumber(4).getStatement().getName());
-        Assertions.assertEquals(StatementName.MULC,
-                                result.getByLineNumber(5).getStatement().getName());
-        Assertions.assertEquals(StatementName.SUBC,
-                                result.getByLineNumber(6).getStatement().getName());
-        Assertions.assertEquals(StatementName.PTINT,
-                                result.getByLineNumber(7).getStatement().getName());
+        Assertions.assertThat(result).isNotEmpty();
+        Assertions.assertThat(result.getByLineNumber(1))
+                  .extracting(Instruction::getStatement)
+                  .extracting(Statement::getName)
+                  .isEqualTo(StatementName.ASGNC);
+        Assertions.assertThat(result.getByLineNumber(2))
+                  .extracting(Instruction::getStatement)
+                  .extracting(Statement::getName)
+                  .isEqualTo(StatementName.JPGT);
+        Assertions.assertThat(result.getByLineNumber(3))
+                  .extracting(Instruction::getStatement)
+                  .extracting(Statement::getName)
+                  .isEqualTo(StatementName.JPLT);
+        Assertions.assertThat(result.getByLineNumber(4))
+                  .extracting(Instruction::getStatement)
+                  .extracting(Statement::getName)
+                  .isEqualTo(StatementName.MULC);
+        Assertions.assertThat(result.getByLineNumber(5))
+                  .extracting(Instruction::getStatement)
+                  .extracting(Statement::getName)
+                  .isEqualTo(StatementName.MULC);
+        Assertions.assertThat(result.getByLineNumber(6))
+                  .extracting(Instruction::getStatement)
+                  .extracting(Statement::getName)
+                  .isEqualTo(StatementName.SUBC);
+        Assertions.assertThat(result.getByLineNumber(7))
+                  .extracting(Instruction::getStatement)
+                  .extracting(Statement::getName)
+                  .isEqualTo(StatementName.PTINT);
 
         JumpInstruction jumpGreaterThan = (JumpInstruction)result.getByLineNumber(2);
         JumpInstruction jumpLessThan = (JumpInstruction)result.getByLineNumber(3);
 
-        Assertions.assertSame(result.getByLineNumber(6), jumpGreaterThan.getLink());
-        Assertions.assertSame(result.getByLineNumber(7), jumpLessThan.getLink());
+        Assertions.assertThat(result.getByLineNumber(6)).isSameAs(jumpGreaterThan.getLink());
+        Assertions.assertThat(result.getByLineNumber(7)).isSameAs(jumpLessThan.getLink());
     }
 
     @Test
     public void parse_WhenEmptyProgram_ThenInstructionListIsEmpty()
+            throws LanguageException
     {
         // given
         List<String> lines = List.of("# only empty line", "");
@@ -101,24 +101,15 @@ public class InstructionParserTest
         testObject = new InstructionParser(lines);
         testObject.setEnvironment(environment);
         // when
-        InstructionList result = null;
-
-        try
-        {
-            result = testObject.parse();
-        }
-        catch(LanguageException e)
-        {
-            e.printStackTrace();
-            Assertions.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
-        }
+        InstructionList result = testObject.parse();
         // then
-        Assertions.assertTrue(result.isEmpty());
-        Assertions.assertEquals(0, result.getLinesCount());
+        Assertions.assertThat(result).isEmpty();
+        Assertions.assertThat(result.getLinesCount()).isZero();
     }
 
     @Test
     public void parse_WhenSingleLabel_ThenOnlyNOPInstruction()
+            throws LanguageException
     {
         // given
         List<String> lines = List.of("# only label", "La:");
@@ -126,24 +117,15 @@ public class InstructionParserTest
         testObject = new InstructionParser(lines);
         testObject.setEnvironment(environment);
         // when
-        InstructionList result = null;
-
-        try
-        {
-            result = testObject.parse();
-        }
-        catch(LanguageException e)
-        {
-            e.printStackTrace();
-            Assertions.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
-        }
+        InstructionList result = testObject.parse();
         // then
-        Assertions.assertFalse(result.isEmpty());
-        Assertions.assertEquals(2, result.getLinesCount());
+        Assertions.assertThat(result).isNotEmpty();
+        Assertions.assertThat(result.getLinesCount()).isEqualTo(2);
     }
 
     @Test
     public void parse_WhenEndLabel_ThenEndsWithNOPInstruction()
+            throws LanguageException
     {
         // given
         List<String> lines = List.of("# jump to End", "JUMP End");
@@ -151,20 +133,10 @@ public class InstructionParserTest
         testObject = new InstructionParser(lines);
         testObject.setEnvironment(environment);
         // when
-        InstructionList result = null;
-
-        try
-        {
-            result = testObject.parse();
-        }
-        catch(LanguageException e)
-        {
-            e.printStackTrace();
-            Assertions.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
-        }
+        InstructionList result = testObject.parse();
         // then
-        Assertions.assertFalse(result.isEmpty());
-        Assertions.assertEquals(3, result.getLinesCount());
+        Assertions.assertThat(result).isNotEmpty();
+        Assertions.assertThat(result.getLinesCount()).isEqualTo(3);
     }
 
     @Test
@@ -176,9 +148,9 @@ public class InstructionParserTest
         testObject = new InstructionParser(lines);
         testObject.setEnvironment(environment);
         // when
-        Executable executable = () -> testObject.parse();
+        Exception exception = Assertions.catchException(() -> testObject.parse());
         // then
-        Assertions.assertThrows(NotExistingInstructionException.class, executable);
+        Assertions.assertThat(exception).isInstanceOf(NotExistingInstructionException.class);
     }
 
     @Test
@@ -190,9 +162,9 @@ public class InstructionParserTest
         testObject = new InstructionParser(lines);
         testObject.setEnvironment(environment);
         // when
-        Executable executable = () -> testObject.parse();
+        Exception exception = Assertions.catchException(() -> testObject.parse());
         // then
-        Assertions.assertThrows(SymbolException.class, executable);
+        Assertions.assertThat(exception).isInstanceOf(SymbolException.class);
     }
 
     @Test
@@ -204,9 +176,9 @@ public class InstructionParserTest
         testObject = new InstructionParser(lines);
         testObject.setEnvironment(environment);
         // when
-        Executable executable = () -> testObject.parse();
+        Exception exception = Assertions.catchException(() -> testObject.parse());
         // then
-        Assertions.assertThrows(VariableNotInitializedException.class, executable);
+        Assertions.assertThat(exception).isInstanceOf(VariableNotInitializedException.class);
     }
 
     @Test
@@ -218,9 +190,9 @@ public class InstructionParserTest
         testObject = new InstructionParser(lines);
         testObject.setEnvironment(environment);
         // when
-        Executable executable = () -> testObject.parse();
+        Exception exception = Assertions.catchException(() -> testObject.parse());
         // then
-        Assertions.assertThrows(InvalidVariableNameException.class, executable);
+        Assertions.assertThat(exception).isInstanceOf(InvalidVariableNameException.class);
     }
 
     @Test
@@ -232,9 +204,9 @@ public class InstructionParserTest
         testObject = new InstructionParser(lines);
         testObject.setEnvironment(environment);
         // when
-        Executable executable = () -> testObject.parse();
+        Exception exception = Assertions.catchException(() -> testObject.parse());
         // then
-        Assertions.assertThrows(AssignmentToZeroException.class, executable);
+        Assertions.assertThat(exception).isInstanceOf(AssignmentToZeroException.class);
     }
 
     @Test
@@ -246,9 +218,9 @@ public class InstructionParserTest
         testObject = new InstructionParser(lines);
         testObject.setEnvironment(environment);
         // when
-        Executable executable = () -> testObject.parse();
+        Exception exception = Assertions.catchException(() -> testObject.parse());
         // then
-        Assertions.assertThrows(LabelNotFoundException.class, executable);
+        Assertions.assertThat(exception).isInstanceOf(LabelNotFoundException.class);
     }
 
     @Test
@@ -260,9 +232,9 @@ public class InstructionParserTest
         testObject = new InstructionParser(lines);
         testObject.setEnvironment(environment);
         // when
-        Executable executable = () -> testObject.parse();
+        Exception exception = Assertions.catchException(() -> testObject.parse());
         // then
-        Assertions.assertThrows(ArithmeticException.class, executable);
+        Assertions.assertThat(exception).isInstanceOf(ArithmeticException.class);
     }
 
     @Test
@@ -274,8 +246,8 @@ public class InstructionParserTest
         testObject = new InstructionParser(lines);
         testObject.setEnvironment(environment);
         // when
-        Executable executable = () -> testObject.parse();
+        Exception exception = Assertions.catchException(() -> testObject.parse());
         // then
-        Assertions.assertThrows(LabelNotFoundException.class, executable);
+        Assertions.assertThat(exception).isInstanceOf(LabelNotFoundException.class);
     }
 }
