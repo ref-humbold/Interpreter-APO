@@ -17,8 +17,9 @@ ADD fs fa fb
 SUBC n n 1
 JUMP Loop
 
-Result: PTINT fs
-JUMP End
-
 Zero: PTINT zero
-JUMP End
+PTLN
+EXIT
+
+Result: PTINT fs
+PTLN

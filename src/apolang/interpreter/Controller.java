@@ -37,6 +37,7 @@ public class Controller
         environment = environmentParser.parse();
         System.out.print(". ");
         instructionParser.setEnvironment(environment);
+        System.out.print(". ");
         instructionList = instructionParser.parse();
         System.out.println(". done");
     }

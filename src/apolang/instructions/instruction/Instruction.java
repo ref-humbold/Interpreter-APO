@@ -5,6 +5,7 @@ import java.util.Objects;
 
 import apolang.exceptions.LanguageException;
 import apolang.instructions.statement.Statement;
+import apolang.instructions.statement.StatementResult;
 import apolang.interpreter.Environment;
 
 public abstract class Instruction
@@ -13,6 +14,7 @@ public abstract class Instruction
     protected final Statement statement;
     protected final String[] arguments;
     protected Instruction next = null;
+    protected StatementResult result;
 
     public Instruction(int lineNumber, Statement statement, String... arguments)
     {
@@ -53,8 +55,19 @@ public abstract class Instruction
         return arguments[index];
     }
 
-    public abstract boolean execute(Environment environment)
-            throws LanguageException;
+    public void execute(Environment environment)
+            throws LanguageException
+    {
+        try
+        {
+            result = statement.execute(environment, arguments);
+        }
+        catch(LanguageException e)
+        {
+            e.setLineNumber(lineNumber);
+            throw e;
+        }
+    }
 
     @Override
     public boolean equals(Object obj)

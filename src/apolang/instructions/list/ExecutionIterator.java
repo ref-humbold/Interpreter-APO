@@ -8,38 +8,32 @@ import apolang.instructions.instruction.Instruction;
 public class ExecutionIterator
         implements Iterator<Instruction>
 {
-    private Instruction previous = null;
-    private Instruction current;
+    private Instruction current = null;
+    private Instruction next;
 
-    ExecutionIterator(Instruction current)
+    ExecutionIterator(Instruction next)
     {
-        this.current = current;
+        this.next = next;
     }
 
     @Override
     public boolean hasNext()
     {
-        return current != null;
+        return next != null;
     }
 
     @Override
     public Instruction next()
             throws NoSuchElementException
     {
-        if(previous != null)
-        {
-            Instruction next = previous.getNextExecuted();
-
-            if(next != null && !next.equals(current))
-                current = next;
-        }
+        if(current != null)
+            next = current.getNextExecuted();
 
         if(!hasNext())
             throw new NoSuchElementException();
 
-        previous = current;
-        current = current.getNextExecuted();
-
-        return previous;
+        current = next;
+        next = next.getNextExecuted();
+        return current;
     }
 }
