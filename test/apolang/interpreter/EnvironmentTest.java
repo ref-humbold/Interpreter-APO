@@ -1,12 +1,14 @@
 package apolang.interpreter;
 
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.function.Executable;
 
+import apolang.exceptions.label.InvalidLabelNameException;
 import apolang.exceptions.label.LabelException;
+import apolang.exceptions.symbol.AssignmentToZeroException;
+import apolang.exceptions.symbol.InvalidVariableNameException;
 import apolang.exceptions.symbol.SymbolException;
 
 public class EnvironmentTest
@@ -27,202 +29,161 @@ public class EnvironmentTest
 
     @Test
     public void setVariableValue_getVariableValue_WhenVariablePresent_ThenValueChanged()
+            throws AssignmentToZeroException, InvalidVariableNameException
     {
         // given
         String variable = "var";
         int value = 10;
 
-        try
-        {
-            testObject.addVariable(variable);
-            // when
-            testObject.setVariableValue(variable, value);
-        }
-        catch(SymbolException e)
-        {
-            e.printStackTrace();
-            Assertions.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
-        }
+        testObject.addVariable(variable);
+        // when
+        testObject.setVariableValue(variable, value);
 
         int result = testObject.getVariableValue(variable);
         // then
-        Assertions.assertEquals(value, result);
+        Assertions.assertThat(result).isEqualTo(value);
     }
 
     @Test
     public void setVariableValue_getVariableValue_WhenVariableAbsent_ThenNothingChanged()
+            throws AssignmentToZeroException
     {
         // given
         String variable = "var";
         int value = 10;
 
         // when
-        try
-        {
-            testObject.setVariableValue(variable, value);
-        }
-        catch(SymbolException e)
-        {
-            e.printStackTrace();
-            Assertions.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
-        }
+        testObject.setVariableValue(variable, value);
 
         Integer result = testObject.getVariableValue(variable);
         // then
-        Assertions.assertNull(result);
-        Assertions.assertFalse(testObject.contains(variable));
+        Assertions.assertThat(result).isNull();
+        Assertions.assertThat(testObject.contains(variable)).isFalse();
     }
 
     @Test
     public void setVariableValue_WhenSetToVariableZero_ThenSymbolError()
     {
         // when
-        Executable executable = () -> testObject.setVariableValue(Environment.ZERO_VARIABLE, 10);
+        Exception exception = Assertions.catchException(
+                () -> testObject.setVariableValue(Environment.ZERO_VARIABLE, 10));
         // then
-        Assertions.assertThrows(SymbolException.class, executable);
+        Assertions.assertThat(exception).isInstanceOf(SymbolException.class);
     }
 
     @Test
     public void contains_WhenVariablePresent_ThenTrue()
+            throws InvalidVariableNameException
     {
         // given
         String variable = "var";
-        try
-        {
-            testObject.addVariable(variable);
-        }
-        catch(SymbolException e)
-        {
-            e.printStackTrace();
-            Assertions.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
-        }
+
+        testObject.addVariable(variable);
         // when
         boolean result = testObject.contains(variable);
         // then
-        Assertions.assertTrue(result);
+        Assertions.assertThat(result).isTrue();
     }
 
     @Test
     public void contains_WhenLabelPresent_ThenTrue()
+            throws InvalidLabelNameException
     {
         // given
         String label = "Label";
 
-        try
-        {
-            testObject.addLabel(label);
-        }
-        catch(LabelException e)
-        {
-            e.printStackTrace();
-            Assertions.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
-        }
+        testObject.addLabel(label);
         // when
         boolean result = testObject.contains(label);
         // then
-        Assertions.assertTrue(result);
+        Assertions.assertThat(result).isTrue();
     }
 
     @Test
-    public void contains_WhenAbsent_ThenTrue()
+    public void contains_WhenAbsent_ThenFalse()
     {
         // when
         boolean result = testObject.contains("qwerty");
         // then
-        Assertions.assertFalse(result);
+        Assertions.assertThat(result).isFalse();
     }
 
     @Test
     public void addLabel_WhenAbsent_ThenAdded()
+            throws InvalidLabelNameException
     {
         // given
         String label = "Label";
         // when
-        try
-        {
-            testObject.addLabel(label);
-        }
-        catch(LabelException e)
-        {
-            e.printStackTrace();
-            Assertions.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
-        }
+        testObject.addLabel(label);
         // then
-        Assertions.assertTrue(testObject.contains(label));
+        Assertions.assertThat(testObject.contains(label)).isTrue();
     }
 
     @Test
     public void addLabel_WhenDoesNotConformToNamingSchema_ThenLabelException()
     {
         // when
-        Executable executable = () -> testObject.addLabel("qwertYuiop09");
+        Exception exception = Assertions.catchException(() -> testObject.addLabel("qwertYuiop09"));
         // then
-        Assertions.assertThrows(LabelException.class, executable);
+        Assertions.assertThat(exception).isInstanceOf(LabelException.class);
     }
 
     @Test
     public void addVariable_WhenAbsent_ThenAddedWithDefaultValue()
+            throws InvalidVariableNameException
     {
         // given
         String variable = "var";
         // when
-        try
-        {
-            testObject.addVariable(variable);
-        }
-        catch(SymbolException e)
-        {
-            e.printStackTrace();
-            Assertions.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
-        }
+        testObject.addVariable(variable);
         // then
-        Assertions.assertTrue(testObject.contains(variable));
-        Assertions.assertEquals(Environment.DEFAULT_VARIABLE_VALUE,
-                                testObject.getVariableValue(variable));
+        Assertions.assertThat(testObject.contains(variable)).isTrue();
+        Assertions.assertThat(testObject.getVariableValue(variable))
+                  .isEqualTo(Environment.DEFAULT_VARIABLE_VALUE);
     }
 
     @Test
     public void addVariable_WhenCorrectNamingSchema_ThenNoExceptionThrown()
     {
-        // when
-        Executable executable = () -> testObject.addVariable("qwertyuiop");
-        // then
-        Assertions.assertDoesNotThrow(executable);
+        // when & then
+        Assertions.assertThatCode(() -> testObject.addVariable("qwertyuiop"))
+                  .doesNotThrowAnyException();
     }
 
     @Test
     public void validateLabel_WhenDoesNotConformToNamingSchema_ThenLabelException()
     {
         // when
-        Executable executable = () -> testObject.validateLabel("qwertYuiop09");
+        Exception exception =
+                Assertions.catchException(() -> testObject.validateLabel("qwertYuiop09"));
         // then
-        Assertions.assertThrows(LabelException.class, executable);
+        Assertions.assertThat(exception).isInstanceOf(LabelException.class);
     }
 
     @Test
     public void validateLabel_WhenCorrectNamingSchema_ThenNoExceptionThrown()
     {
-        // when
-        Executable executable = () -> testObject.validateLabel("Qwertyuiop");
-        // then
-        Assertions.assertDoesNotThrow(executable);
+        // when & then
+        Assertions.assertThatCode(() -> testObject.validateLabel("Qwertyuiop"))
+                  .doesNotThrowAnyException();
     }
 
     @Test
     public void validateVariable_WhenDoesNotConformToNamingSchema_ThenSymbolException()
     {
         // when
-        Executable executable = () -> testObject.validateVariable("qwertYuiop09");
+        Exception exception =
+                Assertions.catchException(() -> testObject.validateVariable("qwertYuiop09"));
         // then
-        Assertions.assertThrows(SymbolException.class, executable);
+        Assertions.assertThat(exception).isInstanceOf(SymbolException.class);
     }
 
     @Test
     public void validateVariable_WhenCorrectNamingSchema_ThenNoExceptionThrown()
     {
-        // when
-        Executable executable = () -> testObject.validateVariable("qwertyuiop");
-        // then
-        Assertions.assertDoesNotThrow(executable);
+        // when & then
+        Assertions.assertThatCode(() -> testObject.validateVariable("qwertyuiop"))
+                  .doesNotThrowAnyException();
     }
 }

@@ -1,9 +1,8 @@
 package apolang.interpreter.parser;
 
 import java.util.List;
-import org.junit.jupiter.api.Assertions;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.function.Executable;
 
 import apolang.exceptions.LanguageException;
 import apolang.exceptions.label.DuplicatedLabelException;
@@ -18,6 +17,7 @@ public class EnvironmentParserTest
 
     @Test
     public void parse_WhenCorrectProgram_ThenEnvironment()
+            throws LanguageException
     {
         // given
         List<String> lines =
@@ -25,25 +25,19 @@ public class EnvironmentParserTest
                         "MUL z x x", "PTINT k");
         testObject = new EnvironmentParser(lines);
         // when
-        Environment result = null;
-        try
-        {
-            result = testObject.parse();
-        }
-        catch(LanguageException e)
-        {
-            e.printStackTrace();
-            Assertions.fail(String.format("Unexpected exception %s", e.getClass().getSimpleName()));
-        }
+        Environment result = testObject.parse();
         // then
-        Assertions.assertTrue(result.contains("x"));
-        Assertions.assertEquals(Environment.DEFAULT_VARIABLE_VALUE, result.getVariableValue("x"));
-        Assertions.assertTrue(result.contains("y"));
-        Assertions.assertEquals(Environment.DEFAULT_VARIABLE_VALUE, result.getVariableValue("y"));
-        Assertions.assertTrue(result.contains("z"));
-        Assertions.assertEquals(Environment.DEFAULT_VARIABLE_VALUE, result.getVariableValue("z"));
-        Assertions.assertTrue(result.contains("Label"));
-        Assertions.assertTrue(result.contains("Square"));
+        Assertions.assertThat(result.contains("x")).isTrue();
+        Assertions.assertThat(result.getVariableValue("x"))
+                  .isEqualTo(Environment.DEFAULT_VARIABLE_VALUE);
+        Assertions.assertThat(result.contains("y")).isTrue();
+        Assertions.assertThat(result.getVariableValue("y"))
+                  .isEqualTo(Environment.DEFAULT_VARIABLE_VALUE);
+        Assertions.assertThat(result.contains("z")).isTrue();
+        Assertions.assertThat(result.getVariableValue("z"))
+                  .isEqualTo(Environment.DEFAULT_VARIABLE_VALUE);
+        Assertions.assertThat(result.contains("Label")).isTrue();
+        Assertions.assertThat(result.contains("Square")).isTrue();
     }
 
     @Test
@@ -53,9 +47,9 @@ public class EnvironmentParserTest
         List<String> lines = List.of("End: ADDC x zero 9");
         testObject = new EnvironmentParser(lines);
         // when
-        Executable executable = () -> testObject.parse();
+        Exception exception = Assertions.catchException(() -> testObject.parse());
         // then
-        Assertions.assertThrows(LabelException.class, executable);
+        Assertions.assertThat(exception).isInstanceOf(LabelException.class);
     }
 
     @Test
@@ -65,9 +59,9 @@ public class EnvironmentParserTest
         List<String> lines = List.of("Label: ADDC x zero 9", "Label:");
         testObject = new EnvironmentParser(lines);
         // when
-        Executable executable = () -> testObject.parse();
+        Exception exception = Assertions.catchException(() -> testObject.parse());
         // then
-        Assertions.assertThrows(DuplicatedLabelException.class, executable);
+        Assertions.assertThat(exception).isInstanceOf(DuplicatedLabelException.class);
     }
 
     @Test
@@ -77,9 +71,9 @@ public class EnvironmentParserTest
         List<String> lines = List.of("Label2:");
         testObject = new EnvironmentParser(lines);
         // when
-        Executable executable = () -> testObject.parse();
+        Exception exception = Assertions.catchException(() -> testObject.parse());
         // then
-        Assertions.assertThrows(InvalidLabelNameException.class, executable);
+        Assertions.assertThat(exception).isInstanceOf(InvalidLabelNameException.class);
     }
 
     @Test
@@ -89,8 +83,8 @@ public class EnvironmentParserTest
         List<String> lines = List.of("ADDC xX zero 9");
         testObject = new EnvironmentParser(lines);
         // when
-        Executable executable = () -> testObject.parse();
+        Exception exception = Assertions.catchException(() -> testObject.parse());
         // then
-        Assertions.assertThrows(InvalidVariableNameException.class, executable);
+        Assertions.assertThat(exception).isInstanceOf(InvalidVariableNameException.class);
     }
 }

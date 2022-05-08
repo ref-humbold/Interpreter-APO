@@ -1,7 +1,7 @@
 package apolang.instructions;
 
 import java.util.stream.Stream;
-import org.junit.jupiter.api.Assertions;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -38,8 +38,7 @@ public class InstructionFactoryTest
         // when
         Instruction result = InstructionFactory.getInstance().create(1, statementName);
         // then
-        Assertions.assertSame(result.getClass(), instructionClass);
-        Assertions.assertSame(result.getStatement().getClass(),
-                              statementName.getStatement().getClass());
+        Assertions.assertThat(result).isExactlyInstanceOf(instructionClass);
+        Assertions.assertThat(result.getStatement()).hasSameClassAs(statementName.getStatement());
     }
 }

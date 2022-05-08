@@ -1,7 +1,7 @@
 package apolang.interpreter.memory;
 
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -26,126 +26,93 @@ public class MemoryTest
     @Test
     public void storeWord_WhenInvalidAddress_ThenMemoryException()
     {
-        int value = 0x01ABCDEF;
-        int address = 7;
-
-        Assertions.assertThrows(MemoryException.class, () -> testObject.storeWord(address, value));
+        // when
+        Exception exception = Assertions.catchException(() -> testObject.storeWord(7, 0x01ABCDEF));
+        // then
+        Assertions.assertThat(exception).isInstanceOf(MemoryException.class);
     }
 
     @Test
-    public void storeWordLoadWord()
+    public void storeWord_loadWord()
+            throws MemoryException
     {
+        // given
         int value = 0x01ABCDEF;
         int address = 0;
-        int result;
-
-        try
-        {
-            testObject.storeWord(address, value);
-            result = testObject.loadWord(address);
-
-            Assertions.assertEquals(value, result);
-        }
-        catch(MemoryException e)
-        {
-            e.printStackTrace();
-            Assertions.fail("Unexpected exception " + e.getClass().getSimpleName());
-        }
+        // when
+        testObject.storeWord(address, value);
+        int result = testObject.loadWord(address);
+        // then
+        Assertions.assertThat(result).isEqualTo(value);
     }
 
     @Test
-    public void storeByteLoadByte()
+    public void storeByte_loadByte()
+            throws MemoryException
     {
+        // given
         int value = 0x78;
         int address = 10;
-        int result;
-
-        try
-        {
-            testObject.storeByte(address, value);
-            result = testObject.loadByte(address);
-
-            Assertions.assertEquals(value, result);
-        }
-        catch(MemoryException e)
-        {
-            e.printStackTrace();
-            Assertions.fail("Unexpected exception " + e.getClass().getSimpleName());
-        }
+        // when
+        testObject.storeByte(address, value);
+        int result = testObject.loadByte(address);
+        // then
+        Assertions.assertThat(result).isEqualTo(value);
     }
 
     @Test
-    public void storeByteLoadWord_WhenCorrectAddress()
+    public void storeByte_loadWord_WhenCorrectAddress()
+            throws MemoryException
     {
+        // given
         int[] values = new int[]{0x78, 0xED, 0x40, 0x9C};
         int address = 16;
         int expected = (values[0] << 24) | (values[1] << 16) | (values[2] << 8) | values[3];
-        int result = 0;
-
-        try
-        {
-            testObject.storeByte(address, values[0]);
-            testObject.storeByte(address + 1, values[1]);
-            testObject.storeByte(address + 2, values[2]);
-            testObject.storeByte(address + 3, values[3]);
-            result = testObject.loadWord(address);
-        }
-        catch(MemoryException e)
-        {
-            e.printStackTrace();
-            Assertions.fail("Unexpected exception " + e.getClass().getSimpleName());
-        }
-
-        Assertions.assertEquals(expected, result);
+        // when
+        testObject.storeByte(address, values[0]);
+        testObject.storeByte(address + 1, values[1]);
+        testObject.storeByte(address + 2, values[2]);
+        testObject.storeByte(address + 3, values[3]);
+        int result = testObject.loadWord(address);
+        // then
+        Assertions.assertThat(result).isEqualTo(expected);
     }
 
     @Test
-    public void storeByteLoadWord_WhenInvalidAddress_ThenMemoryException()
+    public void storeByte_loadWord_WhenInvalidAddress_ThenMemoryException()
+            throws MemoryException
     {
+        // given
         int[] values = new int[]{0x78, 0xED, 0x40, 0x9C};
         int address = 23;
 
-        try
-        {
-            testObject.storeByte(address, values[0]);
-            testObject.storeByte(address + 1, values[1]);
-            testObject.storeByte(address + 2, values[2]);
-            testObject.storeByte(address + 3, values[3]);
-        }
-        catch(MemoryException e)
-        {
-            e.printStackTrace();
-            Assertions.fail("Unexpected exception " + e.getClass().getSimpleName());
-        }
-
-        Assertions.assertThrows(MemoryException.class, () -> testObject.loadWord(address));
+        testObject.storeByte(address, values[0]);
+        testObject.storeByte(address + 1, values[1]);
+        testObject.storeByte(address + 2, values[2]);
+        testObject.storeByte(address + 3, values[3]);
+        // when
+        Exception exception = Assertions.catchException(() -> testObject.loadWord(address));
+        // then
+        Assertions.assertThat(exception).isInstanceOf(MemoryException.class);
     }
 
     @Test
-    public void storeWordLoadByte()
+    public void storeWord_loadByte()
+            throws MemoryException
     {
+        // given
         int[] values = new int[]{0x23, 0x45, 0xBD, 0xDE};
         int address = 32;
         int value = (values[0] << 24) | (values[1] << 16) | (values[2] << 8) | values[3];
+        // when
         int[] results = new int[4];
 
-        try
-        {
-            testObject.storeWord(address, value);
-            results[0] = testObject.loadByte(address);
-            results[1] = testObject.loadByte(address + 1);
-            results[2] = testObject.loadByte(address + 2);
-            results[3] = testObject.loadByte(address + 3);
-
-            Assertions.assertEquals(values[0], results[0]);
-            Assertions.assertEquals(values[1], results[1]);
-            Assertions.assertEquals(values[2], results[2]);
-            Assertions.assertEquals(values[3], results[3]);
-        }
-        catch(MemoryException e)
-        {
-            e.printStackTrace();
-            Assertions.fail("Unexpected exception " + e.getClass().getSimpleName());
-        }
+        testObject.storeWord(address, value);
+        results[0] = testObject.loadByte(address);
+        results[1] = testObject.loadByte(address + 1);
+        results[2] = testObject.loadByte(address + 2);
+        results[3] = testObject.loadByte(address + 3);
+        // then
+        Assertions.assertThat(results).containsExactly(values);
     }
 }

@@ -1,11 +1,10 @@
 package apolang.instructions;
 
 import java.util.Iterator;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.function.Executable;
 
 import apolang.instructions.instruction.Instruction;
 import apolang.instructions.list.InstructionList;
@@ -35,7 +34,7 @@ public class InstructionListTest
         // when
         boolean result = testObject.isEmpty();
         // then
-        Assertions.assertTrue(result);
+        Assertions.assertThat(result).isTrue();
     }
 
     @Test
@@ -49,7 +48,7 @@ public class InstructionListTest
         // when
         boolean result = testObject.isEmpty();
         // then
-        Assertions.assertFalse(result);
+        Assertions.assertThat(result).isFalse();
     }
 
     @Test
@@ -63,9 +62,9 @@ public class InstructionListTest
         // then
         Iterator<Instruction> it = testObject.iterator();
 
-        Assertions.assertTrue(it.hasNext());
-        Assertions.assertEquals(instruction, it.next());
-        Assertions.assertFalse(it.hasNext());
+        Assertions.assertThat(it.hasNext()).isTrue();
+        Assertions.assertThat(it.next()).isEqualTo(instruction);
+        Assertions.assertThat(it.hasNext()).isFalse();
     }
 
     @Test
@@ -82,20 +81,20 @@ public class InstructionListTest
         // then
         Iterator<Instruction> it = testObject.iterator();
 
-        Assertions.assertTrue(it.hasNext());
-        Assertions.assertEquals(instruction1, it.next());
-        Assertions.assertTrue(it.hasNext());
-        Assertions.assertEquals(instruction2, it.next());
-        Assertions.assertFalse(it.hasNext());
+        Assertions.assertThat(it.hasNext()).isTrue();
+        Assertions.assertThat(it.next()).isEqualTo(instruction1);
+        Assertions.assertThat(it.hasNext()).isTrue();
+        Assertions.assertThat(it.next()).isEqualTo(instruction2);
+        Assertions.assertThat(it.hasNext()).isFalse();
     }
 
     @Test
     public void add_WhenInstructionNull_ThenNullPointerException()
     {
         // when
-        Executable executable = () -> testObject.add(null);
+        Exception exception = Assertions.catchException(() -> testObject.add(null));
         // then
-        Assertions.assertThrows(NullPointerException.class, executable);
+        Assertions.assertThat(exception).isInstanceOf(NullPointerException.class);
     }
 
     @Test
@@ -112,23 +111,6 @@ public class InstructionListTest
         // when
         Instruction result = testObject.getByLineNumber(2);
         // then
-        Assertions.assertEquals(instruction2, result);
-    }
-
-    @Test
-    public void getByLineNumber_WhenNotExistsLineNumber_ThenNearestNextInstruction()
-    {
-        // given
-        Instruction instruction1 =
-                instructionFactory.create(1, StatementName.ADD, VARS[3], VARS[0], VARS[1]);
-        Instruction instruction5 =
-                instructionFactory.create(5, StatementName.MUL, VARS[3], VARS[0], VARS[1]);
-
-        testObject.add(instruction1);
-        testObject.add(instruction5);
-        // when
-        Instruction result = testObject.getByLineNumber(3);
-        // then
-        Assertions.assertEquals(instruction5, result);
+        Assertions.assertThat(result).isEqualTo(instruction2);
     }
 }
