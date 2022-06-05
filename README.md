@@ -1,5 +1,6 @@
 # Interpreter-APO
 
+![Release](https://img.shields.io/github/v/release/ref-humbold/Interpreter-APO?style=plastic)
 ![License](https://img.shields.io/github/license/ref-humbold/Interpreter-APO?style=plastic)
 
 Interpreter of a fictional assembly-like APO language
