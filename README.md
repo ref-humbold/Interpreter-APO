@@ -1,5 +1,7 @@
 # Interpreter-APO
 
+[![CircleCI](https://circleci.com/gh/ref-humbold/Interpreter-APO/tree/master.svg?style=shield)](https://circleci.com/gh/ref-humbold/Interpreter-APO/tree/master)
+
 ![Release](https://img.shields.io/github/v/release/ref-humbold/Interpreter-APO?style=plastic)
 ![License](https://img.shields.io/github/license/ref-humbold/Interpreter-APO?style=plastic)
 
