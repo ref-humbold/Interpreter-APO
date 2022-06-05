@@ -1,5 +1,6 @@
 # Interpreter-APO
 
+![GitHub Actions](https://github.com/ref-humbold/Interpreter-APO/workflows/GitHub%20Actions/badge.svg?branch=master)
 [![CircleCI](https://circleci.com/gh/ref-humbold/Interpreter-APO/tree/master.svg?style=shield)](https://circleci.com/gh/ref-humbold/Interpreter-APO/tree/master)
 
 ![Release](https://img.shields.io/github/v/release/ref-humbold/Interpreter-APO?style=plastic)
