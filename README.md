@@ -47,12 +47,10 @@ Possible ANT targets are:
 + `ant main` - compile source files & create executable jar & run all tests
 + `ant test` - run all tests
 + `ant docs` - generate Javadoc
-+ `ant rebuild` - resolve dependencies & compile source files & create executable jar
-+ `ant refresh` - remove additional build files & resolve dependencies & compile source files &
-  create executable jar
-+ `ant refresh-main` - remove additional build files & compile source files & create executable jar
++ `ant rebuild` - remove additional build files & compile source files & create executable jar
++ `ant rebuild-main` - remove additional build files & compile source files & create executable jar
   & run all tests
-+ `ant refresh-all` - remove additional build files & resolve dependencies & compile source files &
++ `ant rebuild-all` - remove additional build files & resolve dependencies & compile source files &
   create executable jar & run all tests
 
 ## How to run?
