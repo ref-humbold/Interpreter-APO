@@ -21,7 +21,7 @@ General:
 + Operating system \
   *((Debian testing))*
 + [Java](https://www.oracle.com/technetwork/java/javase/overview/index.html) \
-  *((APT package `openjdk-11-jdk`, version 11 SE))*
+  *((APT package `openjdk-17-jdk`, version 17 SE))*
 + [Apache ANT](http://ant.apache.org/) \
   *((APT package `ant`, version 1.10.+))*
 
@@ -37,32 +37,31 @@ General:
 ## How to build?
 
 Interpreter-APO can be built with **Apache ANT** using **Apache Ivy** to resolve all dependencies.
-Ivy and all libraries are downloaded during build, so make sure your Internet connection is working!
+Ivy itself and all dependencies are downloaded during build, so make sure your Internet
+connection is working!
 
 Possible ANT targets are:
 
-+ `ant`, `ant all` - resolve dependencies & compile source files & create executable jar & run all
-  tests
-+ `ant build` - compile source files & create executable jar
-+ `ant main` - compile source files & create executable jar & run all tests
++ `ant`, `ant build` - resolve dependencies & compile source files & create executable jar & run
+  all tests
++ `ant resolve` - resolve dependencies
++ `ant jar` - compile source files & create executable jar
 + `ant test` - run all tests
 + `ant docs` - generate Javadoc
-+ `ant rebuild` - remove additional build files & compile source files & create executable jar
-+ `ant rebuild-main` - remove additional build files & compile source files & create executable jar
-  & run all tests
-+ `ant rebuild-all` - remove additional build files & resolve dependencies & compile source files &
++ `ant clean` - remove additional build files
++ `ant rebuild` - remove additional build files & resolve dependencies & compile source files &
   create executable jar & run all tests
 
 ## How to run?
 
-Interpreter-APO can be run by the executable *sh* script in the `dist` directory:
+Interpreter-APO can be run by the executable *sh* script in the `antBuild` directory:
 
 ```sh
-$ sh /path-to-project-directory/dist/apolang
+$ sh /path-to-project-directory/antBuild/apolang
 ```
 
-Alternatively one may directly execute the *jar* file in the `dist` directory:
+Alternatively one may directly execute the *jar* file in the `antBuild/dist` directory:
 
 ```sh
-$ java -jar /path-to-project-directory/dist/apolang-{version}.jar
+$ java -jar /path-to-project-directory/antBuild/dist/apolang-{version}.jar
 ```

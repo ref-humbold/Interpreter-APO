@@ -11,6 +11,12 @@ public final class Interpreter
     public static void main(String[] args)
             throws IOException
     {
+        if(args.length == 0)
+        {
+            System.err.println("No file specified. Execution stopped.");
+            return;
+        }
+
         int memorySize = 1;
         String filename = args[0];
 
