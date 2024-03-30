@@ -12,7 +12,7 @@ jobs:
       - checkout
       - run:
           name: APT Install Java
-          command: sudo apt-get update && sudo apt-get install openjdk-11-jdk
+          command: sudo apt-get update && sudo apt-get install openjdk-17-jdk
       - run:
           name: APT Install Apache ANT
           command: sudo apt-get update && sudo apt-get install ant
@@ -24,7 +24,7 @@ jobs:
           command: ant -lib ./lib resolve
       - run:
           name: Build
-          command: ant -lib ./lib build
+          command: ant -lib ./lib jar
       - run:
           name: Test
           command: ant -lib ./lib test
