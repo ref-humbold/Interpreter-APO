@@ -1,6 +1,7 @@
 <ivy-module version="2.0">
   <info organisation="ref_humbold" module="apo_language" />
   <dependencies>
+    <dependency org="commons-cli" name="commons-cli" rev="1.6.+" />
     <dependency org="org.junit.jupiter" name="junit-jupiter-api" rev="5.+" />
     <dependency org="org.junit.jupiter" name="junit-jupiter-engine" rev="5.+" />
     <dependency org="org.junit.jupiter" name="junit-jupiter-params" rev="5.+" />
