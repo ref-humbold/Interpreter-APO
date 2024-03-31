@@ -1,46 +1,50 @@
 package apolang;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import org.apache.commons.cli.ParseException;
 
 import apolang.interpreter.Controller;
 
 public final class Interpreter
 {
+    private static final CliParser cliParser = new CliParser();
+
     public static void main(String[] args)
             throws IOException
     {
-        if(args.length == 0)
+        CliParser.Arguments arguments;
+
+        try
         {
-            System.err.println("No file specified. Execution stopped.");
+            arguments = cliParser.parse(args);
+        }
+        catch(ParseException e)
+        {
+            System.err.printf("Error while parsing arguments:%n\t%s%n", e.getMessage());
             return;
         }
-
-        int memorySize = 1;
-        String filename = args[0];
-
-        if(args.length > 1)
+        catch(NumberFormatException e)
         {
-            try
-            {
-                memorySize = Integer.parseInt(args[1]);
-            }
-            catch(Exception e)
-            {
-                System.err.println("Invalid memory size. Execution stopped.");
-                return;
-            }
+            System.err.println("Invalid memory size. Execution stopped.");
+            return;
         }
-
-        if(!filename.endsWith(".apo"))
+        catch(FileNotFoundException e)
         {
             System.err.println("Wrong filename extension. Execution stopped.");
             return;
         }
 
-        Path path = Paths.get(filename);
-        Controller controller = new Controller(memorySize, path);
+        if(arguments.isHelp())
+        {
+            cliParser.printHelp();
+            return;
+        }
+
+        Path path = Paths.get(arguments.getFilename());
+        Controller controller = new Controller(arguments.getMemorySize(), path);
 
         try
         {
@@ -48,7 +52,7 @@ public final class Interpreter
         }
         catch(Exception e)
         {
-            System.err.printf("parser error>> %s\n\tExecution stopped.\n", e);
+            System.err.printf("parser error>> %s%n\tExecution stopped.%n", e);
             e.printStackTrace(System.err);
             return;
         }
@@ -59,7 +63,7 @@ public final class Interpreter
         }
         catch(Exception e)
         {
-            System.err.printf("interpreter error>> %s\n\tExecution stopped.\n", e);
+            System.err.printf("interpreter error>> %s%n\tExecution stopped.%n", e);
             e.printStackTrace(System.err);
         }
     }
