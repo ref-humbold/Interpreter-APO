@@ -18,7 +18,6 @@
   <property name="ant.output.dir" value="antBuild" />
   <property name="build.dir" value="${ant.output.dir}/bin" />
   <property name="dist.dir" value="${ant.output.dir}/dist" />
-  <property name="dist.lib.dir" value="${dist.dir}/lib" />
   <property name="junit.output.dir" value="${ant.output.dir}/junit" />
   <property name="junit.result.dir" value="${junit.output.dir}/result" />
   <property name="junit.report.dir" value="${junit.output.dir}/report" />
