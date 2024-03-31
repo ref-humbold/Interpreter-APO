@@ -1,6 +1,5 @@
 package apolang;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -23,17 +22,8 @@ public final class Interpreter
         }
         catch(ParseException e)
         {
-            System.err.printf("Error while parsing arguments:%n\t%s%n", e.getMessage());
-            return;
-        }
-        catch(NumberFormatException e)
-        {
-            System.err.println("Invalid memory size. Execution stopped.");
-            return;
-        }
-        catch(FileNotFoundException e)
-        {
-            System.err.println("Wrong filename extension. Execution stopped.");
+            System.err.printf("Error while parsing arguments:%n\t%s%n\tExecution stopped.%n",
+                              e.getMessage());
             return;
         }
 

@@ -1,6 +1,5 @@
 package apolang;
 
-import java.io.FileNotFoundException;
 import org.apache.commons.cli.*;
 
 class CliParser
@@ -22,7 +21,7 @@ class CliParser
     }
 
     Arguments parse(String[] args)
-            throws ParseException, NumberFormatException, FileNotFoundException
+            throws ParseException
     {
         Arguments arguments = new Arguments();
         CommandLine commandLine = parser.parse(options, args);
@@ -35,7 +34,14 @@ class CliParser
             return arguments;
         }
 
-        arguments.memorySize = Integer.parseInt(commandLine.getOptionValue('m', "1"));
+        try
+        {
+            arguments.memorySize = Integer.parseInt(commandLine.getOptionValue('m', "1"));
+        }
+        catch(NumberFormatException e)
+        {
+            throw new ParseException("Invalid memory size. %s".formatted(e.getMessage()));
+        }
 
         if(remainingArgs.length == 0)
         {
@@ -46,7 +52,7 @@ class CliParser
 
         if(!arguments.filename.endsWith(".apo"))
         {
-            throw new FileNotFoundException();
+            throw new ParseException("Invalid file extension, should be '.apo'.");
         }
 
         return arguments;
