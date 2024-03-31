@@ -18,12 +18,12 @@ jobs:
       - name: Download Dependencies
         run: |
           export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
-          ant -lib ./lib resolve
+          ant resolve
       - name: Build
         run: |
           export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
-          ant -lib ./lib jar
+          ant jar
       - name: Test
         run: |
           export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
-          ant -lib ./lib test
+          ant test
