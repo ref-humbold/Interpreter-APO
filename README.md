@@ -31,7 +31,7 @@ Interpreter of a fictional assembly-like APO language
 
 -----
 
-## How to build?
+## How to build with ANT?
 
 Interpreter-APO can be built with **Apache ANT** using **Apache Ivy** to resolve all dependencies.
 Ivy itself and all dependencies are downloaded during build, so make sure your Internet
@@ -49,16 +49,40 @@ Possible ANT targets are:
 + `ant rebuild` - remove additional build files & resolve dependencies & compile source files &
   create executable jar & run all tests
 
+## How to build with Gradle?
+
+DI\_Container can be built with **Gradle**. All dependencies are downloaded during build, so
+make sure your Internet connection is working!
+
+Possible Gradle tasks are:
+
++ `gradle build` - resolve dependencies & compile source files & create jar & run all tests
++ `gradle jar` - resolve dependencies & compile source files & create jar
++ `gradle test` - run all tests
++ `gradle javadoc` - generate Javadoc
++ `gradle rebuild` - remove additional build files & resolve dependencies & compile source files &
+  create jar & run all tests
+
 ## How to run?
 
-Interpreter-APO can be run by the executable *sh* script in the `antBuild` directory:
+Interpreter-APO can be run by the executable *sh* script:
 
-```sh
-$ sh /path-to-project-directory/antBuild/apolang
-```
++ for ANT build
+    ```sh
+    $ sh /path-to-project-directory/antBuild/apolang
+    ```
++ for Gradle build
+    ```sh
+    $ sh /path-to-project-directory/build/scripts/apolang
+    ```
 
-Alternatively one may directly execute the *jar* file in the `antBuild/dist` directory:
+Alternatively one may directly execute the *jar* file:
 
-```sh
-$ java -jar /path-to-project-directory/antBuild/dist/apolang-{version}.jar
-```
++ for ANT build
+    ```sh
+    $ java -jar /path-to-project-directory/antBuild/dist/apolang-{version}.jar
+    ```
++ for Gradle build
+    ```sh
+    $ java -jar /path-to-project-directory/build/libs/apolang-{version}.jar
+    ```

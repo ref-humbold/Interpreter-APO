@@ -1,0 +1,68 @@
+plugins {
+  id 'application'
+}
+
+ext {
+  majorVersion = 2
+  minorVersion = 1
+  dateVersion = new Date().format('yyMMdd')
+  specVersion = "${majorVersion}.${minorVersion}"
+  jarVersion = "${majorVersion}.${minorVersion}.${dateVersion}"
+  vendor = 'Rafał Kaleta'
+  mainPackage = 'apolang'
+  mainClass = "${mainPackage}.Interpreter"
+  execFile = 'apolang'
+}
+
+version = project.jarVersion
+archivesBaseName = project.mainPackage
+
+repositories {
+  mavenCentral()
+}
+
+dependencies {
+  implementation 'commons-cli:commons-cli:1.6.+'
+  testImplementation 'org.junit.jupiter:junit-jupiter:5.+'
+  testImplementation 'org.junit.jupiter:junit-jupiter-engine:5.+'
+  testImplementation 'org.junit.platform:junit-platform-commons:1.+'
+  testImplementation 'org.junit.platform:junit-platform-engine:1.+'
+  testImplementation 'org.junit.platform:junit-platform-launcher:1.+'
+  testImplementation 'org.assertj:assertj-core:3.+'
+}
+
+application {
+  mainClass = project.mainClass
+}
+
+startScripts {
+  applicationName = project.execFile
+}
+
+tasks.jar {
+  manifest {
+    attributes(
+      'Built-By': project.vendor,
+      'Main-Class': project.mainClass,
+      'Specification-Title': 'APO Language Interpreter',
+      'Specification-Version': project.specVersion,
+      'Specification-Vendor': project.vendor,
+      'Implementation-Title': project.mainPackage,
+      'Implementation-Version': project.jarVersion,
+      'Implementation-Vendor': project.vendor
+    )
+  }
+}
+
+tasks.test {
+  useJUnitPlatform()
+}
+
+tasks.register('rebuild') {
+  group 'build'
+  description 'Deletes the build directory, assembles and tests this project.'
+  dependsOn 'clean', 'build'
+  tasks.named('build').get().mustRunAfter('clean')
+}
+
+javadoc.options.addStringOption('Xdoclint:none')
