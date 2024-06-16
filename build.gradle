@@ -22,7 +22,7 @@ repositories {
 }
 
 dependencies {
-  implementation 'commons-cli:commons-cli:1.6.+'
+  implementation 'commons-cli:commons-cli:1.8.+'
   testImplementation 'org.junit.jupiter:junit-jupiter:5.+'
   testImplementation 'org.junit.jupiter:junit-jupiter-engine:5.+'
   testImplementation 'org.junit.platform:junit-platform-commons:1.+'
@@ -42,14 +42,14 @@ startScripts {
 tasks.jar {
   manifest {
     attributes(
-      'Built-By': project.vendor,
-      'Main-Class': project.mainClass,
-      'Specification-Title': 'APO Language Interpreter',
-      'Specification-Version': project.specVersion,
-      'Specification-Vendor': project.vendor,
-      'Implementation-Title': project.mainPackage,
-      'Implementation-Version': project.jarVersion,
-      'Implementation-Vendor': project.vendor
+        'Built-By': project.vendor,
+        'Main-Class': project.mainClass,
+        'Specification-Title': 'APO Language Interpreter',
+        'Specification-Version': project.specVersion,
+        'Specification-Vendor': project.vendor,
+        'Implementation-Title': project.mainPackage,
+        'Implementation-Version': project.jarVersion,
+        'Implementation-Vendor': project.vendor
     )
   }
 }

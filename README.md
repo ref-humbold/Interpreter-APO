@@ -25,7 +25,7 @@ Interpreter of a fictional assembly-like APO language
 
 > dependencies are automatically downloaded during build process
 
-+ Apache Commons CLI 1.6.+
++ Apache Commons CLI 1.8.+
 + JUnit 5.+
 + AssertJ 3.+
 
