@@ -26,61 +26,62 @@ public class MemoryTest
     @Test
     public void storeWord_WhenInvalidAddress_ThenMemoryException()
     {
-        // when
-        Exception exception = Assertions.catchException(() -> testObject.storeWord(7, 0x01ABCDEF));
-        // then
-        Assertions.assertThat(exception).isInstanceOf(MemoryException.class);
+        Assertions.assertThatThrownBy(() -> testObject.storeWord(7, 0x01ABCDEF))
+                  .isInstanceOf(MemoryException.class);
     }
 
     @Test
-    public void storeWord_loadWord()
-            throws MemoryException
+    public void storeWord_WhenNextLoadWord_ThenLoaded()
+            throws Exception
     {
         // given
         int value = 0x01ABCDEF;
         int address = 0;
+
         // when
         testObject.storeWord(address, value);
-        int result = testObject.loadWord(address);
+
         // then
-        Assertions.assertThat(result).isEqualTo(value);
+        Assertions.assertThat(testObject.loadWord(address)).isEqualTo(value);
     }
 
     @Test
-    public void storeByte_loadByte()
-            throws MemoryException
+    public void storeByte_WhenNextLoadByte_ThenLoaded()
+            throws Exception
     {
         // given
         int value = 0x78;
         int address = 10;
+
         // when
         testObject.storeByte(address, value);
-        int result = testObject.loadByte(address);
+
         // then
-        Assertions.assertThat(result).isEqualTo(value);
+        Assertions.assertThat(testObject.loadByte(address)).isEqualTo(value);
     }
 
     @Test
-    public void storeByte_loadWord_WhenCorrectAddress()
-            throws MemoryException
+    public void storeByte_WhenNextLoadWordWithCorrectAddress_ThenLoaded()
+            throws Exception
     {
         // given
         int[] values = new int[]{0x78, 0xED, 0x40, 0x9C};
         int address = 16;
         int expected = (values[0] << 24) | (values[1] << 16) | (values[2] << 8) | values[3];
+
         // when
         testObject.storeByte(address, values[0]);
         testObject.storeByte(address + 1, values[1]);
         testObject.storeByte(address + 2, values[2]);
         testObject.storeByte(address + 3, values[3]);
-        int result = testObject.loadWord(address);
+
         // then
-        Assertions.assertThat(result).isEqualTo(expected);
+        Assertions.assertThat(testObject.loadWord(address)).isEqualTo(expected);
     }
 
     @Test
-    public void storeByte_loadWord_WhenInvalidAddress_ThenMemoryException()
-            throws MemoryException
+    public void storeByte_WhenNextLoadWordWithInvalidAddress_ThenMemoryException()
+            throws Exception
     {
         // given
         int[] values = new int[]{0x78, 0xED, 0x40, 0x9C};
@@ -90,29 +91,32 @@ public class MemoryTest
         testObject.storeByte(address + 1, values[1]);
         testObject.storeByte(address + 2, values[2]);
         testObject.storeByte(address + 3, values[3]);
-        // when
-        Exception exception = Assertions.catchException(() -> testObject.loadWord(address));
+
         // then
-        Assertions.assertThat(exception).isInstanceOf(MemoryException.class);
+        Assertions.assertThatThrownBy(() -> testObject.loadWord(address))
+                  .isInstanceOf(MemoryException.class);
     }
 
     @Test
-    public void storeWord_loadByte()
-            throws MemoryException
+    public void storeWord_WhenNextLoadByte_ThenLoaded()
+            throws Exception
     {
         // given
         int[] values = new int[]{0x23, 0x45, 0xBD, 0xDE};
         int address = 32;
         int value = (values[0] << 24) | (values[1] << 16) | (values[2] << 8) | values[3];
-        // when
-        int[] results = new int[4];
 
+        // when
         testObject.storeWord(address, value);
-        results[0] = testObject.loadByte(address);
-        results[1] = testObject.loadByte(address + 1);
-        results[2] = testObject.loadByte(address + 2);
-        results[3] = testObject.loadByte(address + 3);
+
         // then
-        Assertions.assertThat(results).containsExactly(values);
+        int[] word = new int[4];
+
+        word[0] = testObject.loadByte(address);
+        word[1] = testObject.loadByte(address + 1);
+        word[2] = testObject.loadByte(address + 2);
+        word[3] = testObject.loadByte(address + 3);
+
+        Assertions.assertThat(word).containsExactly(values);
     }
 }

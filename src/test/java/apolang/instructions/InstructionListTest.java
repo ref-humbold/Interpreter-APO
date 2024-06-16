@@ -33,6 +33,7 @@ public class InstructionListTest
     {
         // when
         boolean result = testObject.isEmpty();
+
         // then
         Assertions.assertThat(result).isTrue();
     }
@@ -45,8 +46,10 @@ public class InstructionListTest
                 instructionFactory.create(1, StatementName.ADD, VARS[3], VARS[0], VARS[1]);
 
         testObject.add(instruction);
+
         // when
         boolean result = testObject.isEmpty();
+
         // then
         Assertions.assertThat(result).isFalse();
     }
@@ -57,8 +60,10 @@ public class InstructionListTest
         // given
         Instruction instruction =
                 instructionFactory.create(1, StatementName.ADD, VARS[3], VARS[0], VARS[1]);
+
         // when
         testObject.add(instruction);
+
         // then
         Iterator<Instruction> it = testObject.iterator();
 
@@ -75,9 +80,11 @@ public class InstructionListTest
                 instructionFactory.create(1, StatementName.ADD, VARS[3], VARS[0], VARS[1]);
         Instruction instruction2 =
                 instructionFactory.create(2, StatementName.MUL, VARS[3], VARS[0], VARS[1]);
+
         // when
         testObject.add(instruction1);
         testObject.add(instruction2);
+
         // then
         Iterator<Instruction> it = testObject.iterator();
 
@@ -91,10 +98,8 @@ public class InstructionListTest
     @Test
     public void add_WhenInstructionNull_ThenNullPointerException()
     {
-        // when
-        Exception exception = Assertions.catchException(() -> testObject.add(null));
-        // then
-        Assertions.assertThat(exception).isInstanceOf(NullPointerException.class);
+        Assertions.assertThatThrownBy(() -> testObject.add(null))
+                  .isInstanceOf(NullPointerException.class);
     }
 
     @Test
@@ -108,8 +113,10 @@ public class InstructionListTest
 
         testObject.add(instruction1);
         testObject.add(instruction2);
+
         // when
         Instruction result = testObject.getByLineNumber(2);
+
         // then
         Assertions.assertThat(result).isEqualTo(instruction2);
     }

@@ -51,8 +51,10 @@ public class InstructionParserTest
 
         testObject = new InstructionParser(lines);
         testObject.setEnvironment(environment);
+
         // when
         InstructionList result = testObject.parse();
+
         // then
         Assertions.assertThat(result).isNotEmpty();
         Assertions.assertThat(result.getByLineNumber(1))
@@ -93,15 +95,17 @@ public class InstructionParserTest
 
     @Test
     public void parse_WhenEmptyProgram_ThenInstructionListIsEmpty()
-            throws LanguageException
+            throws Exception
     {
         // given
         List<String> lines = List.of("# only empty line", "");
 
         testObject = new InstructionParser(lines);
         testObject.setEnvironment(environment);
+
         // when
         InstructionList result = testObject.parse();
+
         // then
         Assertions.assertThat(result).isEmpty();
         Assertions.assertThat(result.getLinesCount()).isZero();
@@ -109,15 +113,17 @@ public class InstructionParserTest
 
     @Test
     public void parse_WhenSingleLabel_ThenOnlyNOPInstruction()
-            throws LanguageException
+            throws Exception
     {
         // given
         List<String> lines = List.of("# only label", "La:");
 
         testObject = new InstructionParser(lines);
         testObject.setEnvironment(environment);
+
         // when
         InstructionList result = testObject.parse();
+
         // then
         Assertions.assertThat(result).isNotEmpty();
         Assertions.assertThat(result.getLinesCount()).isEqualTo(2);
@@ -125,15 +131,17 @@ public class InstructionParserTest
 
     @Test
     public void parse_WhenEndLabel_ThenEndsWithNOPInstruction()
-            throws LanguageException
+            throws Exception
     {
         // given
         List<String> lines = List.of("# jump to End", "JUMP End");
 
         testObject = new InstructionParser(lines);
         testObject.setEnvironment(environment);
+
         // when
         InstructionList result = testObject.parse();
+
         // then
         Assertions.assertThat(result).isNotEmpty();
         Assertions.assertThat(result.getLinesCount()).isEqualTo(3);
@@ -147,10 +155,10 @@ public class InstructionParserTest
 
         testObject = new InstructionParser(lines);
         testObject.setEnvironment(environment);
-        // when
-        Exception exception = Assertions.catchException(() -> testObject.parse());
+
         // then
-        Assertions.assertThat(exception).isInstanceOf(NotExistingInstructionException.class);
+        Assertions.assertThatThrownBy(() -> testObject.parse())
+                  .isInstanceOf(NotExistingInstructionException.class);
     }
 
     @Test
@@ -161,10 +169,9 @@ public class InstructionParserTest
 
         testObject = new InstructionParser(lines);
         testObject.setEnvironment(environment);
-        // when
-        Exception exception = Assertions.catchException(() -> testObject.parse());
+
         // then
-        Assertions.assertThat(exception).isInstanceOf(SymbolException.class);
+        Assertions.assertThatThrownBy(() -> testObject.parse()).isInstanceOf(SymbolException.class);
     }
 
     @Test
@@ -175,10 +182,10 @@ public class InstructionParserTest
 
         testObject = new InstructionParser(lines);
         testObject.setEnvironment(environment);
-        // when
-        Exception exception = Assertions.catchException(() -> testObject.parse());
+
         // then
-        Assertions.assertThat(exception).isInstanceOf(VariableNotInitializedException.class);
+        Assertions.assertThatThrownBy(() -> testObject.parse())
+                  .isInstanceOf(VariableNotInitializedException.class);
     }
 
     @Test
@@ -189,10 +196,10 @@ public class InstructionParserTest
 
         testObject = new InstructionParser(lines);
         testObject.setEnvironment(environment);
-        // when
-        Exception exception = Assertions.catchException(() -> testObject.parse());
+
         // then
-        Assertions.assertThat(exception).isInstanceOf(InvalidVariableNameException.class);
+        Assertions.assertThatThrownBy(() -> testObject.parse())
+                  .isInstanceOf(InvalidVariableNameException.class);
     }
 
     @Test
@@ -203,10 +210,10 @@ public class InstructionParserTest
 
         testObject = new InstructionParser(lines);
         testObject.setEnvironment(environment);
-        // when
-        Exception exception = Assertions.catchException(() -> testObject.parse());
+
         // then
-        Assertions.assertThat(exception).isInstanceOf(AssignmentToZeroException.class);
+        Assertions.assertThatThrownBy(() -> testObject.parse())
+                  .isInstanceOf(AssignmentToZeroException.class);
     }
 
     @Test
@@ -217,10 +224,10 @@ public class InstructionParserTest
 
         testObject = new InstructionParser(lines);
         testObject.setEnvironment(environment);
-        // when
-        Exception exception = Assertions.catchException(() -> testObject.parse());
+
         // then
-        Assertions.assertThat(exception).isInstanceOf(LabelNotFoundException.class);
+        Assertions.assertThatThrownBy(() -> testObject.parse())
+                  .isInstanceOf(LabelNotFoundException.class);
     }
 
     @Test
@@ -231,10 +238,10 @@ public class InstructionParserTest
 
         testObject = new InstructionParser(lines);
         testObject.setEnvironment(environment);
-        // when
-        Exception exception = Assertions.catchException(() -> testObject.parse());
+
         // then
-        Assertions.assertThat(exception).isInstanceOf(ArithmeticException.class);
+        Assertions.assertThatThrownBy(() -> testObject.parse())
+                  .isInstanceOf(ArithmeticException.class);
     }
 
     @Test
@@ -245,9 +252,9 @@ public class InstructionParserTest
 
         testObject = new InstructionParser(lines);
         testObject.setEnvironment(environment);
-        // when
-        Exception exception = Assertions.catchException(() -> testObject.parse());
+
         // then
-        Assertions.assertThat(exception).isInstanceOf(LabelNotFoundException.class);
+        Assertions.assertThatThrownBy(() -> testObject.parse())
+                  .isInstanceOf(LabelNotFoundException.class);
     }
 }
