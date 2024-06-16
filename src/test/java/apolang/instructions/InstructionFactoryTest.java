@@ -37,6 +37,7 @@ public class InstructionFactoryTest
     {
         // when
         Instruction result = InstructionFactory.getInstance().create(1, statementName);
+
         // then
         Assertions.assertThat(result).isExactlyInstanceOf(instructionClass);
         Assertions.assertThat(result.getStatement()).hasSameClassAs(statementName.getStatement());

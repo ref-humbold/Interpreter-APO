@@ -4,7 +4,6 @@ import java.util.List;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import apolang.exceptions.LanguageException;
 import apolang.exceptions.label.DuplicatedLabelException;
 import apolang.exceptions.label.InvalidLabelNameException;
 import apolang.exceptions.label.LabelException;
@@ -17,15 +16,17 @@ public class EnvironmentParserTest
 
     @Test
     public void parse_WhenCorrectProgram_ThenEnvironment()
-            throws LanguageException
+            throws Exception
     {
         // given
         List<String> lines =
                 List.of("ADDC x zero 9", "Label: ADD y x x", "# next is empty line", "", "Square:",
                         "MUL z x x", "PTINT k");
         testObject = new EnvironmentParser(lines);
+
         // when
         Environment result = testObject.parse();
+
         // then
         Assertions.assertThat(result.contains("x")).isTrue();
         Assertions.assertThat(result.getVariableValue("x"))
@@ -46,10 +47,9 @@ public class EnvironmentParserTest
         // given
         List<String> lines = List.of("End: ADDC x zero 9");
         testObject = new EnvironmentParser(lines);
-        // when
-        Exception exception = Assertions.catchException(() -> testObject.parse());
+
         // then
-        Assertions.assertThat(exception).isInstanceOf(LabelException.class);
+        Assertions.assertThatThrownBy(() -> testObject.parse()).isInstanceOf(LabelException.class);
     }
 
     @Test
@@ -58,10 +58,10 @@ public class EnvironmentParserTest
         // given
         List<String> lines = List.of("Label: ADDC x zero 9", "Label:");
         testObject = new EnvironmentParser(lines);
-        // when
-        Exception exception = Assertions.catchException(() -> testObject.parse());
+
         // then
-        Assertions.assertThat(exception).isInstanceOf(DuplicatedLabelException.class);
+        Assertions.assertThatThrownBy(() -> testObject.parse())
+                  .isInstanceOf(DuplicatedLabelException.class);
     }
 
     @Test
@@ -70,10 +70,10 @@ public class EnvironmentParserTest
         // given
         List<String> lines = List.of("Label2:");
         testObject = new EnvironmentParser(lines);
-        // when
-        Exception exception = Assertions.catchException(() -> testObject.parse());
+
         // then
-        Assertions.assertThat(exception).isInstanceOf(InvalidLabelNameException.class);
+        Assertions.assertThatThrownBy(() -> testObject.parse())
+                  .isInstanceOf(InvalidLabelNameException.class);
     }
 
     @Test
@@ -82,9 +82,9 @@ public class EnvironmentParserTest
         // given
         List<String> lines = List.of("ADDC xX zero 9");
         testObject = new EnvironmentParser(lines);
-        // when
-        Exception exception = Assertions.catchException(() -> testObject.parse());
+
         // then
-        Assertions.assertThat(exception).isInstanceOf(InvalidVariableNameException.class);
+        Assertions.assertThatThrownBy(() -> testObject.parse())
+                  .isInstanceOf(InvalidVariableNameException.class);
     }
 }

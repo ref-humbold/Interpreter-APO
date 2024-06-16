@@ -52,8 +52,10 @@ public class ExecutionIteratorTest
     {
         // given
         ExecutionIterator testObject = instructionList.run();
+
         // when
         boolean result = testObject.hasNext();
+
         // then
         Assertions.assertThat(result).isFalse();
     }
@@ -67,8 +69,10 @@ public class ExecutionIteratorTest
 
         instructionList.add(instruction);
         ExecutionIterator testObject = instructionList.run();
+
         // when
         boolean result = testObject.hasNext();
+
         // then
         Assertions.assertThat(result).isTrue();
     }
@@ -85,9 +89,11 @@ public class ExecutionIteratorTest
         instructionList.add(instruction2);
 
         ExecutionIterator testObject = instructionList.run();
+
         // when
         Instruction result1 = testObject.next();
         Instruction result2 = testObject.next();
+
         // then
         Assertions.assertThat(result1).isEqualTo(instruction1);
         Assertions.assertThat(result2).isEqualTo(instruction2);
@@ -114,8 +120,10 @@ public class ExecutionIteratorTest
         ExecutionIterator testObject = instructionList.run();
 
         testObject.next().execute(environment);
+
         // when
         Instruction result = testObject.next();
+
         // then
         Assertions.assertThat(result).isEqualTo(instruction3);
         Assertions.assertThat(testObject.hasNext()).isFalse();
@@ -142,8 +150,10 @@ public class ExecutionIteratorTest
         ExecutionIterator testObject = instructionList.run();
 
         testObject.next().execute(environment);
+
         // when
         Instruction result = testObject.next();
+
         // then
         Assertions.assertThat(result).isEqualTo(instruction2);
         Assertions.assertThat(testObject.hasNext()).isTrue();
@@ -168,10 +178,9 @@ public class ExecutionIteratorTest
 
         testObject.next();
         testObject.next().execute(environment);
-        // when
-        Exception exception = Assertions.catchException(testObject::next);
+
         // then
-        Assertions.assertThat(exception).isInstanceOf(NoSuchElementException.class);
+        Assertions.assertThatThrownBy(testObject::next).isInstanceOf(NoSuchElementException.class);
         Assertions.assertThat(testObject.hasNext()).isFalse();
     }
 }
