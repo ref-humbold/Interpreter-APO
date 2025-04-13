@@ -7,7 +7,7 @@ import org.apache.commons.cli.ParseException;
 
 import apolang.interpreter.Controller;
 
-public final class Interpreter
+public final class ApoInterpreter
 {
     private static final CliParser cliParser = new CliParser();
 
