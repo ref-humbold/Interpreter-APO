@@ -5,13 +5,13 @@
   </tstamp>
 
   <property name="major.version" value="2" />
-  <property name="minor.version" value="0" />
+  <property name="minor.version" value="1" />
   <property name="spec.version" value="${major.version}.${minor.version}" />
   <property name="jar.version" value="${major.version}.${minor.version}.${date.version}" />
   <property name="vendor" value="Rafał Kaleta" />
 
   <property name="main.package" value="apolang" />
-  <property name="main.class" value="${main.package}.Interpreter" />
+  <property name="main.class" value="${main.package}.ApoInterpreter" />
   <property name="src.dir" value="src/main/java" />
   <property name="resources.dir" value="src/main/resources" />
   <property name="test.dir" value="src/test/java" />

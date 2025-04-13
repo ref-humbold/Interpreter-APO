@@ -10,7 +10,7 @@ ext {
   jarVersion = "${majorVersion}.${minorVersion}.${dateVersion}"
   vendor = 'Rafał Kaleta'
   mainPackage = 'apolang'
-  mainClass = "${mainPackage}.Interpreter"
+  mainClass = "${mainPackage}.ApoInterpreter"
   execFile = 'apolang'
 }
 
