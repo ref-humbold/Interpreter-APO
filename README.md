@@ -7,6 +7,8 @@
 
 Interpreter of a fictional assembly-like APO language
 
+APO language files should have file extension `.apo`.
+
 -----
 
 ## System requirements
@@ -18,7 +20,7 @@ Interpreter of a fictional assembly-like APO language
 + [Java](https://www.oracle.com/technetwork/java/javase/overview/index.html) \
   *APT package `openjdk-21-jdk`, version 21 SE*
 + [Gradle](https://gradle.org/) \
-  *SDK-Man `gradle`, version 8.10*
+  *SDK-Man `gradle`, version 8.14.3*
 
 ## Dependencies
 
@@ -54,11 +56,11 @@ Possible Gradle tasks are:
 Interpreter-APO can be run by the executable *sh* script:
 
 ```sh
-$ sh /path-to-project-directory/build/scripts/apolang
+$ sh /path-to-project-directory/build/scripts/apolang file.apo
 ```
 
 Alternatively one may directly execute the *jar* file:
 
 ```sh
-$ java -jar /path-to-project-directory/build/libs/APOlang-{version}.jar
+$ java -jar /path-to-project-directory/build/libs/APOlang-{version}.jar file.apo
 ```
