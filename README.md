@@ -16,7 +16,7 @@ Interpreter of a fictional assembly-like APO language
 + Operating system \
   *Debian testing*
 + [Java](https://www.oracle.com/technetwork/java/javase/overview/index.html) \
-  *APT package `openjdk-17-jdk`, version 17 SE*
+  *APT package `openjdk-21-jdk`, version 21 SE*
 + [Gradle](https://gradle.org/) \
   *SDK-Man `gradle`, version 8.10*
 
@@ -60,5 +60,5 @@ $ sh /path-to-project-directory/build/scripts/apolang
 Alternatively one may directly execute the *jar* file:
 
 ```sh
-$ java -jar /path-to-project-directory/build/libs/apolang-{version}.jar
+$ java -jar /path-to-project-directory/build/libs/APOlang-{version}.jar
 ```

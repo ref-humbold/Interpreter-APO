@@ -1,0 +1,259 @@
+package com.github.refhumbold.apolang.interpreter.parser;
+
+import java.util.Arrays;
+import java.util.List;
+import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import com.github.refhumbold.apolang.exceptions.LanguageException;
+import com.github.refhumbold.apolang.exceptions.arithmetic.ArithmeticException;
+import com.github.refhumbold.apolang.exceptions.label.InvalidLabelNameException;
+import com.github.refhumbold.apolang.exceptions.label.LabelNotFoundException;
+import com.github.refhumbold.apolang.exceptions.symbol.AssignmentToZeroException;
+import com.github.refhumbold.apolang.exceptions.symbol.InvalidVariableNameException;
+import com.github.refhumbold.apolang.exceptions.symbol.NotExistingInstructionException;
+import com.github.refhumbold.apolang.exceptions.symbol.SymbolException;
+import com.github.refhumbold.apolang.exceptions.symbol.VariableNotInitializedException;
+import com.github.refhumbold.apolang.instructions.instruction.Instruction;
+import com.github.refhumbold.apolang.instructions.instruction.JumpInstruction;
+import com.github.refhumbold.apolang.instructions.list.InstructionList;
+import com.github.refhumbold.apolang.instructions.statement.Statement;
+import com.github.refhumbold.apolang.instructions.statement.StatementName;
+import com.github.refhumbold.apolang.interpreter.Environment;
+
+public class InstructionParserTest
+{
+    private Environment environment;
+    private InstructionParser testObject;
+
+    @BeforeEach
+    public void setUp()
+            throws InvalidVariableNameException, InvalidLabelNameException
+    {
+        environment = new Environment();
+        environment.addVariable("a");
+        environment.addVariable("b");
+        environment.addVariable("c");
+        environment.addLabel("La");
+        environment.addLabel("Lb");
+        environment.addLabel("Lc");
+    }
+
+    @Test
+    public void parse_WhenCorrectProgram_ThenInstructionList()
+            throws LanguageException
+    {
+        // given
+        List<String> lines =
+                Arrays.asList("ASGNC a 0x11", "JPGT a zero Lb", "JPLT a zero Lc", "# equal",
+                        "MULC a a 2", "Lb: SUBC a a 1", "Lc: PTINT a");
+
+        testObject = new InstructionParser(lines);
+        testObject.setEnvironment(environment);
+
+        // when
+        InstructionList result = testObject.parse();
+
+        // then
+        Assertions.assertThat(result).isNotEmpty();
+        Assertions.assertThat(result.getByLineNumber(1))
+                  .extracting(Instruction::getStatement)
+                  .extracting(Statement::getName)
+                  .isEqualTo(StatementName.ASGNC);
+        Assertions.assertThat(result.getByLineNumber(2))
+                  .extracting(Instruction::getStatement)
+                  .extracting(Statement::getName)
+                  .isEqualTo(StatementName.JPGT);
+        Assertions.assertThat(result.getByLineNumber(3))
+                  .extracting(Instruction::getStatement)
+                  .extracting(Statement::getName)
+                  .isEqualTo(StatementName.JPLT);
+        Assertions.assertThat(result.getByLineNumber(4))
+                  .extracting(Instruction::getStatement)
+                  .extracting(Statement::getName)
+                  .isEqualTo(StatementName.MULC);
+        Assertions.assertThat(result.getByLineNumber(5))
+                  .extracting(Instruction::getStatement)
+                  .extracting(Statement::getName)
+                  .isEqualTo(StatementName.MULC);
+        Assertions.assertThat(result.getByLineNumber(6))
+                  .extracting(Instruction::getStatement)
+                  .extracting(Statement::getName)
+                  .isEqualTo(StatementName.SUBC);
+        Assertions.assertThat(result.getByLineNumber(7))
+                  .extracting(Instruction::getStatement)
+                  .extracting(Statement::getName)
+                  .isEqualTo(StatementName.PTINT);
+
+        JumpInstruction jumpGreaterThan = (JumpInstruction)result.getByLineNumber(2);
+        JumpInstruction jumpLessThan = (JumpInstruction)result.getByLineNumber(3);
+
+        Assertions.assertThat(result.getByLineNumber(6)).isSameAs(jumpGreaterThan.getLink());
+        Assertions.assertThat(result.getByLineNumber(7)).isSameAs(jumpLessThan.getLink());
+    }
+
+    @Test
+    public void parse_WhenEmptyProgram_ThenInstructionListIsEmpty()
+            throws Exception
+    {
+        // given
+        List<String> lines = List.of("# only empty line", "");
+
+        testObject = new InstructionParser(lines);
+        testObject.setEnvironment(environment);
+
+        // when
+        InstructionList result = testObject.parse();
+
+        // then
+        Assertions.assertThat(result).isEmpty();
+        Assertions.assertThat(result.getLinesCount()).isZero();
+    }
+
+    @Test
+    public void parse_WhenSingleLabel_ThenOnlyNOPInstruction()
+            throws Exception
+    {
+        // given
+        List<String> lines = List.of("# only label", "La:");
+
+        testObject = new InstructionParser(lines);
+        testObject.setEnvironment(environment);
+
+        // when
+        InstructionList result = testObject.parse();
+
+        // then
+        Assertions.assertThat(result).isNotEmpty();
+        Assertions.assertThat(result.getLinesCount()).isEqualTo(2);
+    }
+
+    @Test
+    public void parse_WhenEndLabel_ThenEndsWithNOPInstruction()
+            throws Exception
+    {
+        // given
+        List<String> lines = List.of("# jump to End", "JUMP End");
+
+        testObject = new InstructionParser(lines);
+        testObject.setEnvironment(environment);
+
+        // when
+        InstructionList result = testObject.parse();
+
+        // then
+        Assertions.assertThat(result).isNotEmpty();
+        Assertions.assertThat(result.getLinesCount()).isEqualTo(3);
+    }
+
+    @Test
+    public void parse_WhenNoSuchInstruction_ThenNotExistingInstructionException()
+    {
+        // given
+        List<String> lines = List.of("XYZ a b c");
+
+        testObject = new InstructionParser(lines);
+        testObject.setEnvironment(environment);
+
+        // then
+        Assertions.assertThatThrownBy(() -> testObject.parse())
+                  .isInstanceOf(NotExistingInstructionException.class);
+    }
+
+    @Test
+    public void parse_WhenTooFewArguments_ThenSymbolException()
+    {
+        // given
+        List<String> lines = List.of("ADD a b");
+
+        testObject = new InstructionParser(lines);
+        testObject.setEnvironment(environment);
+
+        // then
+        Assertions.assertThatThrownBy(() -> testObject.parse()).isInstanceOf(SymbolException.class);
+    }
+
+    @Test
+    public void parse_WhenNoSuchVariable_ThenVariableNotInitializedException()
+    {
+        // given
+        List<String> lines = List.of("ADD a x c");
+
+        testObject = new InstructionParser(lines);
+        testObject.setEnvironment(environment);
+
+        // then
+        Assertions.assertThatThrownBy(() -> testObject.parse())
+                  .isInstanceOf(VariableNotInitializedException.class);
+    }
+
+    @Test
+    public void parse_WhenIncorrectVariableName_ThenInvalidVariableNameException()
+    {
+        // given
+        List<String> lines = List.of("ADD a X c");
+
+        testObject = new InstructionParser(lines);
+        testObject.setEnvironment(environment);
+
+        // then
+        Assertions.assertThatThrownBy(() -> testObject.parse())
+                  .isInstanceOf(InvalidVariableNameException.class);
+    }
+
+    @Test
+    public void parse_WhenWriteToVariableZero_ThenAssignmentToZeroException()
+    {
+        // given
+        List<String> lines = List.of("ADD zero b c");
+
+        testObject = new InstructionParser(lines);
+        testObject.setEnvironment(environment);
+
+        // then
+        Assertions.assertThatThrownBy(() -> testObject.parse())
+                  .isInstanceOf(AssignmentToZeroException.class);
+    }
+
+    @Test
+    public void parse_WhenNoSuchLabelToJump_ThenLabelNotFoundException()
+    {
+        // given
+        List<String> lines = List.of("JUMP Xyz");
+
+        testObject = new InstructionParser(lines);
+        testObject.setEnvironment(environment);
+
+        // then
+        Assertions.assertThatThrownBy(() -> testObject.parse())
+                  .isInstanceOf(LabelNotFoundException.class);
+    }
+
+    @Test
+    public void parse_WhenNotAConstant_ThenArithmeticException()
+    {
+        // given
+        List<String> lines = List.of("ASGNC a b");
+
+        testObject = new InstructionParser(lines);
+        testObject.setEnvironment(environment);
+
+        // then
+        Assertions.assertThatThrownBy(() -> testObject.parse())
+                  .isInstanceOf(ArithmeticException.class);
+    }
+
+    @Test
+    public void parse_WhenNoSuchLabel_ThenLabelNotFoundException()
+    {
+        // given
+        List<String> lines = List.of("Xyz: ASGNC a 10");
+
+        testObject = new InstructionParser(lines);
+        testObject.setEnvironment(environment);
+
+        // then
+        Assertions.assertThatThrownBy(() -> testObject.parse())
+                  .isInstanceOf(LabelNotFoundException.class);
+    }
+}
