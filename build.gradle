@@ -9,13 +9,12 @@ ext {
   specVersion = "${majorVersion}.${minorVersion}"
   jarVersion = "${majorVersion}.${minorVersion}.${dateVersion}"
   vendor = 'Rafał Kaleta'
-  mainPackage = 'apolang'
+  mainPackage = 'com.github.refhumbold.apolang'
   mainClass = "${mainPackage}.ApoInterpreter"
   execFile = 'apolang'
 }
 
 version = project.jarVersion
-archivesBaseName = project.mainPackage
 
 repositories {
   mavenCentral()

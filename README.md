@@ -16,41 +16,28 @@ Interpreter of a fictional assembly-like APO language
 + Operating system \
   *Debian testing*
 + [Java](https://www.oracle.com/technetwork/java/javase/overview/index.html) \
-  *APT package `openjdk-17-jdk`, version 17 SE*
-+ [Apache ANT](http://ant.apache.org/) \
-  *APT package `ant`, version 1.10.+*
+  *APT package `openjdk-21-jdk`, version 21 SE*
++ [Gradle](https://gradle.org/) \
+  *SDK-Man `gradle`, version 8.10*
 
 ## Dependencies
 
-> dependencies are automatically downloaded during build process
+> automatically downloaded during build process
 
 + Apache Commons CLI 1.8.+
+
+## Test Dependencies
+
+> automatically downloaded during build process
+
 + JUnit 5.+
 + AssertJ 3.+
 
 -----
 
-## How to build with ANT?
+## How to build?
 
-Interpreter-APO can be built with **Apache ANT** using **Apache Ivy** to resolve all dependencies.
-Ivy itself and all dependencies are downloaded during build, so make sure your Internet
-connection is working!
-
-Possible ANT targets are:
-
-+ `ant`, `ant build` - resolve dependencies & compile source files & create executable jar & run
-  all tests
-+ `ant resolve` - resolve dependencies
-+ `ant jar` - compile source files & create executable jar
-+ `ant test` - run all tests
-+ `ant docs` - generate Javadoc
-+ `ant clean` - remove additional build files
-+ `ant rebuild` - remove additional build files & resolve dependencies & compile source files &
-  create executable jar & run all tests
-
-## How to build with Gradle?
-
-DI\_Container can be built with **Gradle**. All dependencies are downloaded during build, so
+Interpreter-APO can be built with **Gradle**. All dependencies are downloaded during build, so
 make sure your Internet connection is working!
 
 Possible Gradle tasks are:
@@ -66,22 +53,12 @@ Possible Gradle tasks are:
 
 Interpreter-APO can be run by the executable *sh* script:
 
-+ for ANT build
-    ```sh
-    $ sh /path-to-project-directory/antBuild/apolang
-    ```
-+ for Gradle build
-    ```sh
-    $ sh /path-to-project-directory/build/scripts/apolang
-    ```
+```sh
+$ sh /path-to-project-directory/build/scripts/apolang
+```
 
 Alternatively one may directly execute the *jar* file:
 
-+ for ANT build
-    ```sh
-    $ java -jar /path-to-project-directory/antBuild/dist/apolang-{version}.jar
-    ```
-+ for Gradle build
-    ```sh
-    $ java -jar /path-to-project-directory/build/libs/apolang-{version}.jar
-    ```
+```sh
+$ java -jar /path-to-project-directory/build/libs/APOlang-{version}.jar
+```
